@@ -79,7 +79,7 @@ const LavaMenu = () => {
               />
             </View>
             <Text className="text-sm text-center font-semibold">Vacation</Text>
-            <Text className="text-sm text-center font-semibold">request</Text>
+            <Text className="text-sm text-center font-semibold">list</Text>
           </TouchableOpacity>
         </View>
       </View>

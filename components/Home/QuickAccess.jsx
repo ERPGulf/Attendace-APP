@@ -17,17 +17,19 @@ const QuickAccess = () => {
         </TouchableOpacity>
       </View>
       <View className="border-dashed border-gray-500 border-2 rounded-xl h-40 items-center justify-center mt-2">
-        <AntDesign
-          name="addfile"
-          size={SIZES.xxxLarge - 4}
-          color={COLORS.red}
-        />
-        <Text className="text-xs mt-2 font-light text-gray-800">
-          Add quick shortcuts to yourmost used features
-        </Text>
-        <Text className="text-xs font-light text-gray-800">
-          here to access them quickly
-        </Text>
+        <TouchableOpacity className="items-center justify-center ">
+          <AntDesign
+            name="addfile"
+            size={SIZES.xxxLarge - 4}
+            color={COLORS.red}
+          />
+          <Text className="text-xs mt-2 font-light text-gray-800">
+            Add quick shortcuts to your most used features
+          </Text>
+          <Text className="text-xs font-light text-gray-800">
+            here to access them quickly
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

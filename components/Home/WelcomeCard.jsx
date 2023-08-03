@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ const WelcomeCard = () => {
   return (
     <View
       style={{ backgroundColor: COLORS.primary, width: "100%" }}
-      className="h-48 rounded-2xl pt-3 px-4 "
+      className="h-48 rounded-2xl pt-3 px-4"
     >
       <View className="flex-row justify-between items-center mb-14">
         <TouchableOpacity className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full">

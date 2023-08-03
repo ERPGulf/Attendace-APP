@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Attendence-app",
-    "slug": "Attendence-app",
+    "slug": "attendance",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4adc6173-2aa4-4665-a9a4-978ead73c10e"
+      }
+    },
+    "owner": "bazim"
   }
 }
