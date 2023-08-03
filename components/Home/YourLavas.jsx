@@ -4,8 +4,11 @@ import { Octicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+
 const LavaMenu = () => {
   return (
+    // first row
     <View className="mt-2">
       <View>
         <Text className="text-sm font-semibold">Your Lava</Text>
@@ -25,16 +28,112 @@ const LavaMenu = () => {
             <AntDesign
               name="arrowright"
               size={SIZES.xxLarge + 4}
-              color={COLORS.gray2}
+              color={COLORS.primary}
             />
           </TouchableOpacity>
         </View>
-        <View className="bg-white flex-row">
-          <MaterialCommunityIcons
-            name="calendar-multiple-check"
-            size={SIZES.xxxLarge}
-            color={COLORS.tertiary}
-          />
+        <View className="bg-white flex-row flex-wrap py-2 justify-between space-x-2 h-36 rounded-b-xl ">
+          <TouchableOpacity className="m-1 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <MaterialCommunityIcons
+                name="calendar-multiple-check"
+                size={SIZES.xxxLarge}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">
+              Attendence
+            </Text>
+            <Text className="text-sm text-center font-semibold">action</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="m-1 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <Ionicons
+                name="receipt-outline"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">
+              Attendence
+            </Text>
+            <Text className="text-sm text-center font-semibold">history</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="m-1 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <Ionicons
+                name="airplane-outline"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">Vacation</Text>
+            <Text className="text-sm text-center font-semibold">request</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="m-1 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <Ionicons
+                name="list-outline"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">Vacation</Text>
+            <Text className="text-sm text-center font-semibold">request</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* second row */}
+      <View className="my-2">
+        <View
+          className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
+          style={{ width: "100%", backgroundColor: COLORS.primary }}
+        >
+          <TouchableOpacity>
+            <Octicons name="id-badge" size={SIZES.xxLarge + 4} color="white" />
+          </TouchableOpacity>
+          <Text className="text-lg font-medium text-white text-center ">
+            Business card
+          </Text>
+          <TouchableOpacity className="bg-white justify-center items-center  rounded-lg">
+            <AntDesign
+              name="arrowright"
+              size={SIZES.xxLarge + 4}
+              color={COLORS.primary}
+            />
+          </TouchableOpacity>
+        </View>
+        <View className="bg-white flex-row flex-wrap py-2 justify-start space-x-5 h-32 rounded-b-xl ">
+          <TouchableOpacity className="m-1 mr-0 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <Octicons
+                name="id-badge"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">My card</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="m-1 mr-0 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <MaterialCommunityIcons
+                name="contacts-outline"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">Contacts</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="m-1 w-20 h-20">
+            <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
+              <Ionicons
+                name="qr-code"
+                size={SIZES.xxxLarge - 3}
+                color={COLORS.tertiary}
+              />
+            </View>
+            <Text className="text-sm text-center font-semibold">My QR</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
