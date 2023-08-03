@@ -6,7 +6,6 @@ export default function App() {
   return (
     <>
       <Home />
-      <StatusBar style="auto" />
     </>
   );
 }

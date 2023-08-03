@@ -10,7 +10,7 @@ const Home = () => {
       style={{
         flex: 1,
         alignItems: "center",
-        backgroundColor: COLORS.lightWhite,
+        backgroundColor:"white",
         paddingTop: Platform.OS == "android" && StatusBar.currentHeight,
       }}
       className="mx-3"
