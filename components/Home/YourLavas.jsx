@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-const LavaMenu = () => {
+const LavaMenu = ({ navigation }) => {
   return (
     // first row
     <View className="mt-2">
@@ -33,7 +33,12 @@ const LavaMenu = () => {
           </TouchableOpacity>
         </View>
         <View className="bg-white flex-row flex-wrap py-2 justify-between space-x-2 h-36 rounded-b-xl ">
-          <TouchableOpacity className="m-1 w-20 h-20">
+          <TouchableOpacity
+            className="m-1 w-20 h-20"
+            onPress={() => {
+              navigation.navigate("Attendence action");
+            }}
+          >
             <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
               <MaterialCommunityIcons
                 name="calendar-multiple-check"

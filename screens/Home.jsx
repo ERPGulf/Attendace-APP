@@ -3,7 +3,7 @@ import React from "react";
 
 import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <SafeAreaView
       style={{
@@ -12,18 +12,17 @@ const Home = () => {
         backgroundColor: "white",
         paddingTop: Platform.OS == "android" && StatusBar.currentHeight,
       }}
-      className="mx-3"
     >
       <ScrollView
-        style={{ width: "100%" }}
+        style={{ width: "95%" }}
         showsVerticalScrollIndicator={false}
         StickyHeaderComponent={WelcomeCard}
         alwaysBounceVertical
         automaticallyAdjustContentInsets
-             >
+      >
         <WelcomeCard />
         <QuickAccess />
-        <LavaMenu />
+        <LavaMenu navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );
