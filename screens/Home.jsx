@@ -9,9 +9,9 @@ const Home = ({ navigation }) => {
       style={{
         flex: 1,
         alignItems: "center",
-        backgroundColor: "white",
         paddingTop: Platform.OS == "android" && StatusBar.currentHeight,
       }}
+      className="bg-gray-50"
     >
       <ScrollView
         style={{ width: "95%" }}

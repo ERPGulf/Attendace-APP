@@ -11,9 +11,9 @@ export default function App() {
       <StatusBar style={
         'auto'
       } animated />
-      <Stack.Navigator initialRouteName='Attendence action' >
+      <Stack.Navigator initialRouteName='home' >
         <Stack.Screen name='home' component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name='Attendence action' component={AttendenceAction} options={{ headerShown: true, headerTransparent: true, headerTintColor: COLORS.primary, headerTitleStyle: { color: 'black' } }} />
+        <Stack.Screen name='Attendence action' component={AttendenceAction} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
