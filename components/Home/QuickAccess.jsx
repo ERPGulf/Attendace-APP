@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { FontAwesome } from "@expo/vector-icons";
@@ -6,17 +6,23 @@ import { AntDesign } from "@expo/vector-icons";
 
 const QuickAccess = () => {
   return (
-    <View style={{ width: "100%" }} className="mt-4">
+    <View className="mt-4 w-full">
       <View className="flex-row justify-between items-center">
         <Text className="text-sm font-semibold">Quick Access</Text>
         <TouchableOpacity className="flex-row space-x-2 items-center">
           <Text className="text-sm font-semibold" style={{ color: COLORS.red }}>
             Add New
           </Text>
-          <FontAwesome name="plus" size={24} color={COLORS.red} />
+          <FontAwesome name="plus" size={SIZES.xLarge} color={COLORS.red} />
         </TouchableOpacity>
       </View>
-      <View className="border-dashed border-gray-500 border-2 rounded-xl h-40 items-center justify-center mt-2">
+      <View
+        style={{
+          borderRadius: Platform.OS === "android" ? 0 : "12px",
+          width: "100%",
+        }}
+        className="border-dashed border-red-900 border-2 h-40 items-center justify-center mt-2"
+      >
         <TouchableOpacity className="items-center justify-center ">
           <AntDesign
             name="addfile"

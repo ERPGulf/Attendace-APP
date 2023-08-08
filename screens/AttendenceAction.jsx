@@ -1,15 +1,10 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StatusBar,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { WelcomeCard } from "../components/AttendenceAction";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 const AttendenceAction = ({ navigation }) => {
   return (
     <SafeAreaView
@@ -17,7 +12,6 @@ const AttendenceAction = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
         backgroundColor: "white",
-        paddingTop: Platform.OS == "android" && StatusBar.currentHeight,
       }}
     >
       {/* chevron  */}
@@ -40,6 +34,14 @@ const AttendenceAction = ({ navigation }) => {
       </View>
       <View style={{ width: "95%" }}>
         <WelcomeCard />
+        <View className="justify-center items-center py-2">
+          <DateTimePicker
+            display="default"
+            mode="datetime"
+            dateFormat="dd/mm/yy"
+            value={new Date()}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

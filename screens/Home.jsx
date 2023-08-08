@@ -1,7 +1,8 @@
-import { SafeAreaView, Platform, ScrollView, StatusBar } from "react-native";
+import { Platform, ScrollView } from "react-native";
 import React from "react";
 
 import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = ({ navigation }) => {
   return (
@@ -9,12 +10,12 @@ const Home = ({ navigation }) => {
       style={{
         flex: 1,
         alignItems: "center",
-        paddingTop: Platform.OS == "android" && StatusBar.currentHeight,
       }}
       className="bg-gray-50"
     >
       <ScrollView
         style={{ width: "95%" }}
+        contentContainerStyle={{ justifyContent: "center" }}
         showsVerticalScrollIndicator={false}
         StickyHeaderComponent={WelcomeCard}
         alwaysBounceVertical
