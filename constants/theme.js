@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, StatusBar } from 'react-native'
 const { height, width } = Dimensions.get('window');
 
 const COLORS = {
@@ -26,7 +26,7 @@ const SIZES = {
     xLarge: 24,
     xxLarge: 26,
     xxxLarge: 44,
-    height,
+    height: height - StatusBar.currentHeight,
     width
 };
 

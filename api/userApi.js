@@ -1,19 +1,19 @@
-import Axios from 'axios';
-import { AsyncStorage } from 'react-native';
-
-const userApi = Axios.create()
-
-export const generateToken = async (creds) => {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import userApi from './apiManger';
+export const generateToken = async (formdata) => {
     try {
-        const { data } = await userApi.post(creds.url)
-        await AsyncStorage.setItem(
-            'access_token', data.access_token
-        )
-        await AsyncStorage.setItem(
-            'refresh_token', data.refresh_token
-        )
+        const baseURL = await AsyncStorage.getItem('baseUrl')
+        console.log(baseURL);
+        userApi.defaults.baseURL = baseURL
+        const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token`, formdata)
+        console.log(data.message.message);
+        if (data.message.message === "Invalid login credentials") {
+            return Promise.reject("invalid password")
+        }
+        return data
     } catch (error) {
         console.error(error);
+        return Promise.reject('Please retry or scan again')
     }
 }
 

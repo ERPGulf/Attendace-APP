@@ -3,7 +3,9 @@ import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const WelcomeCard = () => {
+  const username = useSelector((state) => state.user.username);
   return (
     <View
       style={{ backgroundColor: COLORS.primary, width: "100%" }}
@@ -31,9 +33,9 @@ const WelcomeCard = () => {
         <View className="flex-row items-center space-x-2 -mt-1">
           <Text
             numberOfLines={1}
-            className="text-2xl font-semibold text-white max-w-xs"
+            className="text-3xl font-semibold text-white max-w-xs"
           >
-            Rishal Bazim
+            {!username ? `Username` : username}
           </Text>
           <View className="bg-orange-400 w-10 h-10 items-center justify-center rounded-full">
             <Text className="text-3xl">👋</Text>

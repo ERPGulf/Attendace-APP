@@ -1,15 +1,22 @@
-import { AttendenceAction, Home, QrScan } from './screens';
+import { AttendenceAction, Home, Login, QrScan } from './screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Provider } from 'react-redux';
+import { store } from './redux/Store';
+import { StatusBar } from 'expo-status-bar';
 const Stack = createNativeStackNavigator()
 export default function App() {
   return (
-    <NavigationContainer >
-      <Stack.Navigator initialRouteName='QrScan' screenOptions={{ headerShown: false }} >
-        <Stack.Screen name='home' component={Home} />
-        <Stack.Screen name='Qrscan' component={QrScan} />
-        <Stack.Screen name='Attendence action' component={AttendenceAction} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer >
+        <StatusBar style='auto' />
+        <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }} >
+          <Stack.Screen name='home' component={Home} />
+          <Stack.Screen name='Qrscan' component={QrScan}options={{headerShown:true}} />
+          <Stack.Screen name='Attendence action' component={AttendenceAction} />
+          <Stack.Screen name='Login' component={Login}  />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
