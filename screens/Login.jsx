@@ -17,6 +17,7 @@ const Login = ({ navigation }) => {
 
     generateToken(formData)
       .then((data) => {
+        console.log(data);
         alert("success");
       })
       .catch((msg) => {

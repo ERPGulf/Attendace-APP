@@ -10,11 +10,11 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer >
         <StatusBar style='auto' />
-        <Stack.Navigator initialRouteName='Qrscan' screenOptions={{ headerShown: false }} >
+        <Stack.Navigator initialRouteName='login' screenOptions={{ headerShown: false }} >
           <Stack.Screen name='home' component={Home} />
           <Stack.Screen name='Qrscan' component={QrScan} />
           <Stack.Screen name='Attendence action' component={AttendenceAction} />
-          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='login' component={Login} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

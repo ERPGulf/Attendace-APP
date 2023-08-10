@@ -17,7 +17,12 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
         }
-        
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
       ]
     ],
     "assetBundlePatterns": ["**/*"],

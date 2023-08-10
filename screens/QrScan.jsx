@@ -16,7 +16,6 @@ import {
 const QrScan = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [camera, setCamera] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const QrScan = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
+    if (result.canceled) return;
     if (result && result.assets[0].uri) {
       try {
         const scannedResults = await BarCodeScanner.scanFromURLAsync(
@@ -89,7 +88,7 @@ const QrScan = ({ navigation }) => {
       if (fullNameMatch && apiMatch) {
         const company = companyMatch[1];
         const employeeCode = employeeCodeMatch[1];
-        const fullName = fullNameMatch[1].trim();
+        const fullName = fullNameMatch[1].trim().replace(/\s+/g, " ");
         const userId = userIdMatch[1];
         const api = apiMatch[1];
         await AsyncStorage.setItem("baseUrl", api);
@@ -98,7 +97,7 @@ const QrScan = ({ navigation }) => {
         dispatch(
           setUserDetails({ company, employeeCode, fullName, userId, api })
         );
-        navigation.navigate("Login");
+        navigation.navigate("login");
       } else {
         alert("Retry with valid QR CODE");
       }
@@ -170,7 +169,7 @@ const QrScan = ({ navigation }) => {
             onPress={() => setScanned(false)}
           >
             <Text className="text-2xl text-center font-semibold text-white ">
-              Tap to Scan Again
+              TAP TO SCAN AGAIN
             </Text>
           </TouchableOpacity>
         ) : (
@@ -198,7 +197,7 @@ const QrScan = ({ navigation }) => {
           className=" mt-2 h-20 justify-center flex-row items-center rounded-lg relative"
           onPress={pickImage}
         >
-          <View className="absolute left-3">
+          <View className="mr-6">
             <Ionicons
               name="image"
               size={SIZES.xxxLarge + SIZES.medium}
@@ -206,7 +205,7 @@ const QrScan = ({ navigation }) => {
             />
           </View>
           <Text className="text-xl text-center font-semibold text-white ">
-            select from photos
+            SELECT FROM PHOTOS
           </Text>
         </TouchableOpacity>
       </View>
