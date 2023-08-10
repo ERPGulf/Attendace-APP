@@ -15,11 +15,9 @@ const Login = ({ navigation }) => {
     formData.append("username", username);
     formData.append("password", password);
 
-    console.log(formData.getAll());
     generateToken(formData)
       .then((data) => {
         alert("success");
-        console.log(data);
       })
       .catch((msg) => {
         alert(msg);
@@ -53,8 +51,7 @@ const Login = ({ navigation }) => {
       <View style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}>
         <TouchableOpacity
           onPress={handleLogin}
-          className=" h-16 rounded-xl justify-center items-center
-        "
+          className=" h-16 rounded-xl justify-center items-center "
           style={{ width: "100%", backgroundColor: COLORS.primary }}
         >
           <Text className="text-2xl font-bold text-white">login</Text>

@@ -15,7 +15,7 @@ const AttendenceAction = ({ navigation }) => {
       }}
     >
       {/* chevron  */}
-      <View style={{ width: "100%" }} className="pb-3 ">
+      <View style={{ width: "100%" }}>
         <View className="flex-row pb-3 items-center justify-center relative">
           <TouchableOpacity
             className="absolute left-0 pb-3"
@@ -28,7 +28,7 @@ const AttendenceAction = ({ navigation }) => {
             />
           </TouchableOpacity>
           <View className="justify-self-center text-center">
-            <Text className="text-lg font-medium">Attendence Action</Text>
+            <Text className="text-lg font-medium">Attendence action</Text>
           </View>
         </View>
       </View>
@@ -37,7 +37,8 @@ const AttendenceAction = ({ navigation }) => {
         <View className="justify-center items-center py-2">
           <DateTimePicker
             display="default"
-            mode="datetime"
+            mode="time"
+          
             dateFormat="dd/mm/yy"
             value={new Date()}
           />
