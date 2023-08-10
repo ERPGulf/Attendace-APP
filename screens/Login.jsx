@@ -6,6 +6,7 @@ import { COLORS, SIZES } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { generateToken } from "../api/userApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
@@ -16,9 +17,11 @@ const Login = ({ navigation }) => {
     formData.append("password", password);
 
     generateToken(formData)
-      .then((data) => {
+      .then(async (data) => {
         console.log(data);
-        alert("success");
+        await AsyncStorage.setItem("access_token", data.access_token);
+        await AsyncStorage.setItem("refresh_token", data.refresh_token);
+        navigation.navigate("home");
       })
       .catch((msg) => {
         alert(msg);

@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 const WelcomeCard = () => {
-  const username = useSelector((state) => state.user.username);
+  const fullname = useSelector((state) => state.user.fullname);
   return (
     <View
       style={{ backgroundColor: COLORS.primary, width: "100%" }}
@@ -35,7 +35,7 @@ const WelcomeCard = () => {
             numberOfLines={1}
             className="text-3xl font-semibold text-white max-w-xs"
           >
-            {!username ? `Username` : username}
+            {!fullname ? `username` : fullname}
           </Text>
           <View className="bg-orange-400 w-10 h-10 items-center justify-center rounded-full">
             <Text className="text-3xl">👋</Text>
