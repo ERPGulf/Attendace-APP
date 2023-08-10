@@ -62,7 +62,7 @@ const QrScan = ({ navigation }) => {
             dispatch(
               setUserDetails({ company, employeeCode, fullName, userId, api })
             );
-            navigation.navigate("Login");
+            navigation.navigate("login");
           } else {
             alert("Retry with valid QR CODE");
           }

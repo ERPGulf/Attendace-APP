@@ -8,7 +8,7 @@ export const generateToken = async (formdata) => {
         if (data.message.message === "Invalid login credentials") {
             return Promise.reject("invalid password")
         }
-        return data.message
+        if (status === 200) return data.message
     } catch (error) {
         console.error(error);
         return Promise.reject('Please retry or scan again')
