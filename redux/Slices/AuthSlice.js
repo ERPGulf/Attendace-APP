@@ -1,7 +1,7 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
-    isLoggedIn: false,
+    isLoggedIn: true,
     token: null
 }
 

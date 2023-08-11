@@ -131,7 +131,7 @@ const LavaMenu = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             className="m-1 w-20 h-20"
-            onPress={() => navigation.navigate("Qrscan")}
+            // onPress={() => navigation.navigate("")}
           >
             <View className="bg-gray-100 py-5 justify-center items-center rounded-lg">
               <Ionicons
