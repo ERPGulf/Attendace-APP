@@ -1,9 +1,21 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import { COLORS } from "../../constants";
-import checkin from "../../assets/images/checkin.png";
+import checkinimg from "../../assets/images/checkin.png";
+import checkoutimg from "../../assets/images/checkout.png";
+import { useSelector } from "react-redux";
+import { differenceInMinutes, parseISO } from "date-fns";
+import {
+  selectCheckin,
+  selectCheckinTime,
+  selectLocation,
+} from "../../redux/Slices/AttendenceSlice";
 
 const WelcomeCard = () => {
+  const nowDate = new Date();
+  const checkin = useSelector(selectCheckin);
+  const location = useSelector(selectLocation);
+
   return (
     <View
       style={{ width: "100%" }}
@@ -14,15 +26,34 @@ const WelcomeCard = () => {
         className="h-40 rounded-lg pt-3 px-4 w-full justify-center"
       >
         <View className="flex-row justify-between">
-          <View className="w-8/12">
-            <Text className="text-lg font-normal text-white">
-              Welcome Back!
-            </Text>
-            <Text className="text-lg font-bold text-white">
-              Check-In before you start working
-            </Text>
-          </View>
-          <Image source={checkin} className="h-28 w-28" resizeMode="contain" />
+          {checkin ? (
+            <View className="w-8/12 -top-3">
+              <Text className="text-lg font-normal pt-1 text-white">
+                Woring from
+              </Text>
+              <Text className="text-xl font-bold text-white pb-3">
+                {location}
+              </Text>
+              <Text className="text-base font-normal pt-1 text-white">
+                You have been working for
+              </Text>
+              <Text className="text-xl  font-bold text-white">40000</Text>
+            </View>
+          ) : (
+            <View className="w-8/12">
+              <Text className="text-lg font-normal pt-2 text-white">
+                Welcome Back!
+              </Text>
+              <Text className="text-xl pt-2 font-bold text-white">
+                Check-In before you start working
+              </Text>
+            </View>
+          )}
+          <Image
+            source={checkin ? checkoutimg : checkinimg}
+            className="h-32 w-32 -left-2"
+            resizeMode="contain"
+          />
         </View>
       </View>
       <Text className=" text-sm text-center pt-2 text-gray-500 font-medium">
