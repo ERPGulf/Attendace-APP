@@ -197,14 +197,10 @@ const QrScan = ({ navigation }) => {
           className=" mt-2 h-20 justify-center flex-row items-center rounded-lg relative"
           onPress={pickImage}
         >
-          <View className="mr-6">
-            <Ionicons
-              name="image"
-              size={SIZES.xxxLarge + SIZES.medium}
-              color={"white"}
-            />
+          <View className="mr-2">
+            <Ionicons name="image" size={SIZES.xxxLarge} color={"white"} />
           </View>
-          <Text className="text-xl text-center font-semibold text-white ">
+          <Text className="text-base text-center font-semibold text-white ">
             SELECT FROM PHOTOS
           </Text>
         </TouchableOpacity>

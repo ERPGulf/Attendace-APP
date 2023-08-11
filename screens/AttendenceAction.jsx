@@ -11,7 +11,7 @@ const AttendenceAction = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [inTarget, setInTarget] = useState(null);
-  const radiusInMeters = 1000;
+  const radiusInMeters = 500;
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -31,10 +31,7 @@ const AttendenceAction = ({ navigation }) => {
         longitude: 75.5910142577121, // Convert to numbers
       };
       const distance = getDistance(userCords, targetLocation);
-      console.log(distance);
-      alert(JSON.stringify(location));
       setIsLoading(false);
-      console.log(location);
       setLocation(location);
       setInTarget(distance <= radiusInMeters);
     })();
