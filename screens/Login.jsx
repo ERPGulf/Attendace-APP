@@ -9,6 +9,7 @@ import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setIsAuthenticated } from "../redux/Slices/UserSlice";
 import { setSignIn } from "../redux/Slices/AuthSlice";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -23,10 +24,17 @@ const Login = ({ navigation }) => {
       .then(async (data) => {
         await AsyncStorage.setItem("access_token", data.access_token);
         await AsyncStorage.setItem("refresh_token", data.refresh_token);
+        Toast.show({
+          type: "success",
+          text1: "✅ Login successfull",
+        });
         dispatch(setSignIn({ isLoggedIn: true, token: data.access_token }));
       })
       .catch((msg) => {
-        alert(msg);
+        Toast.show({
+          type: "error",
+          text1: `❌  ${msg}`,
+        });
       });
   };
   return (

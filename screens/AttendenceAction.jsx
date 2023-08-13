@@ -27,6 +27,7 @@ const AttendenceAction = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(null);
+  const currentDate = new Date().toISOString();
   const radiusInMeters = 250;
   useEffect(() => {
     (async () => {
@@ -43,8 +44,8 @@ const AttendenceAction = ({ navigation }) => {
         longitude,
       };
       const targetLocation = {
-        latitude: 11.970086277093973, // Convert to numbers
-        longitude: 75.658770510256, // Convert to numbers
+        latitude: 11.79076189395391, // Convert to numbers
+        longitude: 75.59073260206625, // Convert to numbers
       };
       const distance = getPreciseDistance(userCords, targetLocation);
       setIsLoading(false);
@@ -59,7 +60,7 @@ const AttendenceAction = ({ navigation }) => {
   }, []);
 
   const handleCheckin = () => {
-    dispatch(setCheckin({ checkinTime: dateTime, location: "Head Office" }));
+    dispatch(setCheckin({ checkinTime: currentDate, location: "Head Office" }));
     Toast.show({
       type: "success",
       text1: "✅ CHECKED IN",

@@ -4,7 +4,7 @@ import { COLORS } from "../../constants";
 import checkinimg from "../../assets/images/checkin.png";
 import checkoutimg from "../../assets/images/checkout.png";
 import { useSelector } from "react-redux";
-import { differenceInMinutes, parseISO } from "date-fns";
+import { differenceInMinutes, formatDuration } from "date-fns";
 import {
   selectCheckin,
   selectCheckinTime,
@@ -12,9 +12,25 @@ import {
 } from "../../redux/Slices/AttendenceSlice";
 
 const WelcomeCard = () => {
-  const nowDate = new Date();
-  const checkin = useSelector(selectCheckin);
   const location = useSelector(selectLocation);
+  const currentDate = new Date();
+  const checkin = useSelector(selectCheckin);
+  const checkinTime = useSelector(selectCheckinTime);
+  // Calculate the difference in minutes
+  const minutesDifference = differenceInMinutes(
+    currentDate,
+    new Date(checkinTime)
+  );
+
+  // Calculate the hours and remaining minutes
+  const hours = Math.floor(minutesDifference / 60);
+  const remainingMinutes = minutesDifference % 60;
+
+  // Format the hours and minutes as "00:00" format
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+    remainingMinutes
+  ).padStart(2, "0")}`;
+  console.log(formattedTime); // Output should be "hh:mm" format
 
   return (
     <View
@@ -37,7 +53,9 @@ const WelcomeCard = () => {
               <Text className="text-base font-normal pt-1 text-white">
                 You have been working for
               </Text>
-              <Text className="text-xl  font-bold text-white">40000</Text>
+              <Text className="text-xl  font-bold text-white">
+                {formattedTime}
+              </Text>
             </View>
           ) : (
             <View className="w-8/12">
