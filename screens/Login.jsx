@@ -9,13 +9,15 @@ import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setSignIn } from "../redux/Slices/AuthSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import { selectBaseUrl } from "../redux/Slices/UserSlice";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const username = useSelector((state) => state.user.username);
+  const baseUrl = useSelector(selectBaseUrl);
   const handleLogin = () => {
-    generateToken({ username, password })
+    generateToken({ username, password, baseUrl })
       .then(async (data) => {
         await AsyncStorage.setItem("access_token", data.access_token);
         await AsyncStorage.setItem("refresh_token", data.refresh_token);

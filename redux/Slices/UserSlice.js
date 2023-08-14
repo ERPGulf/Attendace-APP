@@ -4,6 +4,7 @@ const initialState = {
     username: null,
     fullname: null,
     userDetails: null,
+    baseUrl: null
 }
 
 
@@ -20,12 +21,15 @@ export const UserSlice = createSlice({
         setUserDetails: (state, action) => {
             state.userDetails = action.payload
         },
+        setBaseUrl: (state, action) => {
+            state.baseUrl = action.payload
+        },
 
     }
 })
 
-export const { setUsername, setFullname, setUserDetails } = UserSlice.actions
+export const { setUsername, setFullname, setUserDetails, setBaseUrl } = UserSlice.actions
 
 // selector
-
+export const selectBaseUrl = state => state.user.baseUrl
 export default UserSlice.reducer

@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import {
+  setBaseUrl,
   setFullname,
   setUserDetails,
   setUsername,
@@ -33,56 +34,7 @@ const QrScan = ({ navigation }) => {
     if (!hasPermission) getBarCodeScannerPermissions();
   }, [hasPermission]);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (result.canceled) return;
-    if (result && result.assets[0].uri) {
-      try {
-        const scannedResults = await BarCodeScanner.scanFromURLAsync(
-          result.assets[0].uri
-        );
-
-        const data = scannedResults[0].data;
-        try {
-          const value = base64.decode(data);
-          const companyMatch = value.match(/Company: (\w+)/);
-          const employeeCodeMatch = value.match(/Employee_Code: ([\w-]+)/);
-          const userIdMatch = value.match(/User_id: ([\w@.-]+)/);
-          const fullNameMatch = value.match(/Full_Name: (\w+\s+\w+)/);
-          const apiMatch = value.match(/API: (https:\/\/.+)$/);
-          if (fullNameMatch && apiMatch) {
-            const company = companyMatch[1];
-            const employeeCode = employeeCodeMatch[1];
-            const fullName = fullNameMatch[1].trim().replace(/\s+/g, " ");
-            const userId = userIdMatch[1];
-            const api = apiMatch[1];
-            await AsyncStorage.setItem("baseUrl", api);
-            dispatch(setFullname(fullName));
-            dispatch(setUsername(userId));
-            dispatch(
-              setUserDetails({ company, employeeCode, fullName, userId, api })
-            );
-            navigation.navigate("login");
-          } else {
-            alert("Retry with valid QR CODE");
-          }
-        } catch (error) {
-          alert("Wrong QR-CODE");
-        }
-      } catch (error) {
-        // if there this no QR code
-        alert("No QR-CODE Found");
-      }
-    }
-  };
-  const handleBarCodeScanned = async ({ type, data }) => {
-    setScanned(true);
+  const handleQRCodeData = async (data) => {
     try {
       const value = base64.decode(data);
       const companyMatch = value.match(/Company: (\w+)/);
@@ -90,15 +42,18 @@ const QrScan = ({ navigation }) => {
       const userIdMatch = value.match(/User_id: ([\w@.-]+)/);
       const fullNameMatch = value.match(/Full_Name: (\w+\s+\w+)/);
       const apiMatch = value.match(/API: (https:\/\/.+)$/);
+
       if (fullNameMatch && apiMatch) {
         const company = companyMatch[1];
         const employeeCode = employeeCodeMatch[1];
         const fullName = fullNameMatch[1].trim().replace(/\s+/g, " ");
         const userId = userIdMatch[1];
         const api = apiMatch[1];
+
         await AsyncStorage.setItem("baseUrl", api);
         dispatch(setFullname(fullName));
         dispatch(setUsername(userId));
+        dispatch(setBaseUrl(api));
         dispatch(
           setUserDetails({ company, employeeCode, fullName, userId, api })
         );
@@ -107,8 +62,46 @@ const QrScan = ({ navigation }) => {
         alert("Retry with valid QR CODE");
       }
     } catch (error) {
-      alert("Wrong QR-CODE");
+      alert("Invalid QR-CODE");
     }
+  };
+
+  const handleImagePicked = async (result) => {
+    if (result.canceled) return;
+
+    if (result && result.assets[0].uri) {
+      try {
+        const scannedResults = await BarCodeScanner.scanFromURLAsync(
+          result.assets[0].uri
+        );
+        const data = scannedResults[0].data;
+        await handleQRCodeData(data);
+      } catch (error) {
+        alert("No QR-CODE Found");
+      }
+    }
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      await handleImagePicked(result);
+    } catch (error) {
+      // Handle errors from ImagePicker
+      alert("Error picking image.");
+    }
+  };
+
+  // Handle the QR code scan event
+  const handleBarCodeScanned = async ({ type, data }) => {
+    setScanned(true);
+    await handleQRCodeData(data);
   };
 
   if (hasPermission === null) {

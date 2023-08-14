@@ -2,8 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userApi from './apiManger';
 export const generateToken = async (formdata) => {
     try {
-        const baseURL = await AsyncStorage.getItem('baseUrl')
-        userApi.defaults.baseURL = baseURL
+        userApi.defaults.baseURL = formdata.baseURL
         const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token`, formdata)
         if (data.message.message === "Invalid login credentials") {
             return Promise.reject("invalid password")
@@ -17,6 +16,7 @@ export const generateToken = async (formdata) => {
 }
 
 export const getOfficeLocation = async (employeeCode) => {
+    console.log(userApi.defaults.baseURL);
     try {
         const filters = [['name', '=', employeeCode]];
         const fields = ['name', 'first_name', 'custom_reporting_location'];

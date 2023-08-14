@@ -9,7 +9,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} ><ActivityIndicator size={"large"} /></View>} persistor={persistor}>
+      <PersistGate persistor={persistor} loading={<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} ><ActivityIndicator size={"large"} /></View>}>
         <Navigator />
         <StatusBar style='auto' />
         <Toast />
