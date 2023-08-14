@@ -21,12 +21,14 @@ import {
   setCheckout,
 } from "../redux/Slices/AttendenceSlice";
 import Toast from "react-native-toast-message";
+import { getOfficeLocation } from "../api/userApi";
 const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
   const [isLoading, setIsLoading] = useState(true);
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(null);
+  const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
   const radiusInMeters = 250;
   useEffect(() => {
@@ -43,6 +45,7 @@ const AttendenceAction = ({ navigation }) => {
         latitude,
         longitude,
       };
+      getOfficeLocation(employeeCode);
       const targetLocation = {
         latitude: 11.79076189395391, // Convert to numbers
         longitude: 75.59073260206625, // Convert to numbers

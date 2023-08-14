@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import React from "react";
-import { AttendenceAction, Home } from "../screens";
+import { AttendenceAction, AttendenceHistory, Home } from "../screens";
 import { Provider } from "react-redux";
 import { store } from "../redux/Store";
 const Stack = createNativeStackNavigator();
@@ -13,6 +13,7 @@ const AppNavigator = () => {
     >
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="Attendence action" component={AttendenceAction} />
+      <Stack.Screen name="Attendence history" component={AttendenceHistory} />
     </Stack.Navigator>
   );
 };

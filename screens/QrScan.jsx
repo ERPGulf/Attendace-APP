@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { COLORS, SIZES } from "../constants";
@@ -71,8 +77,7 @@ const QrScan = ({ navigation }) => {
         }
       } catch (error) {
         // if there this no QR code
-        setDisplayText("No QR Code Found");
-        setTimeout(() => setDisplayText(""), 4000);
+        alert("No QR-CODE Found");
       }
     }
   };

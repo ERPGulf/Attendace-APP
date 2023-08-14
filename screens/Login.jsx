@@ -7,7 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setIsAuthenticated } from "../redux/Slices/UserSlice";
 import { setSignIn } from "../redux/Slices/AuthSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
@@ -16,11 +15,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const username = useSelector((state) => state.user.username);
   const handleLogin = () => {
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-
-    generateToken(formData)
+    generateToken({ username, password })
       .then(async (data) => {
         await AsyncStorage.setItem("access_token", data.access_token);
         await AsyncStorage.setItem("refresh_token", data.refresh_token);

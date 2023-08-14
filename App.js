@@ -1,23 +1,19 @@
 import { Provider } from 'react-redux';
-import { store } from './redux/Store';
+import { store, persistor } from './redux/Store';
 import { StatusBar } from 'expo-status-bar';
 import Navigator from './navigation/navigator';
 import Toast from "react-native-toast-message";
-import { Suspense } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { PersistGate } from 'redux-persist/integration/react';
 export default function App() {
 
   return (
     <Provider store={store}>
-      <Suspense fallback={
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size={'large'} />
-        </View>
-      }>
+      <PersistGate persistor={persistor} loading={<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} ><ActivityIndicator size={"large"} /></View>} persistor={persistor}>
         <Navigator />
         <StatusBar style='auto' />
         <Toast />
-      </Suspense>
+      </PersistGate>
     </Provider>
   );
 }

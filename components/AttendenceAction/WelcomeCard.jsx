@@ -30,7 +30,6 @@ const WelcomeCard = () => {
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     remainingMinutes
   ).padStart(2, "0")}`;
-  console.log(formattedTime); // Output should be "hh:mm" format
 
   return (
     <View
