@@ -67,12 +67,23 @@ const AttendenceAction = ({ navigation }) => {
     })();
   }, []);
   useEffect(() => {
-    const date = new Date();
-    const dateFormat = "d MMM yyyy @hh:mm a";
-    const formattedDate = format(date, dateFormat);
-    setDateTime(formattedDate);
-  }, []);
+    // Function to update the date and time in the specified format
+    const updateDateTime = () => {
+      const currentDate = new Date();
+      const dateFormat = "d MMM yyyy @hh:mm a";
+      const formattedDate = format(currentDate, dateFormat);
+      setDateTime(formattedDate);
+    };
 
+    // Call the updateDateTime function initially
+    updateDateTime();
+
+    // Set up a recurring update every 30 seconds
+    const intervalId = setInterval(updateDateTime, 10000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
   const handleCheckin = () => {
     dispatch(setCheckin({ checkinTime: currentDate, location: "Head Office" }));
     Toast.show({

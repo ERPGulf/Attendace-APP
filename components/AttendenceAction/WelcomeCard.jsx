@@ -14,7 +14,6 @@ import {
 
 const WelcomeCard = () => {
   const location = useSelector(selectLocation);
-  const currentDate = new Date();
   const checkin = useSelector(selectCheckin);
   const checkinTime = useSelector(selectCheckinTime);
   const [minutes, setMinutes] = useState(null);
@@ -38,7 +37,6 @@ const WelcomeCard = () => {
       new Date(),
       new Date(checkinTime)
     );
-
     // Calculate the hours and remaining minutes
     const hours = Math.floor(minutesDifference / 60);
     const remainingMinutes = minutesDifference % 60;
@@ -60,7 +58,7 @@ const WelcomeCard = () => {
     updateMinutes();
 
     // Set up the interval to update the minutes every 60 seconds
-    const intervalId = setInterval(updateMinutes, 60000);
+    const intervalId = setInterval(updateMinutes, 10000);
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
