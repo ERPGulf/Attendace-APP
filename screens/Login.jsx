@@ -1,4 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WelcomeCard } from "../components/Login";
@@ -92,7 +98,8 @@ const Login = ({ navigation }) => {
                   placeholder="enter password"
                   textContentType="password"
                   onBlur={() => setFieldTouched("password")}
-                  className="w-80 h-12 text-lg"
+                  style={{ marginTop: Platform.OS === "ios" ? -10 : 0 }}
+                  className="max-w-xs h-12 text-lg"
                 />
                 <Ionicons
                   name="lock-closed"
@@ -120,15 +127,15 @@ const Login = ({ navigation }) => {
                 }`}
                 style={{ width: "100%", backgroundColor: COLORS.primary }}
               >
-                <Text className="text-2xl font-bold text-white">login</Text>
+                <Text className="text-xl font-bold text-white">Login</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("Qrscan")}
-                className="border-2 h-16 rounded-xl my-4 justify-center items-center bg-white"
+                className="border h-16 rounded-xl my-4 justify-center items-center bg-white"
                 style={{ width: "100%", borderColor: COLORS.primary }}
               >
                 <Text
-                  className="text-xl font-semiboldbold "
+                  className="text-xl font-semibold "
                   style={{ color: COLORS.primary }}
                 >
                   Rescan code

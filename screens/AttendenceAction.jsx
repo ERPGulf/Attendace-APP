@@ -120,9 +120,9 @@ const AttendenceAction = ({ navigation }) => {
     <SafeAreaView className="flex-1 items-center bg-white">
       {/* chevron  */}
       <View style={{ width: "100%" }}>
-        <View className="flex-row pb-3 items-center justify-center relative">
+        <View className="flex-row pb-4 pt-2 items-center justify-center relative">
           <TouchableOpacity
-            className="absolute left-0 pb-3"
+            className="absolute left-0  pb-4 pt-2 "
             onPress={() => navigation.goBack()}
           >
             <Entypo
@@ -149,7 +149,7 @@ const AttendenceAction = ({ navigation }) => {
               </Text>
               <MaterialCommunityIcons
                 name="calendar-month"
-                size={SIZES.xxxLarge - SIZES.xSmall}
+                size={SIZES.xxxLarge}
               />
             </View>
             <Text className="text-lg text-gray-500 font-semibold">

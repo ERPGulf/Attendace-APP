@@ -28,7 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
         className="h-16 rounded-2xl justify-center items-center shadow-black shadow-lg"
         onPress={() => navigation.navigate("Qrscan")}
       >
-        <Text className="text-2xl font-semibold" style={{ color: "white" }}>
+        <Text className="text-xl font-semibold" style={{ color: "white" }}>
           GET STARTED
         </Text>
       </TouchableOpacity>

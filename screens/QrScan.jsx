@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -118,16 +117,16 @@ const QrScan = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center px-3 bg-white relative">
-      <View style={{ width: "100%" }}>
-        <View className="flex-row pb-3 items-center justify-center relative">
+    <SafeAreaView className="flex-1 items-center px-3 bg-white">
+      <View style={{ width: "100%" }} className="relative">
+        <View className="flex-row pb-4 pt-2 items-center justify-center relative">
           <TouchableOpacity
-            className="absolute left-0 pb-3"
+            className="absolute left-0 pb-4 pt-2"
             onPress={() => navigation.goBack()}
           >
             <Entypo
               name="chevron-left"
-              size={SIZES.xxxLarge - SIZES.xSmall}
+              size={SIZES.xxxLarge}
               color={COLORS.primary}
             />
           </TouchableOpacity>
@@ -138,7 +137,7 @@ const QrScan = ({ navigation }) => {
       </View>
       <View
         style={{ width: "100%" }}
-        className="justify-around items-center bg-black h-auto overflow-hidden rounded-xl"
+        className="justify-center items-center bg-black h-auto overflow-hidden rounded-xl top-1/4 absolute"
       >
         <BarCodeScanner
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
@@ -163,10 +162,16 @@ const QrScan = ({ navigation }) => {
               backgroundColor: COLORS.primary,
               width: "100%",
             }}
-            className=" mt-2 h-20 justify-center rounded-lg"
+            className=" mt-2 h-16 justify-center rounded-xl items-center flex-row space-x-2"
             onPress={() => setScanned(false)}
           >
-            <Text className="text-2xl text-center font-semibold text-white ">
+            <Ionicons
+              name="scan-outline"
+              size={SIZES.xxxLarge}
+              color={"white"}
+              className=""
+            />
+            <Text className="text-base text-center font-semibold text-white ">
               TAP TO SCAN AGAIN
             </Text>
           </TouchableOpacity>
@@ -176,7 +181,7 @@ const QrScan = ({ navigation }) => {
               width: "100%",
               borderColor: COLORS.primary,
             }}
-            className="animate-bounce h-20 justify-center rounded-lg bg-white border-2 items-center mt-4 flex-row"
+            className="h-16 justify-center rounded-xl bg-white border-2 items-center mt-4 flex-row"
           >
             <Ionicons
               name="qr-code-outline"
@@ -184,7 +189,6 @@ const QrScan = ({ navigation }) => {
               color={COLORS.primary}
               className=""
             />
-            <Text className="text-2xl text-center font-semibold text-orange-600"></Text>
           </View>
         )}
         <TouchableOpacity
@@ -192,7 +196,7 @@ const QrScan = ({ navigation }) => {
             backgroundColor: COLORS.primary,
             width: "100%",
           }}
-          className=" mt-2 h-20 justify-center flex-row items-center rounded-lg relative"
+          className=" mt-2 h-16 justify-center flex-row items-center rounded-xl relative"
           onPress={pickImage}
         >
           <View className="mr-2">
