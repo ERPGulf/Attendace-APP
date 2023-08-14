@@ -27,7 +27,7 @@ const AttendenceAction = ({ navigation }) => {
   const checkin = useSelector(selectCheckin);
   const [isLoading, setIsLoading] = useState(true);
   const [dateTime, setDateTime] = useState(null);
-  const [inTarget, setInTarget] = useState(null);
+  const [inTarget, setInTarget] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
   const radiusInMeters = 250;
@@ -45,14 +45,25 @@ const AttendenceAction = ({ navigation }) => {
         latitude,
         longitude,
       };
-      getOfficeLocation(employeeCode);
-      const targetLocation = {
-        latitude: 11.79076189395391, // Convert to numbers
-        longitude: 75.59073260206625, // Convert to numbers
-      };
-      const distance = getPreciseDistance(userCords, targetLocation);
-      setIsLoading(false);
-      setInTarget(distance <= radiusInMeters);
+      getOfficeLocation(employeeCode)
+        .then(({ latitude, longitude }) => {
+          const targetLocation = {
+            latitude: 11.791130806353708, // Convert to numbers
+            longitude: 75.59082113912703, // Convert to numbers
+          };
+          // 11.791130806353708, 75.59082113912703 test coordinates
+          const distance = getPreciseDistance(userCords, targetLocation);
+          setInTarget(distance <= radiusInMeters);
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          Toast.show({
+            type: "error",
+            text1: "OUT OF BOUND",
+            text2: "Please make sure you are at work place",
+          });
+        });
     })();
   }, []);
   useEffect(() => {
@@ -85,7 +96,7 @@ const AttendenceAction = ({ navigation }) => {
       {
         text: "OK",
         onPress: () => {
-          dispatch(setCheckout({ checkoutTime: dateTime }));
+          dispatch(setCheckout({ checkoutTime: currentDate }));
           Toast.show({
             type: "success",
             text1: "✅ CHECKED OUT",
@@ -116,64 +127,63 @@ const AttendenceAction = ({ navigation }) => {
       </View>
       <View style={{ width: "100%" }} className="px-3">
         <WelcomeCard />
-
-        {isLoading ? (
-          <View className="pt-10">
-            <ActivityIndicator size={"large"} />
-          </View>
-        ) : (
-          <View className="h-72 mt-4">
-            <View className="p-4">
-              <Text className="text-lg text-gray-500 font-semibold">
-                DATE AND TIME*
+        <View className="h-72 mt-4">
+          <View className="p-4">
+            <Text className="text-lg text-gray-500 font-semibold">
+              DATE AND TIME*
+            </Text>
+            <View className="flex-row items-end border-b border-gray-400 pb-2 mb-6 justify-between">
+              <Text className="text-base font-medium text-gray-500">
+                {dateTime}
               </Text>
-              <View className="flex-row items-end border-b border-gray-400 pb-2 mb-6 justify-between">
-                <Text className="text-base font-medium text-gray-500">
-                  {dateTime}
-                </Text>
-                <MaterialCommunityIcons
-                  name="calendar-month"
-                  size={SIZES.xxxLarge - SIZES.xSmall}
-                />
-              </View>
-              <Text className="text-lg text-gray-500 font-semibold">
-                LOCATION*
-              </Text>
-              <View className="flex-row items-end border-b border-gray-400 pb-2 mb-4 justify-between">
-                <Text className="text-base font-medium text-gray-500">
-                  {inTarget ? "Head Office" : "Out of bound"}
-                </Text>
-                <MaterialCommunityIcons
-                  name="map-marker"
-                  size={SIZES.xxxLarge - SIZES.xSmall}
-                />
-              </View>
-              {checkin ? (
-                <TouchableOpacity
-                  className={`justify-center ${
-                    inTarget === false && `opacity-50`
-                  } items-center h-16 mt-4 rounded-2xl bg-red-500`}
-                  disabled={!inTarget}
-                  onPress={inTarget && handleChekout}
-                >
-                  <Text className="text-xl font-bold text-white">
-                    CHECK-OUT
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  className={`justify-center ${
-                    inTarget === false && `opacity-50`
-                  } items-center h-16 mt-4 rounded-2xl bg-green-500`}
-                  disabled={!inTarget}
-                  onPress={inTarget && handleCheckin}
-                >
-                  <Text className="text-xl font-bold text-white">CHECK-IN</Text>
-                </TouchableOpacity>
-              )}
+              <MaterialCommunityIcons
+                name="calendar-month"
+                size={SIZES.xxxLarge - SIZES.xSmall}
+              />
             </View>
+            <Text className="text-lg text-gray-500 font-semibold">
+              LOCATION*
+            </Text>
+            <View className="flex-row items-end border-b border-gray-400 pb-2 mb-4 justify-between">
+              <Text className="text-base font-medium text-gray-500">
+                {isLoading ? (
+                  <View className="">
+                    <ActivityIndicator size={"small"} />
+                  </View>
+                ) : inTarget ? (
+                  "Head Office"
+                ) : (
+                  "Out of bound"
+                )}
+              </Text>
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={SIZES.xxxLarge - SIZES.xSmall}
+              />
+            </View>
+            {checkin ? (
+              <TouchableOpacity
+                className={`justify-center ${
+                  inTarget === false && `opacity-50`
+                } items-center h-16 mt-4 rounded-2xl bg-red-500`}
+                disabled={!inTarget}
+                onPress={inTarget && handleChekout}
+              >
+                <Text className="text-xl font-bold text-white">CHECK-OUT</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                className={`justify-center ${
+                  inTarget === false && `opacity-50`
+                } items-center h-16 mt-4 rounded-2xl bg-green-500`}
+                disabled={!inTarget}
+                onPress={inTarget && handleCheckin}
+              >
+                <Text className="text-xl font-bold text-white">CHECK-IN</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        )}
+        </View>
       </View>
     </SafeAreaView>
   );

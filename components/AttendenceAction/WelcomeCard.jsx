@@ -1,17 +1,19 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { COLORS } from "../../constants";
 import checkinimg from "../../assets/images/checkin.png";
 import checkoutimg from "../../assets/images/checkout.png";
 import { useSelector } from "react-redux";
-import { differenceInMinutes, formatDuration } from "date-fns";
+import { differenceInMinutes, format } from "date-fns";
 import {
   selectCheckin,
   selectCheckinTime,
+  selectCheckoutTime,
   selectLocation,
 } from "../../redux/Slices/AttendenceSlice";
 
 const WelcomeCard = () => {
+  const [showDate, setShowDate] = useState(null);
   const location = useSelector(selectLocation);
   const currentDate = new Date();
   const checkin = useSelector(selectCheckin);
@@ -30,7 +32,18 @@ const WelcomeCard = () => {
   const formattedTime = `${String(hours).padStart(2, "0")}:${String(
     remainingMinutes
   ).padStart(2, "0")}`;
-
+  const checkoutTime = useSelector(selectCheckoutTime);
+  useEffect(() => {
+    let date = null;
+    if (checkin) {
+      date = new Date(checkinTime);
+    } else {
+      date = new Date(checkoutTime);
+    }
+    const dateFormat = "d MMM yyyy @hh:mm a";
+    const formattedDate = format(date, dateFormat);
+    setShowDate(formattedDate);
+  }, [checkin]);
   return (
     <View
       style={{ width: "100%" }}
@@ -53,7 +66,7 @@ const WelcomeCard = () => {
                 You have been working for
               </Text>
               <Text className="text-xl  font-bold text-white">
-                {formattedTime}
+                {formattedTime} minutes
               </Text>
             </View>
           ) : (
@@ -74,7 +87,8 @@ const WelcomeCard = () => {
         </View>
       </View>
       <Text className=" text-sm text-center pt-2 text-gray-500 font-medium">
-        Last action:Check-out 22 May2023@10:40AM
+        LAST ACTION :{" "}
+        {checkin ? `CHECK-IN ${showDate}` : `CHECK-OUT ${showDate}`}
       </Text>
     </View>
   );
