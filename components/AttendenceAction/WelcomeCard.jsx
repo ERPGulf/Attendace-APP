@@ -13,37 +13,63 @@ import {
 } from "../../redux/Slices/AttendenceSlice";
 
 const WelcomeCard = () => {
-  const [showDate, setShowDate] = useState(null);
   const location = useSelector(selectLocation);
   const currentDate = new Date();
   const checkin = useSelector(selectCheckin);
   const checkinTime = useSelector(selectCheckinTime);
+  const [minutes, setMinutes] = useState(null);
+  // // Calculate the difference in minutes
+  // const minutesDifference = differenceInMinutes(
+  //   currentDate,
+  //   new Date(checkinTime)
+  // );
+
+  // // Calculate the hours and remaining minutes
+  // const hours = Math.floor(minutesDifference / 60);
+  // const remainingMinutes = minutesDifference % 60;
+
+  // // Format the hours and minutes as "00:00" format
+  // const formattedTime = `${String(hours).padStart(2, "0")}:${String(
+  //   remainingMinutes
+  // ).padStart(2, "0")}`;
   // Calculate the difference in minutes
-  const minutesDifference = differenceInMinutes(
-    currentDate,
-    new Date(checkinTime)
-  );
+  function getMinutes() {
+    const minutesDifference = differenceInMinutes(
+      new Date(),
+      new Date(checkinTime)
+    );
 
-  // Calculate the hours and remaining minutes
-  const hours = Math.floor(minutesDifference / 60);
-  const remainingMinutes = minutesDifference % 60;
+    // Calculate the hours and remaining minutes
+    const hours = Math.floor(minutesDifference / 60);
+    const remainingMinutes = minutesDifference % 60;
 
-  // Format the hours and minutes as "00:00" format
-  const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-    remainingMinutes
-  ).padStart(2, "0")}`;
-  const checkoutTime = useSelector(selectCheckoutTime);
+    // Format the hours and minutes as "00:00" format
+    return `${String(hours).padStart(2, "0")}:${String(
+      remainingMinutes
+    ).padStart(2, "0")}`;
+  }
+
+  // Use a useEffect hook to refresh the minutes every 60 seconds
   useEffect(() => {
-    let date = null;
-    if (checkin) {
-      date = new Date(checkinTime);
-    } else {
-      date = new Date(checkoutTime);
-    }
-    const dateFormat = "d MMM yyyy @hh:mm a";
-    const formattedDate = format(date, dateFormat);
-    setShowDate(formattedDate);
-  }, [checkin]);
+    // Function to update the minutes
+    const updateMinutes = () => {
+      setMinutes(getMinutes());
+    };
+
+    // Initial update on mount
+    updateMinutes();
+
+    // Set up the interval to update the minutes every 60 seconds
+    const intervalId = setInterval(updateMinutes, 60000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+  const checkoutTime = useSelector(selectCheckoutTime);
+  const showDate = checkin
+    ? format(new Date(checkinTime), "d MMM yyyy @hh:mm a")
+    : format(new Date(checkoutTime), "d MMM yyyy @hh:mm a");
+
   return (
     <View
       style={{ width: "100%" }}
@@ -66,7 +92,7 @@ const WelcomeCard = () => {
                 You have been working for
               </Text>
               <Text className="text-xl  font-bold text-white">
-                {formattedTime} minutes
+                {minutes} minutes
               </Text>
             </View>
           ) : (

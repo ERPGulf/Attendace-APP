@@ -30,7 +30,7 @@ const AttendenceAction = ({ navigation }) => {
   const [inTarget, setInTarget] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
-  const radiusInMeters = 250;
+  const radiusInMeters = 300;
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -48,10 +48,10 @@ const AttendenceAction = ({ navigation }) => {
       getOfficeLocation(employeeCode)
         .then(({ latitude, longitude }) => {
           const targetLocation = {
-            latitude: 11.791130806353708, // Convert to numbers
-            longitude: 75.59082113912703, // Convert to numbers
+            latitude: 11.791261756732942, // Convert to numbers
+            longitude: 75.5905692699706, // Convert to numbers
           };
-          // 11.791130806353708, 75.59082113912703 test coordinates
+          // 11.791130806353708, 75.59082113912703 test coordinates ,
           const distance = getPreciseDistance(userCords, targetLocation);
           setInTarget(distance <= radiusInMeters);
           setIsLoading(false);

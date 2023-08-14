@@ -20,6 +20,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-location": "~16.1.0",
     "expo-status-bar": "~1.6.0",
+    "formik": "^2.4.3",
     "geolib": "^3.3.4",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
@@ -29,7 +30,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-toast-message": "^2.1.6",
     "react-redux": "^8.1.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

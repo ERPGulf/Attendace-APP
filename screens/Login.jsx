@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WelcomeCard } from "../components/Login";
 import { COLORS, SIZES } from "../constants";
@@ -9,31 +9,36 @@ import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setSignIn } from "../redux/Slices/AuthSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { selectBaseUrl } from "../redux/Slices/UserSlice";
-
+import { Formik } from "formik";
+import * as Yup from "yup";
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [password, setPassword] = useState("");
   const username = useSelector((state) => state.user.username);
-  const baseUrl = useSelector(selectBaseUrl);
-  const handleLogin = () => {
-    generateToken({ username, password, baseUrl })
-      .then(async (data) => {
-        await AsyncStorage.setItem("access_token", data.access_token);
-        await AsyncStorage.setItem("refresh_token", data.refresh_token);
-        Toast.show({
-          type: "success",
-          text1: "✅ Login successfull",
-        });
-        dispatch(setSignIn({ isLoggedIn: true, token: data.access_token }));
-      })
-      .catch((msg) => {
-        Toast.show({
-          type: "error",
-          text1: `❌  ${msg}`,
-        });
-      });
-  };
+  // const handleLogin = () => {
+  //   generateToken({ username, password, baseUrl })
+  //     .then(async (data) => {
+  //       await AsyncStorage.setItem("access_token", data.access_token);
+  //       await AsyncStorage.setItem("refresh_token", data.refresh_token);
+  //       Toast.show({
+  //         type: "success",
+  //         text1: "✅ Login successfull",
+  //       });
+  //       dispatch(setSignIn({ isLoggedIn: true, token: data.access_token }));
+  //     })
+  //     .catch((msg) => {
+  //       Toast.show({
+  //         type: "error",
+  //         text1: `❌  ${msg}`,
+  //       });
+  //     });
+  // };
+  const loginSchema = Yup.object().shape({
+    password: Yup.string()
+      .min(5, "Too short!")
+      .max(24, "Too Long!")
+      .required("Please enter your password."),
+  });
+
   return (
     <SafeAreaView
       style={{
@@ -43,44 +48,96 @@ const Login = ({ navigation }) => {
       className="bg-gray-100 px-3 relative justify-between"
     >
       <WelcomeCard />
-      <View style={{ width: "100%", marginVertical: 30 }}>
-        <View className="bg-white h-14 px-3 rounded-xl items-center justify-between flex-row">
-          <TextInput
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            placeholder="enter password"
-            textContentType="password"
-            className="w-80 h-12 text-lg"
-          />
-          <Ionicons
-            name="lock-closed"
-            size={SIZES.xLarge}
-            color={COLORS.gray2}
-          />
-        </View>
-      </View>
-      <View style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}>
-        <TouchableOpacity
-          onPress={handleLogin}
-          className=" h-16 rounded-xl justify-center items-center "
-          style={{ width: "100%", backgroundColor: COLORS.primary }}
-        >
-          <Text className="text-2xl font-bold text-white">login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Qrscan")}
-          className="border-2 h-16 rounded-xl my-4 justify-center items-center bg-white
-        "
-          style={{ width: "100%", borderColor: COLORS.primary }}
-        >
-          <Text
-            className="text-xl font-semiboldbold "
-            style={{ color: COLORS.primary }}
-          >
-            Rescan code
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Formik
+        initialValues={{
+          password: "",
+        }}
+        validationSchema={loginSchema}
+        onSubmit={({ password }) => {
+          generateToken({ username, password })
+            .then(async (data) => {
+              await AsyncStorage.setItem("access_token", data.access_token);
+              await AsyncStorage.setItem("refresh_token", data.refresh_token);
+              Toast.show({
+                type: "success",
+                text1: "✅ Login successfull",
+              });
+              dispatch(
+                setSignIn({ isLoggedIn: true, token: data.access_token })
+              );
+            })
+            .catch((msg) => {
+              Toast.show({
+                type: "error",
+                text1: `❌  ${msg}`,
+              });
+            });
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleSubmit,
+          handleChange,
+          isValid,
+          setFieldTouched,
+        }) => (
+          <React.Fragment>
+            <View style={{ width: "100%", marginTop: 30 }}>
+              <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
+                <TextInput
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  placeholder="enter password"
+                  textContentType="password"
+                  onBlur={() => setFieldTouched("password")}
+                  className="w-80 h-12 text-lg"
+                />
+                <Ionicons
+                  name="lock-closed"
+                  size={SIZES.xLarge}
+                  color={COLORS.gray2}
+                />
+              </View>
+            </View>
+            {touched.password && errors.password && (
+              <View style={{ width: "100%" }} className="left-1 mt-1">
+                <Text className="text-red-600 text-base">
+                  {errors.password}
+                </Text>
+              </View>
+            )}
+
+            <View
+              style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}
+            >
+              <TouchableOpacity
+                disabled={!isValid}
+                onPress={handleSubmit}
+                className={`h-16 rounded-xl justify-center items-center ${
+                  !isValid && "opacity-70"
+                }`}
+                style={{ width: "100%", backgroundColor: COLORS.primary }}
+              >
+                <Text className="text-2xl font-bold text-white">login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Qrscan")}
+                className="border-2 h-16 rounded-xl my-4 justify-center items-center bg-white"
+                style={{ width: "100%", borderColor: COLORS.primary }}
+              >
+                <Text
+                  className="text-xl font-semiboldbold "
+                  style={{ color: COLORS.primary }}
+                >
+                  Rescan code
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </React.Fragment>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 };
