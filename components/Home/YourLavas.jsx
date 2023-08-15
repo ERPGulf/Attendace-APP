@@ -32,7 +32,7 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="flex-row bg-white flex-wrap py-2 justify-around space-x-1 rounded-b-xl mb-4">
+        <View className="flex-row bg-white flex-wrap py-2 justify-between space-x-1 p-2 rounded-b-xl mb-4">
           <TouchableOpacity
             className="m-1 w-20 h-32"
             onPress={() => {

@@ -79,7 +79,7 @@ const WelcomeCard = () => {
       >
         <View className="flex-row justify-between">
           {checkin ? (
-            <View className="w-8/12 -top-3">
+            <View className=" -top-3 w-3/5 break-words">
               <Text className="text-lg font-normal pt-1 text-white">
                 Woring from
               </Text>
@@ -94,7 +94,7 @@ const WelcomeCard = () => {
               </Text>
             </View>
           ) : (
-            <View className="w-8/12">
+            <View className="w-3/5">
               <Text className="text-lg font-normal pt-2 text-white">
                 Welcome Back!
               </Text>
@@ -105,14 +105,16 @@ const WelcomeCard = () => {
           )}
           <Image
             source={checkin ? checkoutimg : checkinimg}
-            className="h-32 w-32 -left-2"
+            className="h-32 w-32 "
             resizeMode="contain"
           />
         </View>
       </View>
-      <Text className=" text-sm text-center pt-2 text-gray-500 font-medium">
+      <Text className=" text-xs text-center pt-2 text-gray-500 font-medium">
         LAST ACTION :{" "}
-        {checkin ? `CHECK-IN ${showDate}` : `CHECK-OUT ${showDate}`}
+        {checkin
+          ? `CHECK-IN ${checkinTime ? showDate : "CANNOT FIND LAST ACTION"}`
+          : `CHECK-OUT ${checkoutTime ? showDate : "CANNOT FIND LAST ACTION"}`}
       </Text>
     </View>
   );

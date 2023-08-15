@@ -32,7 +32,7 @@ export const UserSlice = createSlice({
     }
 })
 
-export const { setUsername, setFullname, setUserDetails, setBaseUrl,setFileid } = UserSlice.actions
+export const { setUsername, setFullname, setUserDetails, setBaseUrl, setFileid } = UserSlice.actions
 
 // selector
 export const selectBaseUrl = state => state.user.baseUrl

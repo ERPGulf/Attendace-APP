@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userApi from './apiManger';
+import { store } from '../redux/Store'
+import { setSignOut } from '../redux/Slices/AuthSlice';
 export const generateToken = async (formdata) => {
     try {
         userApi.defaults.baseURL = await AsyncStorage.getItem('baseUrl')
@@ -29,15 +31,13 @@ export const getOfficeLocation = async (employeeCode) => {
                 fields: JSON.stringify(fields)
             },
         })
-        if (data.data && data.data.length > 0) {
-            // Parse custom_reporting_location assuming it's a JSON string
-            const jsonData = JSON.parse(data.data[0].custom_reporting_location);
-            const latitude = jsonData.features[0].geometry.coordinates[1];
-            const longitude = jsonData.features[0].geometry.coordinates[0];
-            return Promise.resolve({ latitude, longitude }); // Return the parsed data
-        } else {
-            return Promise.reject("No data available"); // Return null when no data is available
-        }
+
+        // Parse custom_reporting_location assuming it's a JSON string
+        const jsonData = JSON.parse(data.data[0].custom_reporting_location);
+        const latitude = jsonData.features[0].geometry.coordinates[1];
+        const longitude = jsonData.features[0].geometry.coordinates[0];
+        return Promise.resolve({ latitude, longitude }); // Return the parsed data
+
     } catch (error) {
         console.error(error, 'location');
         return Promise.reject('Something went wrong')
@@ -103,13 +103,14 @@ export const putUserFile = async (formData, fileId) => {
         return Promise.reject("something went wrong")
     }
 }
-
+// TODO:testing how is error handled
 export const refreshAccessToken = async () => {
+    console.log("refresh token triggered");
     try {
         const refresh_token = await AsyncStorage.getItem('refresh_token')
         const formdata = new FormData()
         formdata.append('grant_type', "refresh_token",)
-        formdata.append('refresh_token', refresh_token,)
+        formdata.append('refresh_token', "refresh_token",)
 
         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
         console.log(data);
@@ -117,27 +118,26 @@ export const refreshAccessToken = async () => {
 
     } catch (error) {
         console.error('Token refresh error:', error);
-        throw error;
+        return Promise.reject(error)
     }
 };
-
-userApi.interceptors.request.use(
-    async (config) => {
-        const accessToken = await AsyncStorage.getItem('access_token');
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
+// TODO:Research on this 
+// userApi.interceptors.request.use(
+//     async (config) => {
+//         const accessToken = await AsyncStorage.getItem('access_token');
+//         if (accessToken) {
+//             config.headers.Authorization = `Bearer ${accessToken}`;
+//         }
+//         return config;
+//     },
+//     (error) => Promise.reject(error)
+// );
 
 userApi.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-
-        if (error.response.status === 403 && !originalRequest._retry) {
+        if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
@@ -147,10 +147,11 @@ userApi.interceptors.response.use(
                     originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
                     return userApi(originalRequest);
                 }).catch((error) => {
-                    console.error(error)
+                    store.dispatch(setSignOut())
                 })
             } catch (err) {
                 // Handle token refresh error, e.g., log user out
+                store.dispatch(setSignOut())
                 return Promise.reject(err);
             }
         }
