@@ -113,7 +113,7 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="bg-white flex-row flex-wrap py-2 justify-start space-x-5  rounded-b-xl ">
+        <View className="bg-white flex-row flex-wrap p-2 justify-start space-x-5 rounded-b-xl ">
           <TouchableOpacity className="m-1 mr-0 w-20 h-32">
             <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
               <Octicons

@@ -40,7 +40,68 @@ export const getOfficeLocation = async (employeeCode) => {
             return Promise.reject("No data available"); // Return null when no data is available
         }
     } catch (error) {
-        console.log(error);
+        console.error(error, 'location');
         return Promise.reject('Something went wrong')
+    }
+}
+
+
+export const userCheckIn = async (fielddata) => {
+    try {
+        const access_token = await AsyncStorage.getItem('access_token');
+        const params = {
+            employee_field_value: fielddata.employeeCode,
+            timestamp: fielddata.timestamp,
+            device_id: 'MobileAPP',
+            log_type: 'IN'
+        };
+
+        const { data } = await userApi.post('method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field', null, {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            },
+            params: params
+        });
+        return Promise.resolve(data.message);
+    } catch (error) {
+        console.error(error, 'checkin');
+        return Promise.reject("something went wrong")
+    }
+};
+
+
+export const userFileUpload = async (formdata) => {
+    try {
+        const access_token = await AsyncStorage.getItem('access_token');
+        const { data } = await userApi.post('method/upload_file', formdata, {
+            headers: {
+                'Accept': 'application/json',
+                "Authorization": `Bearer ${access_token}`
+            }
+        })
+        console.log(data.message);
+        return Promise.resolve(data.message)
+    } catch (error) {
+        console.error(error)
+        return Promise.reject("something went wrong")
+
+    }
+}
+
+export const putUserFile = async (formData, fileId) => {
+    try {
+        const access_token = await AsyncStorage.getItem('access_token');
+        userApi.put(`resource/Employee Checkin/${fileId}`, formData, {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            }
+        }).then(() => {
+            return Promise.resolve()
+        }).catch(() => {
+            return Promise.reject("something went wrong")
+        })
+    } catch (error) {
+        console.error(error)
+        return Promise.reject("something went wrong")
     }
 }
