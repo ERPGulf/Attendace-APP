@@ -62,7 +62,7 @@ const WelcomeCard = () => {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []);
+  }, [checkin]);
   const checkoutTime = useSelector(selectCheckoutTime);
   const showDate = checkin
     ? format(new Date(checkinTime), "d MMM yyyy @hh:mm a")

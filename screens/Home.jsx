@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
       }}
-      className="bg-gray-50"
+      className="bg-gray-100"
     >
       <ScrollView
         style={{ width: "95%" }}

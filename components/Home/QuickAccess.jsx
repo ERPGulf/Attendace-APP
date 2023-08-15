@@ -7,7 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 const QuickAccess = () => {
   return (
     <View className="mt-4 w-full">
-      <View className="flex-row justify-between items-center">
+      <View className="flex-row justify-between items-center ">
         <Text className="text-sm font-semibold">Quick Access</Text>
         <TouchableOpacity className="flex-row space-x-2 items-center">
           <Text className="text-sm font-semibold" style={{ color: COLORS.red }}>
@@ -21,7 +21,7 @@ const QuickAccess = () => {
           borderRadius: Platform.OS === "android" ? 0 : "12px",
           width: "100%",
         }}
-        className="border-dashed border-red-900 border-2 h-40 items-center justify-center mt-2"
+        className="border-dashed bg-white border-red-900 border-2 h-40 items-center justify-center mt-2"
       >
         <TouchableOpacity className="items-center justify-center ">
           <AntDesign
