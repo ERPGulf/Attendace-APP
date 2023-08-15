@@ -1,4 +1,4 @@
-import { Platform, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import React from "react";
 
 import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";

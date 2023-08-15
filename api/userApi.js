@@ -36,7 +36,6 @@ export const getOfficeLocation = async (employeeCode) => {
             const longitude = jsonData.features[0].geometry.coordinates[0];
             return Promise.resolve({ latitude, longitude }); // Return the parsed data
         } else {
-            console.log("No data available");
             return Promise.reject("No data available"); // Return null when no data is available
         }
     } catch (error) {
@@ -79,7 +78,6 @@ export const userFileUpload = async (formdata) => {
                 "Authorization": `Bearer ${access_token}`
             }
         })
-        console.log(data.message);
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error)
@@ -105,3 +103,51 @@ export const putUserFile = async (formData, fileId) => {
         return Promise.reject("something went wrong")
     }
 }
+
+export const refreshAccessToken = async () => {
+    try {
+        const refresh_token = await AsyncStorage.getItem('refresh_token')
+        const formdata = new FormData()
+        formdata.append('grant_type', "refresh_token",)
+        formdata.append('refresh_token', refresh_token,)
+
+        const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
+        console.log(data);
+    } catch (error) {
+        console.error('Token refresh error:', error);
+        throw error;
+    }
+};
+
+userApi.interceptors.request.use(
+    async (config) => {
+        const accessToken = await AsyncStorage.getItem('access_token');
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+userApi.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (error.response.status === 403 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            try {
+                const newAccessToken = await refreshAccessToken();
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return userApi(originalRequest);
+            } catch (err) {
+                // Handle token refresh error, e.g., log user out
+                return Promise.reject(err);
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);

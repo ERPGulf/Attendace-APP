@@ -162,7 +162,6 @@ const AttendenceAction = ({ navigation }) => {
       await handleFileUpload(result.assets[0]);
     } catch (error) {
       // Handle errors from ImagePicker
-      console.log(error);
       alert("Error picking image.");
     }
   };
