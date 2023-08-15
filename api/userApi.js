@@ -113,6 +113,8 @@ export const refreshAccessToken = async () => {
 
         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
         console.log(data);
+        return Promise.resolve(data)
+
     } catch (error) {
         console.error('Token refresh error:', error);
         throw error;
@@ -139,9 +141,14 @@ userApi.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const newAccessToken = await refreshAccessToken();
-                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-                return userApi(originalRequest);
+                refreshAccessToken().then(async (data) => {
+                    await AsyncStorage.setItem('access_token', data.access_token)
+                    await AsyncStorage.setItem('refresh_token', data.refresh_token)
+                    originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+                    return userApi(originalRequest);
+                }).catch((error) => {
+                    console.error(error)
+                })
             } catch (err) {
                 // Handle token refresh error, e.g., log user out
                 return Promise.reject(err);
