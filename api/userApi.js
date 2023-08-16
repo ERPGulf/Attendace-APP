@@ -135,8 +135,9 @@ export const refreshAccessToken = async () => {
 userApi.interceptors.response.use(
     (response) => response,
     async (error) => {
+        console.log(error);
         const originalRequest = error.config;
-        if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+        if ((error.response?.status === 403 || error.response?.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
@@ -154,6 +155,7 @@ userApi.interceptors.response.use(
                 store.dispatch(setSignOut())
                 return Promise.reject(err);
             }
+
         }
 
         return Promise.reject(error);
@@ -164,13 +166,12 @@ userApi.interceptors.response.use(
 export const userStatusPut = async (employeeCode, custom_in) => {
     try {
         const access_token = await AsyncStorage.getItem('access_token');
-        userApi.put(`resource/Employee/${employeeCode}`, { custom_in }, {
+        const { data } = userApi.put(`resource/Employee/${employeeCode}`, { custom_in }, {
             headers: {
                 "Authorization": `Bearer ${access_token}`
             }
-        }).then(() => {
-            return Promise.resolve()
         })
+        return Promise.resolve(data)
     } catch (error) {
         console.error(error)
         return Promise.reject("something went wrong")
@@ -183,7 +184,7 @@ export const getUserCustomIn = async (employeeCode) => {
         const filters = [['name', '=', employeeCode]];
         const fields = ['name', 'first_name', 'custom_in'];
         const access_token = await AsyncStorage.getItem('access_token');
-        const { data } = await userApi.get(`resource/Employee`, {
+        const { data, status } = await userApi.get(`resource/Employee`, {
             headers: {
                 "Authorization": `Bearer ${access_token}`
             },
@@ -192,11 +193,10 @@ export const getUserCustomIn = async (employeeCode) => {
                 fields: JSON.stringify(fields)
             },
         })
-        const jsonData = data
-        const [{ custom_in }] = jsonData.data;
-        return Promise.resolve(custom_in)
+        console.log(data, status);
+        return Promise.resolve(data)
     } catch (error) {
-        console.error(error)
+        console.error(error, 'status')
         return Promise.reject("something went wrong")
     }
 }

@@ -32,64 +32,62 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="flex-row bg-white flex-wrap py-2 justify-between space-x-1 p-2 rounded-b-xl mb-4">
+        <View className="flex-row bg-white flex-wrap py-3 justify-around space-x-1 px-2 rounded-b-xl mb-4">
           <TouchableOpacity
-            className="m-1 w-20 h-32"
+            className=""
             onPress={() => {
               navigation.navigate("Attendence action");
             }}
           >
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
-              <MaterialCommunityIcons
-                name="calendar-multiple-check"
-                size={SIZES.xxxLarge}
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+              <Ionicons
+                name="calendar-outline"
+                size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">
+            <Text className="text-xs text-center font-normal mt-1">
               Attendence
             </Text>
-            <Text className="text-sm text-center font-semibold">action</Text>
+            <Text className="text-xs text-center font-normal">action</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="m-1 w-20 h-32"
+            className=""
             onPress={() => {
               navigation.navigate("Attendence history");
             }}
           >
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="receipt-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">
-              Attendence
-            </Text>
-            <Text className="text-sm text-center font-semibold">history</Text>
+            <Text className="text-xs text-center font-normal mt-1">Attendence</Text>
+            <Text className="text-xs text-center font-normal">history</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="m-1 w-20 h-32">
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+          <TouchableOpacity className="">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="airplane-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">Vacation</Text>
-            <Text className="text-sm text-center font-semibold">request</Text>
+            <Text className="text-xs text-center font-normal mt-1">Vacation</Text>
+            <Text className="text-xs text-center font-normal">request</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="m-1 w-20 h-32">
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+          <TouchableOpacity className="">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="list-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">Vacation</Text>
-            <Text className="text-sm text-center font-semibold">list</Text>
+            <Text className="text-xs text-center font-normal mt-1">Vacation</Text>
+            <Text className="text-xs text-center font-normal">list</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -113,39 +111,39 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="bg-white flex-row flex-wrap p-2 justify-start space-x-5 rounded-b-xl ">
-          <TouchableOpacity className="m-1 mr-0 w-20 h-32">
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+        <View className="flex-row bg-white flex-wrap py-4 justify-between space-x-1 p-2 rounded-b-xl mb-4 ">
+          <TouchableOpacity className="w-16">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Octicons
                 name="id-badge"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">My card</Text>
+            <Text className="text-xs text-center font-normal">My card</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="m-1 mr-0 w-20 h-32">
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+          <TouchableOpacity className="w-16">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <MaterialCommunityIcons
                 name="contacts-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">Contacts</Text>
+            <Text className="text-xs text-center font-normal">Contacts</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="m-1 w-20 h-32"
+            className="w-16"
             // onPress={() => navigation.navigate("")}
           >
-            <View className="bg-gray-100 h-20 justify-center items-center rounded-lg">
+            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="qr-code"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-sm text-center font-semibold">My QR</Text>
+            <Text className="text-xs text-center font-normal">My QR</Text>
           </TouchableOpacity>
         </View>
       </View>

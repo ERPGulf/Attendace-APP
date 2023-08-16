@@ -20,7 +20,6 @@ import {
   selectCheckin,
   setCheckin,
   setCheckout,
-  setOnlyCheckIn,
 } from "../redux/Slices/AttendenceSlice";
 import Toast from "react-native-toast-message";
 import {
@@ -28,7 +27,6 @@ import {
   putUserFile,
   userCheckIn,
   userFileUpload,
-  getUserCustomIn,
   userStatusPut,
 } from "../api/userApi";
 import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
@@ -45,12 +43,10 @@ const AttendenceAction = ({ navigation }) => {
   const radiusInMeters = 200;
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
         return;
       }
-
       let location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
       const userCords = {
@@ -74,29 +70,11 @@ const AttendenceAction = ({ navigation }) => {
           setIsLoading(false);
           Toast.show({
             type: "error",
-            text1: "OUT OF BOUND",
+            text1: "Location retreving failed",
             text2: "Please make sure you are at work place",
           });
         });
     })();
-  }, []);
-  useEffect(() => {
-    const getUserStatus = async () => {
-      getUserCustomIn(employeeCode)
-        .then((custom_in) => {
-          custom_in === 0
-            ? dispatch(setOnlyCheckIn(false))
-            : dispatch(setOnlyCheckIn(true));
-        })
-        .catch(() => {
-          Toast.show({
-            type: "error",
-            text1: "Status failed",
-            text2: "Getting user status failed,Please try again",
-          });
-        });
-    };
-    getUserStatus();
   }, []);
   useEffect(() => {
     // Function to update the date and time in the specified format
