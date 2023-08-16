@@ -33,6 +33,7 @@ import {
 } from "../api/userApi";
 import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
 import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
@@ -60,8 +61,8 @@ const AttendenceAction = ({ navigation }) => {
           // TODO:on production set lat and long
 
           const targetLocation = {
-            latitude, // Convert to numbers
-            longitude, // Convert to numbers
+            latitude:11.791130806353708, // Convert to numbers
+            longitude:75.59082113912703, // Convert to numbers
           };
           // 11.791130806353708, 75.59082113912703 test coordinates ,
           const distance = getPreciseDistance(userCords, targetLocation);
@@ -99,7 +100,7 @@ const AttendenceAction = ({ navigation }) => {
 
   useEffect(() => {
     const getUserStatus = async () => {
-     await getUserCustomIn(employeeCode)
+      await getUserCustomIn(employeeCode)
         .then((data) => {
           const jsonData = data;
           const [{ custom_in }] = jsonData.data;

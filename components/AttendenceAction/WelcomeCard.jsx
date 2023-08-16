@@ -75,15 +75,15 @@ const WelcomeCard = () => {
     >
       <View
         style={{ backgroundColor: COLORS.primary, width: "100%" }}
-        className="h-40 rounded-lg pt-3 px-4 w-full justify-center"
+        className="h-40 rounded-lg pt-3 px-4 w-full justify-center items-center"
       >
-        <View className="flex-row justify-between">
+        <View className="flex-row justify-between ">
           {checkin ? (
-            <View className=" -top-3 w-3/5 break-words">
+            <View className=" w-3/5 break-words h-20 items-stretch">
               <Text className="text-lg font-normal pt-1 text-white">
                 Woring from
               </Text>
-              <Text className="text-xl font-bold text-white pb-3">
+              <Text className="text-xl font-bold text-white pb-1">
                 {location}
               </Text>
               <Text className="text-base font-normal pt-1 text-white">

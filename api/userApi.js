@@ -4,55 +4,65 @@ import { store } from '../redux/Store'
 import { setSignOut } from '../redux/Slices/AuthSlice';
 
 
-let tokenRefreshRetries = 0;
-const MAX_TOKEN_REFRESH_RETRIES = 3; // Maximum number of token refresh retries
 
-userApi.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
-      originalRequest._retry = true;
+const refreshAccessToken = async () => {
+    console.log("refresh token triggered");
+    try {
+        console.log('try refresh');
+        const refresh_token = await AsyncStorage.getItem('refresh_token')
+        const formdata = new FormData()
+        formdata.append('grant_type', 'refresh_token')
+        formdata.append('refresh_token', refresh_token)
 
-      if (tokenRefreshRetries < MAX_TOKEN_REFRESH_RETRIES) {
-        try {
-          const tokenRefreshData = await refreshAccessToken();
-          await AsyncStorage.setItem('access_token', tokenRefreshData.access_token);
-          await AsyncStorage.setItem('refresh_token', tokenRefreshData.refresh_token);
-          originalRequest.headers.Authorization = `Bearer ${tokenRefreshData.access_token}`;
-          tokenRefreshRetries = 0; // Reset retry count on successful refresh
-          return userApi(originalRequest);
-        } catch (refreshError) {
-          console.error('Error refreshing token:', refreshError);
-          tokenRefreshRetries++; // Increment retry count
-          if (tokenRefreshRetries >= MAX_TOKEN_REFRESH_RETRIES) {
-            console.error('Max token refresh retries reached. Logging out.');
-            store.dispatch(setSignOut());
-          }
-        }
-      } else {
-        console.error('Max token refresh retries reached. Logging out.');
-        store.dispatch(setSignOut());
-      }
+        const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
+        await AsyncStorage.setItem('access_token', data.access_token);
+        await AsyncStorage.setItem('refresh_token', data.refresh_token);
+        console.log(data);
+        return data.access_token
+
+    } catch (error) {
+        console.error('Token refresh error:', error);
+        return Promise.reject(error)
     }
+};
 
-    return Promise.reject(error);
-  }
+// ... Rest of the code ...
+
+let refreshPromise = null;
+const clearPromise = () => refreshPromise = null;
+userApi.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response && (error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+            originalRequest._retry = true;
+            console.log("there");
+            if (!refreshPromise) {
+                refreshPromise = refreshAccessToken().finally(clearPromise)
+            }
+            const token = await refreshPromise;
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return userApi(originalRequest);
+        }
+        return Promise.reject(error);
+    }
 );
 
-
-// TODO:Research on this 
 userApi.interceptors.request.use(
     async (config) => {
+        const access_token = await AsyncStorage.getItem('access_token')
         config.baseURL = await AsyncStorage.getItem('baseUrl')
-        const accessToken = await AsyncStorage.getItem('access_token');
-        if (accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`;
-        }
+        console.log(access_token);
+        config.headers.Authorization = `Bearer ${access_token}`
         return config;
     },
     (error) => Promise.reject(error)
 );
+
 export const generateToken = async (formdata) => {
     try {
         const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token`, formdata)
@@ -68,10 +78,11 @@ export const generateToken = async (formdata) => {
 
 export const getOfficeLocation = async (employeeCode) => {
     try {
-        userApi.defaults.baseURL = await AsyncStorage.getItem('baseUrl')
+        const access_token = await AsyncStorage.getItem('access_token')
         const filters = [['name', '=', employeeCode]];
         const fields = ['name', 'first_name', 'custom_reporting_location'];
         const { data } = await userApi.get('resource/Employee', {
+
             params: {
                 filters: JSON.stringify(filters),
                 fields: JSON.stringify(fields)
@@ -93,6 +104,8 @@ export const getOfficeLocation = async (employeeCode) => {
 
 export const userCheckIn = async (fielddata) => {
     try {
+        const access_token = await AsyncStorage.getItem('access_token')
+
         const params = {
             employee_field_value: fielddata.employeeCode,
             timestamp: fielddata.timestamp,
@@ -101,6 +114,7 @@ export const userCheckIn = async (fielddata) => {
         };
 
         const { data } = await userApi.post('method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field', null, {
+
             params: params
         });
         return Promise.resolve(data.message);
@@ -113,7 +127,9 @@ export const userCheckIn = async (fielddata) => {
 
 export const userFileUpload = async (formdata) => {
     try {
-        const { data } = await userApi.post('method/upload_file', formdata)
+        const access_token = await AsyncStorage.getItem('access_token')
+
+        const { data } = await userApi.post('method/upload_file', formdata,)
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error)
@@ -124,7 +140,9 @@ export const userFileUpload = async (formdata) => {
 
 export const putUserFile = async (formData, fileId) => {
     try {
-        userApi.put(`resource/Employee Checkin/${fileId}`, formData).then(() => {
+        const access_token = await AsyncStorage.getItem('access_token')
+
+        userApi.put(`resource/Employee Checkin/${fileId}`, formData,).then(() => {
             return Promise.resolve()
         }).catch(() => {
             return Promise.reject("something went wrong")
@@ -134,33 +152,29 @@ export const putUserFile = async (formData, fileId) => {
         return Promise.reject("something went wrong")
     }
 }
-export const refreshAccessToken = async () => {
-    console.log("refresh token triggered");
-    try {
-        const refresh_token = await AsyncStorage.getItem('refresh_token')
-        const formdata = new FormData()
-        formdata.append('grant_type', "refresh_token",)
-        formdata.append('refresh_token', refresh_token,)
+// export const refreshAccessToken = async () => {
+//     console.log("refresh token triggered");
+//     try {
+//         const refresh_token = await AsyncStorage.getItem('refresh_token')
+//         const formdata = new FormData()
+//         formdata.append('grant_type', "refresh_token",)
+//         formdata.append('refresh_token', refresh_token,)
 
-        const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
-        console.log(data);
-        return Promise.resolve(data)
+//         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
+//         console.log(data);
+//         return Promise.resolve(data)
 
-    } catch (error) {
-        console.error('Token refresh error:', error);
-        return Promise.reject(error)
-    }
-};
+//     } catch (error) {
+//         console.error('Token refresh error:', error);
+//         return Promise.reject(error)
+//     }
+// };
 
 
 export const userStatusPut = async (employeeCode, custom_in) => {
     try {
         const access_token = await AsyncStorage.getItem('access_token');
-        const { data } = userApi.put(`resource/Employee/${employeeCode}`, { custom_in }, {
-            headers: {
-                "Authorization": `Bearer ${access_token}`
-            }
-        })
+        const { data } = userApi.put(`resource/Employee/${employeeCode}`, { custom_in },)
         return Promise.resolve(data)
     } catch (error) {
         console.error(error)
@@ -180,11 +194,7 @@ export const getUserCustomIn = async (employeeCode) => {
             filters: JSON.stringify(filters),
             fields: JSON.stringify(fields)
         });
-        const { data,} = await userApi.get(`resource/Employee?${queryParams}`, {
-            headers: {
-                "Authorization": `Bearer ${access_token}`
-            }
-        })
+        const { data } = await userApi.get(`resource/Employee?${queryParams}`,)
         console.log(data);
         return Promise.resolve(data)
     } catch (error) {
