@@ -20,10 +20,12 @@ import {
   selectCheckin,
   setCheckin,
   setCheckout,
+  setOnlyCheckIn,
 } from "../redux/Slices/AttendenceSlice";
 import Toast from "react-native-toast-message";
 import {
   getOfficeLocation,
+  getUserCustomIn,
   putUserFile,
   userCheckIn,
   userFileUpload,
@@ -93,6 +95,27 @@ const AttendenceAction = ({ navigation }) => {
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const getUserStatus = async () => {
+     await getUserCustomIn(employeeCode)
+        .then((data) => {
+          const jsonData = data;
+          const [{ custom_in }] = jsonData.data;
+          custom_in === 0
+            ? dispatch(setOnlyCheckIn(false))
+            : dispatch(setOnlyCheckIn(true));
+        })
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            text1: "Status failed",
+            text2: "Getting user status failed, Please try again",
+          });
+        });
+    };
+    getUserStatus();
   }, []);
   const name = useSelector(selectFileid);
   const handleFileUpload = async (result) => {
