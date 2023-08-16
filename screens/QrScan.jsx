@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { COLORS, SIZES } from "../constants";
@@ -121,7 +116,7 @@ const QrScan = ({ navigation }) => {
       <View style={{ width: "100%" }} className="relative">
         <View className="flex-row pb-4 pt-2 items-center justify-center relative">
           <TouchableOpacity
-            className="absolute left-0 pb-4 pt-2"
+            className="absolute pb-4 -left-3 pt-2"
             onPress={() => navigation.goBack()}
           >
             <Entypo
