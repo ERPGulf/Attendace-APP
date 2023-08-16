@@ -171,6 +171,7 @@ const AttendenceAction = ({ navigation }) => {
     const datafield = {
       timestamp,
       employeeCode,
+      type: "IN",
     };
     userCheckIn(datafield)
       .then(({ name }) => {
@@ -206,11 +207,26 @@ const AttendenceAction = ({ navigation }) => {
       {
         text: "OK",
         onPress: () => {
-          dispatch(setCheckout({ checkoutTime: currentDate }));
-          Toast.show({
-            type: "success",
-            text1: "✅ CHECKED OUT",
-          });
+          const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
+          const datafield = {
+            timestamp,
+            employeeCode,
+            type: "OUT",
+          };
+          userCheckIn(datafield)
+            .then(() => {
+              dispatch(setCheckout({ checkoutTime: currentDate }));
+              Toast.show({
+                type: "success",
+                text1: "✅ CHECKED OUT",
+              });
+            })
+            .catch(() => {
+              Toast.show({
+                type: "error",
+                text1: "CHECKED OUT FAILED",
+              });
+            });
         },
       },
     ]);
@@ -246,10 +262,7 @@ const AttendenceAction = ({ navigation }) => {
               <Text className="text-sm font-medium text-gray-500">
                 {dateTime}
               </Text>
-              <MaterialCommunityIcons
-                name="calendar-month"
-                size={28}
-              />
+              <MaterialCommunityIcons name="calendar-month" size={28} color={COLORS.gray} />
             </View>
             <Text className="text-base text-gray-500 font-semibold">
               LOCATION*
@@ -266,10 +279,7 @@ const AttendenceAction = ({ navigation }) => {
                   "Out of bound"
                 )}
               </Text>
-              <MaterialCommunityIcons
-                name="map-marker"
-                size={28}
-              />
+              <MaterialCommunityIcons name="map-marker" size={28} color={COLORS.gray} />
             </View>
             {checkin ? (
               <React.Fragment>

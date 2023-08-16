@@ -52,7 +52,7 @@ export const userCheckIn = async (fielddata) => {
             employee_field_value: fielddata.employeeCode,
             timestamp: fielddata.timestamp,
             device_id: 'MobileAPP',
-            log_type: 'IN'
+            log_type: fielddata.type
         };
 
         const { data } = await userApi.post('method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field', null, {
