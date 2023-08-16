@@ -4,7 +4,7 @@ const initialState = {
     checkin: false,
     checkinTime: null,
     checkoutTime: null,
-    location:null
+    location: null
 }
 
 
@@ -20,11 +20,15 @@ export const AttendenceSlice = createSlice({
         setCheckout: (state, action) => {
             state.checkin = false
             state.checkoutTime = action.payload.checkoutTime
-        }
+        },
+        setOnlyCheckIn: (state, action) => {
+            state.checkin = action.payload
+
+        },
     }
 })
 
-export const { setCheckin, setCheckout } = AttendenceSlice.actions
+export const { setCheckin, setCheckout, setOnlyCheckIn } = AttendenceSlice.actions
 
 // selector
 export const selectCheckin = (state) => state.attendence.checkin;

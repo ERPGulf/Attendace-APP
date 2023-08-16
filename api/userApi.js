@@ -159,3 +159,44 @@ userApi.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+
+export const userStatusPut = async (employeeCode, custom_in) => {
+    try {
+        const access_token = await AsyncStorage.getItem('access_token');
+        userApi.put(`resource/Employee/${employeeCode}`, { custom_in }, {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            }
+        }).then(() => {
+            return Promise.resolve()
+        })
+    } catch (error) {
+        console.error(error)
+        return Promise.reject("something went wrong")
+    }
+}
+
+
+export const getUserCustomIn = async (employeeCode) => {
+    try {
+        const filters = [['name', '=', employeeCode]];
+        const fields = ['name', 'first_name', 'custom_in'];
+        const access_token = await AsyncStorage.getItem('access_token');
+        const { data } = await userApi.get(`resource/Employee`, {
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            },
+            params: {
+                filters: JSON.stringify(filters),
+                fields: JSON.stringify(fields)
+            },
+        })
+        const jsonData = data
+        const [{ custom_in }] = jsonData.data;
+        return Promise.resolve(custom_in)
+    } catch (error) {
+        console.error(error)
+        return Promise.reject("something went wrong")
+    }
+}

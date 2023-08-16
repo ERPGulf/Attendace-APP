@@ -20,6 +20,7 @@ import {
   selectCheckin,
   setCheckin,
   setCheckout,
+  setOnlyCheckIn,
 } from "../redux/Slices/AttendenceSlice";
 import Toast from "react-native-toast-message";
 import {
@@ -27,6 +28,8 @@ import {
   putUserFile,
   userCheckIn,
   userFileUpload,
+  getUserCustomIn,
+  userStatusPut,
 } from "../api/userApi";
 import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
 import * as ImagePicker from "expo-image-picker";
@@ -38,7 +41,8 @@ const AttendenceAction = ({ navigation }) => {
   const [inTarget, setInTarget] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
-  const radiusInMeters = 300;
+  // circle radius for loaction bound
+  const radiusInMeters = 200;
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -58,8 +62,8 @@ const AttendenceAction = ({ navigation }) => {
           // TODO:on production set lat and long
 
           const targetLocation = {
-            latitude: 11.791261756732942, // Convert to numbers
-            longitude: 75.5905692699706, // Convert to numbers
+            latitude, // Convert to numbers
+            longitude, // Convert to numbers
           };
           // 11.791130806353708, 75.59082113912703 test coordinates ,
           const distance = getPreciseDistance(userCords, targetLocation);
@@ -75,6 +79,24 @@ const AttendenceAction = ({ navigation }) => {
           });
         });
     })();
+  }, []);
+  useEffect(() => {
+    const getUserStatus = async () => {
+      getUserCustomIn(employeeCode)
+        .then((custom_in) => {
+          custom_in === 0
+            ? dispatch(setOnlyCheckIn(false))
+            : dispatch(setOnlyCheckIn(true));
+        })
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            text1: "Status failed",
+            text2: "Getting user status failed,Please try again",
+          });
+        });
+    };
+    getUserStatus();
   }, []);
   useEffect(() => {
     // Function to update the date and time in the specified format
@@ -176,13 +198,22 @@ const AttendenceAction = ({ navigation }) => {
     userCheckIn(datafield)
       .then(({ name }) => {
         dispatch(setFileid(name));
-        dispatch(
-          setCheckin({ checkinTime: currentDate, location: "Head Office" })
-        );
-        Toast.show({
-          type: "success",
-          text1: "✅ CHECKED IN",
-        });
+        userStatusPut(employeeCode, 1)
+          .then(() => {
+            dispatch(
+              setCheckin({ checkinTime: currentDate, location: "Head Office" })
+            );
+            Toast.show({
+              type: "success",
+              text1: "✅ CHECKED IN",
+            });
+          })
+          .catch(() => {
+            Toast.show({
+              type: "error",
+              text1: "Status update failed ",
+            });
+          });
       })
       .catch((msg) => {
         Toast.show({
@@ -215,11 +246,20 @@ const AttendenceAction = ({ navigation }) => {
           };
           userCheckIn(datafield)
             .then(() => {
-              dispatch(setCheckout({ checkoutTime: currentDate }));
-              Toast.show({
-                type: "success",
-                text1: "✅ CHECKED OUT",
-              });
+              userStatusPut(employeeCode, 0)
+                .then(() => {
+                  dispatch(setCheckout({ checkoutTime: currentDate }));
+                  Toast.show({
+                    type: "success",
+                    text1: "✅ CHECKED OUT",
+                  });
+                })
+                .catch(() => {
+                  Toast.show({
+                    type: "error",
+                    text1: "CHECKED OUT FAILED",
+                  });
+                });
             })
             .catch(() => {
               Toast.show({
@@ -262,7 +302,11 @@ const AttendenceAction = ({ navigation }) => {
               <Text className="text-sm font-medium text-gray-500">
                 {dateTime}
               </Text>
-              <MaterialCommunityIcons name="calendar-month" size={28} color={COLORS.gray} />
+              <MaterialCommunityIcons
+                name="calendar-month"
+                size={28}
+                color={COLORS.gray}
+              />
             </View>
             <Text className="text-base text-gray-500 font-semibold">
               LOCATION*
@@ -279,7 +323,11 @@ const AttendenceAction = ({ navigation }) => {
                   "Out of bound"
                 )}
               </Text>
-              <MaterialCommunityIcons name="map-marker" size={28} color={COLORS.gray} />
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={28}
+                color={COLORS.gray}
+              />
             </View>
             {checkin ? (
               <React.Fragment>

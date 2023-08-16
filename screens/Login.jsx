@@ -16,28 +16,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setSignIn } from "../redux/Slices/AuthSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
+import { KeyboardAvoidingView } from "react-native";
 import * as Yup from "yup";
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-  // const handleLogin = () => {
-  //   generateToken({ username, password, baseUrl })
-  //     .then(async (data) => {
-  //       await AsyncStorage.setItem("access_token", data.access_token);
-  //       await AsyncStorage.setItem("refresh_token", data.refresh_token);
-  //       Toast.show({
-  //         type: "success",
-  //         text1: "✅ Login successfull",
-  //       });
-  //       dispatch(setSignIn({ isLoggedIn: true, token: data.access_token }));
-  //     })
-  //     .catch((msg) => {
-  //       Toast.show({
-  //         type: "error",
-  //         text1: `❌  ${msg}`,
-  //       });
-  //     });
-  // };
   const loginSchema = Yup.object().shape({
     password: Yup.string()
       .min(5, "Too short!")
@@ -51,7 +34,7 @@ const Login = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
       }}
-      className="bg-gray-100 px-3 relative justify-between"
+      className="bg-gray-100 px-3 justify-between relative"
     >
       <WelcomeCard />
       <Formik

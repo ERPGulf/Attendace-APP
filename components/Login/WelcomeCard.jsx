@@ -15,11 +15,12 @@ const WelcomeCard = () => {
       <View>
         <Text className="text-xl font-semibold text-white">Hey,</Text>
         <View className="flex-row items-center space-x-2 mt-2">
-          <Text
+        <Text
             numberOfLines={1}
-            className="text-4xl font-semibold text-white max-w-xs"
+            style={{ maxWidth: 260 }}
+            className="text-3xl font-semibold text-white"
           >
-            {!fullname ? `Username` : fullname}
+            {!fullname ? `username` : fullname}
           </Text>
           <View className="bg-orange-400 w-10 h-10 items-center justify-center rounded-full">
             <Text className="text-3xl font-bold text-white">👋</Text>
