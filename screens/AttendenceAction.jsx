@@ -239,23 +239,23 @@ const AttendenceAction = ({ navigation }) => {
         <WelcomeCard />
         <View className="h-72 mt-4">
           <View className="p-4">
-            <Text className="text-lg text-gray-500 font-semibold">
+            <Text className="text-base text-gray-500 font-semibold">
               DATE AND TIME*
             </Text>
             <View className="flex-row items-end border-b border-gray-400 pb-2 mb-6 justify-between">
-              <Text className="text-base font-medium text-gray-500">
+              <Text className="text-sm font-medium text-gray-500">
                 {dateTime}
               </Text>
               <MaterialCommunityIcons
                 name="calendar-month"
-                size={SIZES.xxxLarge}
+                size={28}
               />
             </View>
-            <Text className="text-lg text-gray-500 font-semibold">
+            <Text className="text-base text-gray-500 font-semibold">
               LOCATION*
             </Text>
             <View className="flex-row items-end border-b border-gray-400 pb-2 mb-4 justify-between">
-              <Text className="text-base font-medium text-gray-500">
+              <Text className="text-sm font-medium text-gray-500">
                 {isLoading ? (
                   <View className="">
                     <ActivityIndicator size={"small"} />
@@ -268,7 +268,7 @@ const AttendenceAction = ({ navigation }) => {
               </Text>
               <MaterialCommunityIcons
                 name="map-marker"
-                size={SIZES.xxxLarge - SIZES.xSmall}
+                size={28}
               />
             </View>
             {checkin ? (

@@ -103,14 +103,13 @@ export const putUserFile = async (formData, fileId) => {
         return Promise.reject("something went wrong")
     }
 }
-// TODO:testing how is error handled
 export const refreshAccessToken = async () => {
     console.log("refresh token triggered");
     try {
         const refresh_token = await AsyncStorage.getItem('refresh_token')
         const formdata = new FormData()
         formdata.append('grant_type', "refresh_token",)
-        formdata.append('refresh_token', "refresh_token",)
+        formdata.append('refresh_token', refresh_token,)
 
         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
         console.log(data);

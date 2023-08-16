@@ -40,7 +40,7 @@ const WelcomeCard = () => {
         <View className="flex-row items-center space-x-2 -mt-1">
           <Text
             numberOfLines={1}
-            style={{ maxWidth: 250 }}
+            style={{ maxWidth: 260 }}
             className="text-3xl font-semibold text-white"
           >
             {!fullname ? `username` : fullname}
