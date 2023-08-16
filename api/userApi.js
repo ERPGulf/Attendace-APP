@@ -146,6 +146,7 @@ userApi.interceptors.response.use(
                     originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
                     return userApi(originalRequest);
                 }).catch((error) => {
+                    console.error(error)
                     store.dispatch(setSignOut())
                 })
             } catch (err) {
