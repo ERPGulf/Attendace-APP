@@ -4,34 +4,42 @@ import { store } from '../redux/Store'
 import { setSignOut } from '../redux/Slices/AuthSlice';
 
 
+let tokenRefreshRetries = 0;
+const MAX_TOKEN_REFRESH_RETRIES = 3; // Maximum number of token refresh retries
 
-// userApi.interceptors.response.use(
-//     (response) => response,
-//     async (error) => {
-//         const originalRequest = error.config;
-//         if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
-//             originalRequest._retry = true;
+userApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-//             try {
-//                 refreshAccessToken().then(async (data) => {
-//                     await AsyncStorage.setItem('access_token', data.access_token)
-//                     await AsyncStorage.setItem('refresh_token', data.refresh_token)
-//                     originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-//                     return userApi(originalRequest);
-//                 }).catch((error) => {
-//                     console.error(error)
-//                     store.dispatch(setSignOut())
-//                 })
-//             } catch (err) {
-//                 // Handle token refresh error, e.g., log user out
-//                 store.dispatch(setSignOut())
-//             }
+      if (tokenRefreshRetries < MAX_TOKEN_REFRESH_RETRIES) {
+        try {
+          const tokenRefreshData = await refreshAccessToken();
+          await AsyncStorage.setItem('access_token', tokenRefreshData.access_token);
+          await AsyncStorage.setItem('refresh_token', tokenRefreshData.refresh_token);
+          originalRequest.headers.Authorization = `Bearer ${tokenRefreshData.access_token}`;
+          tokenRefreshRetries = 0; // Reset retry count on successful refresh
+          return userApi(originalRequest);
+        } catch (refreshError) {
+          console.error('Error refreshing token:', refreshError);
+          tokenRefreshRetries++; // Increment retry count
+          if (tokenRefreshRetries >= MAX_TOKEN_REFRESH_RETRIES) {
+            console.error('Max token refresh retries reached. Logging out.');
+            store.dispatch(setSignOut());
+          }
+        }
+      } else {
+        console.error('Max token refresh retries reached. Logging out.');
+        store.dispatch(setSignOut());
+      }
+    }
 
-//         }
+    return Promise.reject(error);
+  }
+);
 
-//         return Promise.reject(error);
-//     }
-// );
 
 // TODO:Research on this 
 userApi.interceptors.request.use(
@@ -172,12 +180,12 @@ export const getUserCustomIn = async (employeeCode) => {
             filters: JSON.stringify(filters),
             fields: JSON.stringify(fields)
         });
-        const { data, status, config } = await userApi.get(`resource/Employee?${queryParams}`, {
+        const { data,} = await userApi.get(`resource/Employee?${queryParams}`, {
             headers: {
                 "Authorization": `Bearer ${access_token}`
             }
         })
-        console.log(data, status, baseURL, config);
+        console.log(data);
         return Promise.resolve(data)
     } catch (error) {
         console.error(error, 'status')
