@@ -18,9 +18,9 @@ const LavaMenu = ({ navigation }) => {
           className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
           style={{ width: "100%", backgroundColor: COLORS.primary }}
         >
-          <TouchableOpacity>
+          <View>
             <Octicons name="people" size={SIZES.xxLarge + 4} color="white" />
-          </TouchableOpacity>
+          </View>
           <Text className="text-lg font-medium text-white text-center ">
             Human Resources
           </Text>
@@ -46,10 +46,12 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal mt-1">
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
               Attendence
             </Text>
-            <Text className="text-xs text-center font-normal">action</Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              action
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className=""
@@ -64,8 +66,12 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal mt-1">Attendence</Text>
-            <Text className="text-xs text-center font-normal">history</Text>
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+              Attendence
+            </Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              history
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -75,8 +81,12 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal mt-1">Vacation</Text>
-            <Text className="text-xs text-center font-normal">request</Text>
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+              Vacation
+            </Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              request
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -86,8 +96,12 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal mt-1">Vacation</Text>
-            <Text className="text-xs text-center font-normal">list</Text>
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+              Vacation
+            </Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              list
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -97,9 +111,9 @@ const LavaMenu = ({ navigation }) => {
           className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
           style={{ width: "100%", backgroundColor: COLORS.primary }}
         >
-          <TouchableOpacity>
+          <View>
             <Octicons name="id-badge" size={SIZES.xxLarge + 4} color="white" />
-          </TouchableOpacity>
+          </View>
           <Text className="text-lg font-medium text-white text-center ">
             Business card
           </Text>
@@ -111,7 +125,7 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="flex-row bg-white flex-wrap py-4 justify-between space-x-1 p-2 rounded-b-xl mb-4 ">
+        <View className="flex-row bg-white flex-wrap py-4 justify-around px-2 rounded-b-xl ">
           <TouchableOpacity className="w-16">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Octicons
@@ -120,7 +134,9 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal">My card</Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              My card
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="w-16">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -130,12 +146,11 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal">Contacts</Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              Contacts
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            className="w-16"
-            // onPress={() => navigation.navigate("")}
-          >
+          <TouchableOpacity className="w-16">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="qr-code"
@@ -143,7 +158,9 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-normal">My QR</Text>
+            <Text className="text-xs text-center font-medium text-gray-500">
+              My QR
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

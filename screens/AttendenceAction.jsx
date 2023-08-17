@@ -61,8 +61,8 @@ const AttendenceAction = ({ navigation }) => {
           // TODO:on production set lat and long
 
           const targetLocation = {
-            latitude:11.791130806353708, // Convert to numbers
-            longitude:75.59082113912703, // Convert to numbers
+            latitude, // Convert to numbers
+            longitude, // Convert to numbers
           };
           // 11.791130806353708, 75.59082113912703 test coordinates ,
           const distance = getPreciseDistance(userCords, targetLocation);

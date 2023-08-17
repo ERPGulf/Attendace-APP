@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userApi from './apiManger';
-import { store } from '../redux/Store'
-import { setSignOut } from '../redux/Slices/AuthSlice';
+// import { store } from '../redux/Store'
+// import { setSignOut } from '../redux/Slices/AuthSlice';
 
 
 
@@ -38,7 +38,7 @@ userApi.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response && (error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+        if (error.response && (error.response.status === 403 || error.response.status === 401 || error.response.status === 400) && !originalRequest._retry) {
             originalRequest._retry = true;
             console.log("there");
             if (!refreshPromise) {
@@ -103,9 +103,8 @@ export const getOfficeLocation = async (employeeCode) => {
 
 
 export const userCheckIn = async (fielddata) => {
+    console.log(fielddata);
     try {
-        const access_token = await AsyncStorage.getItem('access_token')
-
         const params = {
             employee_field_value: fielddata.employeeCode,
             timestamp: fielddata.timestamp,
@@ -114,8 +113,7 @@ export const userCheckIn = async (fielddata) => {
         };
 
         const { data } = await userApi.post('method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field', null, {
-
-            params: params
+            params
         });
         return Promise.resolve(data.message);
     } catch (error) {
@@ -127,8 +125,6 @@ export const userCheckIn = async (fielddata) => {
 
 export const userFileUpload = async (formdata) => {
     try {
-        const access_token = await AsyncStorage.getItem('access_token')
-
         const { data } = await userApi.post('method/upload_file', formdata,)
         return Promise.resolve(data.message)
     } catch (error) {
@@ -140,8 +136,6 @@ export const userFileUpload = async (formdata) => {
 
 export const putUserFile = async (formData, fileId) => {
     try {
-        const access_token = await AsyncStorage.getItem('access_token')
-
         userApi.put(`resource/Employee Checkin/${fileId}`, formData,).then(() => {
             return Promise.resolve()
         }).catch(() => {
@@ -152,28 +146,9 @@ export const putUserFile = async (formData, fileId) => {
         return Promise.reject("something went wrong")
     }
 }
-// export const refreshAccessToken = async () => {
-//     console.log("refresh token triggered");
-//     try {
-//         const refresh_token = await AsyncStorage.getItem('refresh_token')
-//         const formdata = new FormData()
-//         formdata.append('grant_type', "refresh_token",)
-//         formdata.append('refresh_token', refresh_token,)
-
-//         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata)
-//         console.log(data);
-//         return Promise.resolve(data)
-
-//     } catch (error) {
-//         console.error('Token refresh error:', error);
-//         return Promise.reject(error)
-//     }
-// };
-
 
 export const userStatusPut = async (employeeCode, custom_in) => {
     try {
-        const access_token = await AsyncStorage.getItem('access_token');
         const { data } = userApi.put(`resource/Employee/${employeeCode}`, { custom_in },)
         return Promise.resolve(data)
     } catch (error) {
@@ -203,37 +178,3 @@ export const getUserCustomIn = async (employeeCode) => {
     }
 }
 
-
-
-// export const getUserCustomIn = async (employeeCode) => {
-//     try {
-//         const access_token = await AsyncStorage.getItem('access_token');
-//         const filters = [['name', '=', employeeCode]];
-//         const fields = ['name', 'first_name', 'custom_in'];
-
-//         const queryParams = new URLSearchParams({
-//             filters: JSON.stringify(filters),
-//             fields: JSON.stringify(fields)
-//         });
-
-//         const url = `https://dev.claudion.com/api/resource/Employee?${queryParams.toString()}`;
-
-//         const response = await fetch(url, {
-//             method: 'GET',
-//             headers: {
-//                 'Authorization': `Bearer ${access_token}`
-//             }
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`API request failed with status: ${response.status}`);
-//         }
-
-//         const data = await response.json();
-//         console.log(data, response.status);
-//         return Promise.resolve(data);
-//     } catch (error) {
-//         console.error(error, 'status');
-//         return Promise.reject("something went wrong");
-//     }
-// };

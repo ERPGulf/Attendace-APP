@@ -11,9 +11,9 @@ const WelcomeCard = () => {
   return (
     <View
       style={{ backgroundColor: COLORS.primary, width: "100%" }}
-      className="h-48 rounded-2xl pt-3 px-4"
+      className="h-48 rounded-2xl p-3 justify-between"
     >
-      <View className="flex-row justify-between items-center mb-14">
+      <View className="flex-row justify-between items-center">
         <TouchableOpacity className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full">
           <MaterialCommunityIcons
             name="bell"
@@ -36,7 +36,7 @@ const WelcomeCard = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text className="text-lg font-semibold text-white">Welcome,</Text>
+        <Text className="text-base font-medium text-white">Welcome,</Text>
         <View className="flex-row items-center space-x-2 -mt-1">
           <Text
             numberOfLines={1}
