@@ -6,9 +6,7 @@ import userApi from './apiManger';
 
 
 const refreshAccessToken = async () => {
-    console.log("refresh token triggered");
     try {
-        console.log('try refresh');
         const refresh_token = await AsyncStorage.getItem('refresh_token')
         const formdata = new FormData()
         formdata.append('grant_type', 'refresh_token')
@@ -21,7 +19,6 @@ const refreshAccessToken = async () => {
         })
         await AsyncStorage.setItem('access_token', data.access_token);
         await AsyncStorage.setItem('refresh_token', data.refresh_token);
-        console.log(data);
         return data.access_token
 
     } catch (error) {
@@ -40,7 +37,6 @@ userApi.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response && (error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
-            console.log("there");
             if (!refreshPromise) {
                 refreshPromise = refreshAccessToken().finally(clearPromise)
             }
@@ -56,7 +52,6 @@ userApi.interceptors.request.use(
     async (config) => {
         const access_token = await AsyncStorage.getItem('access_token')
         config.baseURL = await AsyncStorage.getItem('baseUrl')
-        console.log(access_token);
         config.headers.Authorization = `Bearer ${access_token}`
         return config;
     },
@@ -103,7 +98,6 @@ export const getOfficeLocation = async (employeeCode) => {
 
 
 export const userCheckIn = async (fielddata) => {
-    console.log(fielddata);
     try {
         const params = {
             employee_field_value: fielddata.employeeCode,
@@ -170,7 +164,6 @@ export const getUserCustomIn = async (employeeCode) => {
             fields: JSON.stringify(fields)
         });
         const { data } = await userApi.get(`resource/Employee?${queryParams}`,)
-        console.log(data);
         return Promise.resolve(data)
     } catch (error) {
         console.error(error, 'status')
