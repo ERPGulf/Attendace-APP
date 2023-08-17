@@ -12,7 +12,7 @@ export default function App() {
     <Suspense fallback={<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} ><ActivityIndicator size={"large"} /></View>
     }>
       <Provider store={store}>
-        <PersistGate persistor={persistor} loading={<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} ><ActivityIndicator size={"large"} /></View>}>
+        <PersistGate persistor={persistor} loading={null}>
           <Navigator />
           <StatusBar style='auto' />
           <Toast />
