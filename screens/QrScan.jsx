@@ -132,7 +132,7 @@ const QrScan = ({ navigation }) => {
       </View>
       <View
         style={{ width: "100%" }}
-        className="justify-center items-center bg-black h-auto overflow-hidden rounded-xl top-1/4 absolute"
+        className="justify-center items-center bg-white h-auto overflow-hidden rounded-xl top-1/4 absolute"
       >
         <BarCodeScanner
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
