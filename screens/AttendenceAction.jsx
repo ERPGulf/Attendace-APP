@@ -25,7 +25,6 @@ import {
 import Toast from "react-native-toast-message";
 import {
   getOfficeLocation,
-  getUserCustomIn,
   putUserFile,
   userCheckIn,
   userFileUpload,
@@ -33,10 +32,11 @@ import {
 } from "../api/userApi";
 import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
 import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserStatus } from "../hooks/fetch.user.status";
 const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
+
   const [isLoading, setIsLoading] = useState(true);
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(false);
@@ -98,26 +98,20 @@ const AttendenceAction = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const { apiData, loading, error,retry } = useUserStatus(employeeCode);
   useEffect(() => {
-    const getUserStatus = async () => {
-      await getUserCustomIn(employeeCode)
-        .then((data) => {
-          const jsonData = data;
-          const [{ custom_in }] = jsonData.data;
-          custom_in === 0
-            ? dispatch(setOnlyCheckIn(false))
-            : dispatch(setOnlyCheckIn(true));
-        })
-        .catch(() => {
-          Toast.show({
-            type: "error",
-            text1: "Status failed",
-            text2: "Getting user status failed, Please try again",
-          });
-        });
-    };
-    getUserStatus();
-  }, []);
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: "Status failed",
+        text2: "Getting status failed, Please retry",
+      });
+    } else if (apiData === 0) {
+      dispatch(setOnlyCheckIn(false));
+    } else {
+      dispatch(setOnlyCheckIn(true));
+    }
+  }, [apiData, error, loading]);
   const name = useSelector(selectFileid);
   const handleFileUpload = async (result) => {
     const fileType = result.type;
@@ -125,7 +119,6 @@ const AttendenceAction = ({ navigation }) => {
     const filename = localUri.split("/").pop();
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `${fileType}/${match[1]}` : fileType;
-
     const formData = new FormData();
     formData.append(
       "fieldname",
@@ -273,8 +266,53 @@ const AttendenceAction = ({ navigation }) => {
       },
     ]);
   };
+
   return (
     <SafeAreaView className="flex-1 items-center bg-white">
+      {error && (
+        <View
+          style={{}}
+          className="h-screen absolute bottom-0 w-screen items-center  bg-black/70  justify-center z-50"
+        >
+          <Text className="text-lg mb-1 font-normal text-white">
+            Status Retrieval Issue
+          </Text>
+          <View className="w-3/4">
+            <Text className="text-xs  text-center mb-10 font-normal text-gray-200">
+              We apologize, but we're currently experiencing difficulties
+              fetching your status. Please retry or try again later.
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{ backgroundColor: COLORS.primary }}
+            className="h-12 m-2 flex-row w-3/6 rounded-xl justify-center  space-x-2 items-center"
+            onPress={retry}
+          >
+            <Text className="text-base text-white font-bold">Retry</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ borderColor: COLORS.primary }}
+            className="h-12 flex-row w-3/6 rounded-xl justify-center border-2 bg-white space-x-2 items-center"
+            onPress={() => navigation.goBack()}
+          >
+            <Text
+              style={{ color: COLORS.primary }}
+              className="text-base font-bold"
+            >
+              Go back
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {loading && (
+        <View
+          style={{}}
+          className="h-screen absolute bottom-0 w-screen items-center  bg-gray-700 opacity-50 justify-center z-50"
+        >
+          <ActivityIndicator size={"large"} color={"white"} />
+        </View>
+      )}
       {/* chevron  */}
       <View style={{ width: "100%" }}>
         <View className="flex-row pb-4 pt-2 items-center justify-center relative">
