@@ -4,13 +4,15 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  ScrollView,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { WelcomeCard } from "../components/AttendenceAction";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 import * as Location from "expo-location";
 import { format } from "date-fns";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -36,7 +38,7 @@ import { useUserStatus } from "../hooks/fetch.user.status";
 const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
-
+  const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(false);
@@ -68,9 +70,11 @@ const AttendenceAction = ({ navigation }) => {
           const distance = getPreciseDistance(userCords, targetLocation);
           setInTarget(distance <= radiusInMeters);
           setIsLoading(false);
+          setRefresh(false);
         })
         .catch(() => {
           setIsLoading(false);
+          setRefresh(false);
           Toast.show({
             type: "error",
             text1: "Location retreving failed",
@@ -78,7 +82,7 @@ const AttendenceAction = ({ navigation }) => {
           });
         });
     })();
-  }, []);
+  }, [refresh]);
   useEffect(() => {
     // Function to update the date and time in the specified format
     const updateDateTime = () => {
@@ -98,7 +102,7 @@ const AttendenceAction = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const { apiData, loading, error,retry } = useUserStatus(employeeCode);
+  const { apiData, loading, error, retry } = useUserStatus(employeeCode);
   useEffect(() => {
     if (error) {
       Toast.show({
@@ -268,7 +272,23 @@ const AttendenceAction = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 items-center bg-white">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        flex: 1,
+        alignItems: "center",
+        paddingTop: Constants.statusBarHeight,
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refresh}
+          onRefresh={() => {
+            setIsLoading(true);
+            setRefresh(true);
+          }}
+        />
+      }
+    >
       {error && (
         <View
           style={{}}
@@ -314,7 +334,11 @@ const AttendenceAction = ({ navigation }) => {
         </View>
       )}
       {/* chevron  */}
-      <View style={{ width: "100%" }}>
+      <View
+        style={{
+          width: "100%",
+        }}
+      >
         <View className="flex-row pb-4 pt-2 items-center justify-center relative">
           <TouchableOpacity
             className="absolute left-0  pb-4 pt-2 "
@@ -364,7 +388,7 @@ const AttendenceAction = ({ navigation }) => {
                 )}
               </Text>
               <MaterialCommunityIcons
-                name="map-marker"
+                name="map-marker-radius-outline"
                 size={28}
                 color={COLORS.gray}
               />
@@ -411,9 +435,16 @@ const AttendenceAction = ({ navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+          {!inTarget && (
+            <View className="items-center">
+              <Text className="text-sm text-red-400">
+                Swipe Down to Refresh
+              </Text>
+            </View>
+          )}
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

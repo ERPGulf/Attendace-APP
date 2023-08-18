@@ -155,8 +155,6 @@ export const userStatusPut = async (employeeCode, custom_in) => {
 
 export const getUserCustomIn = async (employeeCode) => {
     try {
-        const access_token = await AsyncStorage.getItem('access_token');
-        const baseURL = await AsyncStorage.getItem('baseUrl')
         const filters = [['name', '=', employeeCode]];
         const fields = ['name', 'first_name', 'custom_in'];
 

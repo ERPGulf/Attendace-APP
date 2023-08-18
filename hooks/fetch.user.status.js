@@ -10,12 +10,12 @@ export const useUserStatus = (employeeCode) => {
             getUserCustomIn(employeeCode).then((jsonData) => {
                 const [{ custom_in }] = jsonData.data;
                 setData(prev => ({ ...prev, apiData: custom_in, loading: false }));
-            }).catch(() => {
-                setData(prev => ({ ...prev, error: true, loading: false }));
+            }).catch((error) => {
+                setData(prev => ({ ...prev, error: error, loading: false }));
             });
 
         } catch (error) {
-            setData(prev => ({ ...prev, error: true, loading: false }));
+            setData(prev => ({ ...prev, error: error, loading: false }));
         }
     };
 
