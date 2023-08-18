@@ -20,8 +20,9 @@ const QuickAccess = () => {
         <View
           style={{
             borderRadius: Platform.OS === "android" ? 0 : "12px",
+            backgroundColor:'white'
           }}
-          className="border-dashed bg-white border-red-900 border-2 h-40 items-center justify-center mt-2"
+          className="border-dashed border-red-900 border-2 h-40 items-center justify-center mt-2"
         >
           <TouchableOpacity className="items-center justify-center ">
             <AntDesign

@@ -17,21 +17,7 @@ const WelcomeCard = () => {
   const checkin = useSelector(selectCheckin);
   const checkinTime = useSelector(selectCheckinTime);
   const [minutes, setMinutes] = useState(null);
-  // // Calculate the difference in minutes
-  // const minutesDifference = differenceInMinutes(
-  //   currentDate,
-  //   new Date(checkinTime)
-  // );
 
-  // // Calculate the hours and remaining minutes
-  // const hours = Math.floor(minutesDifference / 60);
-  // const remainingMinutes = minutesDifference % 60;
-
-  // // Format the hours and minutes as "00:00" format
-  // const formattedTime = `${String(hours).padStart(2, "0")}:${String(
-  //   remainingMinutes
-  // ).padStart(2, "0")}`;
-  // Calculate the difference in minutes
   function getMinutes() {
     const minutesDifference = differenceInMinutes(
       new Date(),
@@ -71,7 +57,7 @@ const WelcomeCard = () => {
   return (
     <View
       style={{ width: "100%" }}
-      className="px-4 py-4 bg-gray-100 rounded-xl"
+      className="px-4 py-4 bg-slate-200 rounded-xl"
     >
       <View
         style={{ backgroundColor: COLORS.primary, width: "100%" }}

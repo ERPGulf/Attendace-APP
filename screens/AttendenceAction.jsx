@@ -61,7 +61,6 @@ const AttendenceAction = ({ navigation }) => {
       getOfficeLocation(employeeCode)
         .then(({ latitude, longitude }) => {
           // TODO:on production set lat and long
-
           const targetLocation = {
             latitude, // Convert to numbers
             longitude, // Convert to numbers
@@ -278,6 +277,7 @@ const AttendenceAction = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
         paddingTop: Constants.statusBarHeight,
+        backgroundColor: "white",
       }}
       refreshControl={
         <RefreshControl
@@ -328,7 +328,7 @@ const AttendenceAction = ({ navigation }) => {
       {loading && (
         <View
           style={{}}
-          className="h-screen absolute bottom-0 w-screen items-center  bg-gray-700 opacity-50 justify-center z-50"
+          className="h-screen absolute bottom-0 w-screen items-center  justify-center z-50"
         >
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
@@ -358,7 +358,7 @@ const AttendenceAction = ({ navigation }) => {
       <View style={{ width: "100%" }} className="px-3">
         <WelcomeCard />
         <View className="h-72 mt-4">
-          <View className="p-4">
+          <View className="">
             <Text className="text-base text-gray-500 font-semibold">
               DATE AND TIME*
             </Text>
@@ -436,8 +436,8 @@ const AttendenceAction = ({ navigation }) => {
             )}
           </View>
           {!inTarget && (
-            <View className="items-center">
-              <Text className="text-sm text-red-400">
+            <View className="items-center mt-5">
+              <Text className="text-xs text-red-400">
                 Swipe Down to Refresh
               </Text>
             </View>

@@ -26,6 +26,5 @@ export const useUserStatus = (employeeCode) => {
     useEffect(() => {
         fetchStatus();
     }, [employeeCode]);
-    console.log(data);
     return { ...data, retry };
 }

@@ -64,7 +64,6 @@ export const generateToken = async (formdata) => {
         if (data.message.message === "Invalid login credentials") {
             return Promise.reject("invalid password")
         }
-        console.log(data);
         if (status === 200) return Promise.resolve(data.message)
 
     } catch (error) {
