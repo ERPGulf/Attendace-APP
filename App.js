@@ -29,6 +29,7 @@ export default function App() {
         SplashScreen.hideAsync()
       }
     }
+    loadResourcesAndDataAsync()
   }, [])
   return (
     <Provider store={store}>

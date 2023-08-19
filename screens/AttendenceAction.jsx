@@ -435,15 +435,15 @@ const AttendenceAction = ({ navigation }) => {
               </TouchableOpacity>
             )}
           </View>
+        </View>
+      </View>
           {!inTarget && (
-            <View className="items-center mt-5">
-              <Text className="text-xs text-red-400">
-                Swipe Down to Refresh
+            <View className="items-center mt-auto mb-4">
+              <Text className="text-xs text-gray-400">
+                Swipe Down to Refresh*
               </Text>
             </View>
           )}
-        </View>
-      </View>
     </ScrollView>
   );
 };
