@@ -64,6 +64,8 @@ const AttendenceAction = ({ navigation }) => {
 
     if (custom_loction === 0) {
       setIsWFH(true);
+      setRefresh(false);
+      setIsLoading(false);
     }
     if (custom_loction === 1) {
       (async () => {
@@ -101,9 +103,6 @@ const AttendenceAction = ({ navigation }) => {
             });
           });
       })();
-    } else {
-      setRefresh(false);
-      setIsLoading(false);
     }
   }, [refresh, custom_in, error, loading]);
   useEffect(() => {
@@ -124,26 +123,13 @@ const AttendenceAction = ({ navigation }) => {
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-
-  // useEffect(() => {
-  //   if (error) {
-  //     Toast.show({
-  //       type: "error",
-  //       text1: "Status failed",
-  //       text2: "Getting status failed, Please retry",
-  //     });
-  //   } else if (custom_in === 0) {
-  //     dispatch(setOnlyCheckIn(false));
-  //   } else {
-  //     dispatch(setOnlyCheckIn(true));
-  //   }
-
-  //   if (custom_loction === 0) {
-  //     setIsWFH(true);
-  //   }
-  // }, [custom_in, error, loading]);
   const name = useSelector(selectFileid);
   const handleFileUpload = async (result) => {
+    Toast.show({
+      type: "info",
+      text1: "File being uploaded",
+      text2: "it may take a minute or two dont worry ",
+    });
     const fileType = result.type;
     const localUri = result.uri;
     const filename = localUri.split("/").pop();
@@ -176,7 +162,7 @@ const AttendenceAction = ({ navigation }) => {
                   : "✅ Video Uploaded",
             });
           })
-          .catch((error) => {
+          .catch(() => {
             Toast.show({
               type: "error",
               text1:
@@ -202,7 +188,7 @@ const AttendenceAction = ({ navigation }) => {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [1, 1],
         quality: 1,
       });
       if (result.canceled) return;

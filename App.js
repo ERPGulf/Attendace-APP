@@ -9,7 +9,6 @@ import * as Font from 'expo-font';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons'
-
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }

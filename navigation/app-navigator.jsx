@@ -1,8 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import React from "react";
 import { AttendenceAction, AttendenceHistory, Home } from "../screens";
-import { Provider } from "react-redux";
-import { store } from "../redux/Store";
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
