@@ -119,7 +119,11 @@ export const userCheckIn = async (fielddata) => {
 
 export const userFileUpload = async (formdata) => {
     try {
-        const { data } = await userApi.post('method/upload_file', formdata,)
+        const { data } = await userApi.post('method/upload_file', formdata, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error)
@@ -130,14 +134,18 @@ export const userFileUpload = async (formdata) => {
 
 export const putUserFile = async (formData, fileId) => {
     try {
-        userApi.put(`resource/Employee Checkin/${fileId}`, formData,).then(() => {
+        userApi.put(`resource/Employee Checkin/${fileId}`, formData, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        }).then(() => {
             return Promise.resolve()
         }).catch(() => {
             return Promise.reject("something went wrong")
         })
     } catch (error) {
         console.error(error)
-        return Promise.reject("something went wrong")
+        return Promise.reject(error)
     }
 }
 

@@ -106,7 +106,7 @@ const LavaMenu = ({ navigation }) => {
         </View>
       </View>
       {/* second row */}
-      <View className="my-2">
+      <View className="mb-2">
         <View
           className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
           style={{ width: "100%", backgroundColor: COLORS.primary }}

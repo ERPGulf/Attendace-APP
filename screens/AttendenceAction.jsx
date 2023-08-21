@@ -176,7 +176,7 @@ const AttendenceAction = ({ navigation }) => {
                   : "✅ Video Uploaded",
             });
           })
-          .catch(() => {
+          .catch((error) => {
             Toast.show({
               type: "error",
               text1:
