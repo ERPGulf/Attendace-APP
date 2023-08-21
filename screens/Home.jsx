@@ -10,11 +10,11 @@ const Home = ({ navigation }) => {
         flex: 1,
         alignItems: "center",
       }}
-      className="bg-gray-100 pb-4"
+      className="bg-gray-200"
     >
       <ScrollView
         style={{ width: "95%" }}
-        contentContainerStyle={{ justifyContent: "center" }}
+        contentContainerStyle={{ justifyContent: "center",}}
         showsVerticalScrollIndicator={false}
         StickyHeaderComponent={WelcomeCard}
         alwaysBounceVertical

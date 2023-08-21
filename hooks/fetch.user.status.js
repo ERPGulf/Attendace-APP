@@ -2,14 +2,15 @@ import { getUserCustomIn } from "../api/userApi";
 import { useState, useEffect } from "react";
 
 export const useUserStatus = (employeeCode) => {
-    const [data, setData] = useState({ loading: false, apiData: null, error: null });
+    const [data, setData] = useState({ loading: false, custom_in: null, error: null, custom_loction: null });
 
     const fetchStatus = async () => {
         try {
             setData(prev => ({ ...prev, loading: true, error: null }));
             getUserCustomIn(employeeCode).then((jsonData) => {
                 const [{ custom_in }] = jsonData.data;
-                setData(prev => ({ ...prev, apiData: custom_in, loading: false }));
+                const [{ custom_restrict_location }] = jsonData.data;
+                setData(prev => ({ ...prev, custom_in: custom_in, loading: false, custom_loction: custom_restrict_location }));
             }).catch((error) => {
                 setData(prev => ({ ...prev, error: error, loading: false }));
             });

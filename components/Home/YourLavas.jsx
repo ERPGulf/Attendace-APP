@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 const LavaMenu = ({ navigation }) => {
   return (
     // first row
-    <View className="mt-2">
+    <View className="my-2">
       <View>
         <Text className="text-sm font-semibold">Your Lava</Text>
       </View>

@@ -155,7 +155,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
 export const getUserCustomIn = async (employeeCode) => {
     try {
         const filters = [['name', '=', employeeCode]];
-        const fields = ['name', 'first_name', 'custom_in'];
+        const fields = ['name', 'first_name', 'custom_in', 'custom_restrict_location'];
 
         const queryParams = new URLSearchParams({
             filters: JSON.stringify(filters),
@@ -169,3 +169,18 @@ export const getUserCustomIn = async (employeeCode) => {
     }
 }
 
+
+// export const checkUserWFH = async () => {
+//     try {
+//         const filters = [['name', '=', employeeCode]];
+//         const fields = ['name', 'first_name', 'custom_in'];
+//         const queryParams = new URLSearchParams({
+//             filters: JSON.stringify(filters),
+//             fields: JSON.stringify(fields)
+//         });
+//         const { data } = await userApi.get(`resource/Employee?${queryParams}`,)
+//     } catch (error) {
+//         console.error(error, 'WFH')
+//         return Promise.reject("something went wrong")
+//     }
+// }

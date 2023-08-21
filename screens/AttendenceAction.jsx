@@ -39,49 +39,73 @@ const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
   const [refresh, setRefresh] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(false);
+  const [isWFH, setIsWFH] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
   const radiusInMeters = 200;
+  const { custom_in, loading, error, retry, custom_loction } =
+    useUserStatus(employeeCode);
   useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      const userCords = {
-        latitude,
-        longitude,
-      };
-      getOfficeLocation(employeeCode)
-        .then(({ latitude, longitude }) => {
-          // TODO:on production set lat and long
-          const targetLocation = {
-            latitude, // Convert to numbers
-            longitude, // Convert to numbers
-          };
-          // 11.791130806353708, 75.59082113912703 test coordinates ,
-          const distance = getPreciseDistance(userCords, targetLocation);
-          setInTarget(distance <= radiusInMeters);
-          setIsLoading(false);
-          setRefresh(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-          setRefresh(false);
-          Toast.show({
-            type: "error",
-            text1: "Location retreving failed",
-            text2: "Please make sure you are at work place",
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: "Status failed",
+        text2: "Getting status failed, Please retry",
+      });
+    } else if (custom_in === 0) {
+      dispatch(setOnlyCheckIn(false));
+    } else {
+      dispatch(setOnlyCheckIn(true));
+    }
+
+    if (custom_loction === 0) {
+      setIsWFH(true);
+    }
+    if (custom_loction === 1) {
+      (async () => {
+        setIsLoading(true);
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+        const userCords = {
+          latitude,
+          longitude,
+        };
+        getOfficeLocation(employeeCode)
+          .then(({ latitude, longitude }) => {
+            // TODO:on production set lat and long
+            const targetLocation = {
+              latitude, // Convert to numbers
+              longitude, // Convert to numbers
+            };
+            // 11.791130806353708, 75.59082113912703 test coordinates ,
+            const distance = getPreciseDistance(userCords, targetLocation);
+            setInTarget(distance <= radiusInMeters);
+            setIsLoading(false);
+            setRefresh(false);
+          })
+          .catch(() => {
+            setIsLoading(false);
+            setRefresh(false);
+            Toast.show({
+              type: "error",
+              text1: "Location retreving failed",
+              text2: "Please make sure you are at work place",
+            });
           });
-        });
-    })();
-  }, [refresh]);
+      })();
+    } else {
+      setRefresh(false);
+      setIsLoading(false);
+    }
+  }, [refresh, custom_in, error, loading]);
   useEffect(() => {
     // Function to update the date and time in the specified format
     const updateDateTime = () => {
@@ -101,20 +125,23 @@ const AttendenceAction = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const { apiData, loading, error, retry } = useUserStatus(employeeCode);
-  useEffect(() => {
-    if (error) {
-      Toast.show({
-        type: "error",
-        text1: "Status failed",
-        text2: "Getting status failed, Please retry",
-      });
-    } else if (apiData === 0) {
-      dispatch(setOnlyCheckIn(false));
-    } else {
-      dispatch(setOnlyCheckIn(true));
-    }
-  }, [apiData, error, loading]);
+  // useEffect(() => {
+  //   if (error) {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Status failed",
+  //       text2: "Getting status failed, Please retry",
+  //     });
+  //   } else if (custom_in === 0) {
+  //     dispatch(setOnlyCheckIn(false));
+  //   } else {
+  //     dispatch(setOnlyCheckIn(true));
+  //   }
+
+  //   if (custom_loction === 0) {
+  //     setIsWFH(true);
+  //   }
+  // }, [custom_in, error, loading]);
   const name = useSelector(selectFileid);
   const handleFileUpload = async (result) => {
     const fileType = result.type;
@@ -199,7 +226,10 @@ const AttendenceAction = ({ navigation }) => {
         userStatusPut(employeeCode, 1)
           .then(() => {
             dispatch(
-              setCheckin({ checkinTime: currentDate, location: "Head Office" })
+              setCheckin({
+                checkinTime: currentDate,
+                location: isWFH ? "Work from Home" : "Head Office",
+              })
             );
             Toast.show({
               type: "success",
@@ -358,7 +388,7 @@ const AttendenceAction = ({ navigation }) => {
       <View style={{ width: "100%" }} className="px-3">
         <WelcomeCard />
         <View className="h-72 mt-4">
-          <View className="">
+          <View className="p-3">
             <Text className="text-base text-gray-500 font-semibold">
               DATE AND TIME*
             </Text>
@@ -383,6 +413,8 @@ const AttendenceAction = ({ navigation }) => {
                   </View>
                 ) : inTarget ? (
                   "Head Office"
+                ) : isWFH ? (
+                  "Work from home"
                 ) : (
                   "Out of bound"
                 )}
@@ -397,10 +429,10 @@ const AttendenceAction = ({ navigation }) => {
               <React.Fragment>
                 <TouchableOpacity
                   className={`justify-center ${
-                    inTarget === false && `opacity-50`
+                    !inTarget && !isWFH && `opacity-50`
                   } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
-                  disabled={!inTarget}
-                  onPress={inTarget && pickImage}
+                  disabled={!inTarget && !isWFH}
+                  onPress={pickImage}
                 >
                   <Ionicons
                     name="image"
@@ -413,10 +445,10 @@ const AttendenceAction = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   className={`justify-center ${
-                    inTarget === false && `opacity-50`
+                    !inTarget && !isWFH && `opacity-50`
                   } items-center h-16 mt-4 rounded-2xl bg-red-500`}
-                  disabled={!inTarget}
-                  onPress={inTarget && handleChekout}
+                  disabled={!inTarget && !isWFH}
+                  onPress={handleChekout}
                 >
                   <Text className="text-xl font-bold text-white">
                     CHECK-OUT
@@ -426,10 +458,10 @@ const AttendenceAction = ({ navigation }) => {
             ) : (
               <TouchableOpacity
                 className={`justify-center ${
-                  inTarget === false && `opacity-50`
+                  !inTarget && !isWFH && `opacity-50`
                 } items-center h-16 mt-4 rounded-2xl bg-green-500`}
-                disabled={!inTarget}
-                onPress={inTarget && handleCheckin}
+                disabled={!inTarget && !isWFH}
+                onPress={handleCheckin}
               >
                 <Text className="text-xl font-bold text-white">CHECK-IN</Text>
               </TouchableOpacity>
@@ -437,13 +469,11 @@ const AttendenceAction = ({ navigation }) => {
           </View>
         </View>
       </View>
-          {!inTarget && (
-            <View className="items-center mt-auto mb-4">
-              <Text className="text-xs text-gray-400">
-                Swipe Down to Refresh*
-              </Text>
-            </View>
-          )}
+      {!inTarget && !isWFH && (
+        <View className="items-center mt-auto mb-4">
+          <Text className="text-xs text-gray-400">Swipe Down to Refresh*</Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
