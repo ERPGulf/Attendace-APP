@@ -177,7 +177,7 @@ const AttendenceAction = ({ navigation }) => {
       {error && <Retry retry={retry} navigation={navigation} />}
 
       {loading && (
-        <View className="h-screen absolute bottom-0 w-screen items-center pt-32 bg-black/20 justify-start z-50">
+        <View className="h-screen absolute bottom-0 w-screen items-center pt-32 bg-gray-200/20 justify-start z-50">
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
       )}

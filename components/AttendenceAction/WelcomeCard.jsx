@@ -76,7 +76,7 @@ const WelcomeCard = () => {
                 You have been working for
               </Text>
               <Text className="text-lg  font-bold text-white">
-                {minutes} minutes
+                {minutes} Hours
               </Text>
             </View>
           ) : (
