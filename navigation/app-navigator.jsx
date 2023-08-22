@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import React from "react";
 import { AttendenceAction, AttendenceHistory, Home } from "../screens";
 const Stack = createNativeStackNavigator();
 
