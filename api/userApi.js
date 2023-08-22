@@ -28,8 +28,6 @@ const refreshAccessToken = async () => {
 userApi.interceptors.request.use(
     async (config) => {
         const access_token = await AsyncStorage.getItem('access_token')
-        const refresh_token = await AsyncStorage.getItem('refresh_token')
-
         config.baseURL = await AsyncStorage.getItem('baseUrl')
         config.headers.Authorization = `Bearer ${access_token}`
         return config;

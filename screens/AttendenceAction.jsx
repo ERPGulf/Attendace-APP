@@ -198,28 +198,30 @@ const AttendenceAction = ({ navigation }) => {
       alert("Error picking image.");
     }
   };
-
-  const handleCheckin = () => {
+  // TODO:CODE CLEAN CHECK AFTER BACKEND FIX
+  const handleChecking = (type, custom_in) => {
     const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
-    const datafield = {
+    const dataField = {
       timestamp,
       employeeCode,
-      type: "IN",
+      type,
     };
-    userCheckIn(datafield)
+    userCheckIn(dataField)
       .then(({ name }) => {
         dispatch(setFileid(name));
-        userStatusPut(employeeCode, 1)
+        userStatusPut(employeeCode, custom_in)
           .then(() => {
-            dispatch(
-              setCheckin({
-                checkinTime: currentDate,
-                location: isWFH ? "Work from Home" : "Head Office",
-              })
-            );
+            custom_in === 1
+              ? dispatch(
+                  setCheckin({
+                    checkinTime: currentDate,
+                    location: isWFH ? "Work from Home" : "Head Office",
+                  })
+                )
+              : dispatch(setCheckout({ checkoutTime: currentDate }));
             Toast.show({
               type: "success",
-              text1: "✅ CHECKED IN",
+              text1: `✅ CHECKED ${type}`,
             });
           })
           .catch(() => {
@@ -236,56 +238,6 @@ const AttendenceAction = ({ navigation }) => {
         });
       });
   };
-  const handleChekout = () => {
-    Alert.alert("Check out", "Are you sure you want to check out", [
-      {
-        text: "Cancel",
-        onPress: () => {
-          Toast.show({
-            type: "success",
-            text1: "CHECK-OUT CANCELLED",
-          });
-          return;
-        },
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
-          const datafield = {
-            timestamp,
-            employeeCode,
-            type: "OUT",
-          };
-          userCheckIn(datafield)
-            .then(() => {
-              userStatusPut(employeeCode, 0)
-                .then(() => {
-                  dispatch(setCheckout({ checkoutTime: currentDate }));
-                  Toast.show({
-                    type: "success",
-                    text1: "✅ CHECKED OUT",
-                  });
-                })
-                .catch(() => {
-                  Toast.show({
-                    type: "error",
-                    text1: "CHECKED OUT FAILED",
-                  });
-                });
-            })
-            .catch(() => {
-              Toast.show({
-                type: "error",
-                text1: "CHECKED OUT FAILED",
-              });
-            });
-        },
-      },
-    ]);
-  };
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -434,7 +386,31 @@ const AttendenceAction = ({ navigation }) => {
                     !inTarget && !isWFH && `opacity-50`
                   } items-center h-16 mt-4 rounded-2xl bg-red-500`}
                   disabled={!inTarget && !isWFH}
-                  onPress={handleChekout}
+                  onPress={() => {
+                    Alert.alert(
+                      "Check out",
+                      "Are you sure you want to check out",
+                      [
+                        {
+                          text: "Cancel",
+                          onPress: () => {
+                            Toast.show({
+                              type: "success",
+                              text1: "CHECK-OUT CANCELLED",
+                            });
+                            return;
+                          },
+                          style: "cancel",
+                        },
+                        {
+                          text: "OK",
+                          onPress: () => {
+                            handleChecking("OUT", 0);
+                          },
+                        },
+                      ]
+                    );
+                  }}
                 >
                   <Text className="text-xl font-bold text-white">
                     CHECK-OUT
@@ -447,7 +423,7 @@ const AttendenceAction = ({ navigation }) => {
                   !inTarget && !isWFH && `opacity-50`
                 } items-center h-16 mt-4 rounded-2xl bg-green-500`}
                 disabled={!inTarget && !isWFH}
-                onPress={handleCheckin}
+                onPress={() => handleChecking("IN", 1)}
               >
                 <Text className="text-xl font-bold text-white">CHECK-IN</Text>
               </TouchableOpacity>
