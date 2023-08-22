@@ -4,14 +4,13 @@ import userApi from './apiManger';
 // import { setSignOut } from '../redux/Slices/AuthSlice';
 
 
-
+// refresh accessToken
 const refreshAccessToken = async () => {
     try {
         const refresh_token = await AsyncStorage.getItem('refresh_token')
         const formdata = new FormData()
         formdata.append('grant_type', 'refresh_token')
         formdata.append('refresh_token', refresh_token)
-
         const { data } = await userApi.post('method/frappe.integrations.oauth2.get_token', formdata, {
             headers: {
                 "Content-Type": 'multipart/form-data'
@@ -20,14 +19,24 @@ const refreshAccessToken = async () => {
         await AsyncStorage.setItem('access_token', data.access_token);
         await AsyncStorage.setItem('refresh_token', data.refresh_token);
         return data.access_token
-
     } catch (error) {
-        console.error('Token refresh error:', error);
-        return Promise.reject(error)
+        console.error('Token refresh error:', error.response || error.message || error);
+        return Promise.reject(error);
     }
 };
+// baseUrl and accessToken preset middleware
+userApi.interceptors.request.use(
+    async (config) => {
+        const access_token = await AsyncStorage.getItem('access_token')
+        const refresh_token = await AsyncStorage.getItem('refresh_token')
 
-// ... Rest of the code ...
+        config.baseURL = await AsyncStorage.getItem('baseUrl')
+        config.headers.Authorization = `Bearer ${access_token}`
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+// ... refresh middleware ...
 
 let refreshPromise = null;
 const clearPromise = () => refreshPromise = null;
@@ -35,7 +44,7 @@ userApi.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response && (error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+        if (error.response && (error.response.status === 400 || error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
             if (!refreshPromise) {
                 refreshPromise = refreshAccessToken().finally(clearPromise)
@@ -48,16 +57,7 @@ userApi.interceptors.response.use(
     }
 );
 
-userApi.interceptors.request.use(
-    async (config) => {
-        const access_token = await AsyncStorage.getItem('access_token')
-        config.baseURL = await AsyncStorage.getItem('baseUrl')
-        config.headers.Authorization = `Bearer ${access_token}`
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
-
+// generate user tokens
 export const generateToken = async (formdata) => {
     try {
         const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token`, formdata)
@@ -71,7 +71,7 @@ export const generateToken = async (formdata) => {
         return Promise.reject('Please retry or scan again')
     }
 }
-
+// get user location
 export const getOfficeLocation = async (employeeCode) => {
     try {
         const filters = [['name', '=', employeeCode]];
@@ -96,7 +96,7 @@ export const getOfficeLocation = async (employeeCode) => {
     }
 }
 
-
+// user checkin/checkout
 export const userCheckIn = async (fielddata) => {
     try {
         const params = {
@@ -109,6 +109,7 @@ export const userCheckIn = async (fielddata) => {
         const { data } = await userApi.post('method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field', null, {
             params
         });
+
         return Promise.resolve(data.message);
     } catch (error) {
         console.error(error, 'checkin');
@@ -116,7 +117,7 @@ export const userCheckIn = async (fielddata) => {
     }
 };
 
-
+// user file upload
 export const userFileUpload = async (formdata) => {
     try {
         const { data } = await userApi.post('method/upload_file', formdata, {
@@ -134,15 +135,13 @@ export const userFileUpload = async (formdata) => {
 
 export const putUserFile = async (formData, fileId) => {
     try {
-        userApi.put(`resource/Employee Checkin/${fileId}`, formData, {
+        const { data } = await userApi.put(`resource/Employee Checkin/${fileId}`, formData, {
             headers: {
                 "Content-Type": 'multipart/form-data'
             }
-        }).then(() => {
-            return Promise.resolve()
-        }).catch(() => {
-            return Promise.reject("something went wrong")
         })
+        return Promise.resolve(data)
+
     } catch (error) {
         console.error(error)
         return Promise.reject(error)
@@ -151,7 +150,13 @@ export const putUserFile = async (formData, fileId) => {
 
 export const userStatusPut = async (employeeCode, custom_in) => {
     try {
-        const { data } = userApi.put(`resource/Employee/${employeeCode}`, { custom_in },)
+        const formData = new FormData();
+        formData.append('custom_in', custom_in);
+        const { data } = userApi.put(`resource/Employee/${employeeCode}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })
         return Promise.resolve(data)
     } catch (error) {
         console.error(error)
@@ -178,17 +183,3 @@ export const getUserCustomIn = async (employeeCode) => {
 }
 
 
-// export const checkUserWFH = async () => {
-//     try {
-//         const filters = [['name', '=', employeeCode]];
-//         const fields = ['name', 'first_name', 'custom_in'];
-//         const queryParams = new URLSearchParams({
-//             filters: JSON.stringify(filters),
-//             fields: JSON.stringify(fields)
-//         });
-//         const { data } = await userApi.get(`resource/Employee?${queryParams}`,)
-//     } catch (error) {
-//         console.error(error, 'WFH')
-//         return Promise.reject("something went wrong")
-//     }
-// }
