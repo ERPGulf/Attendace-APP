@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { WelcomeCard } from "../components/AttendenceAction";
+import { FileUpload, WelcomeCard } from "../components/AttendenceAction";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
@@ -17,7 +17,6 @@ import * as Location from "expo-location";
 import { format } from "date-fns";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
 import {
   selectCheckin,
   setCheckin,
@@ -25,15 +24,8 @@ import {
   setOnlyCheckIn,
 } from "../redux/Slices/AttendenceSlice";
 import Toast from "react-native-toast-message";
-import {
-  getOfficeLocation,
-  putUserFile,
-  userCheckIn,
-  userFileUpload,
-  userStatusPut,
-} from "../api/userApi";
-import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
-import * as ImagePicker from "expo-image-picker";
+import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
+import { setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
 const AttendenceAction = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -123,81 +115,6 @@ const AttendenceAction = ({ navigation }) => {
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-  const name = useSelector(selectFileid);
-  const handleFileUpload = async (result) => {
-    Toast.show({
-      type: "info",
-      text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
-    });
-    const fileType = result.type;
-    const localUri = result.uri;
-    const filename = localUri.split("/").pop();
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `${fileType}/${match[1]}` : fileType;
-    const formData = new FormData();
-    formData.append(
-      "fieldname",
-      fileType === "image" ? "custom_photo" : "custom_video"
-    );
-    formData.append("file", { uri: localUri, name: filename, type });
-    formData.append("is_private", "1");
-    formData.append("doctype", "Employee Checkin");
-    formData.append("docname", name);
-    userFileUpload(formData)
-      .then(({ file_url }) => {
-        const formData = new FormData();
-        if (fileType === "image") {
-          formData.append("custom_image", file_url);
-        } else {
-          formData.append("custom_video", file_url);
-        }
-        putUserFile(formData, name)
-          .then(() => {
-            Toast.show({
-              type: "success",
-              text1:
-                fileType === "image"
-                  ? "✅ Photo Uploaded"
-                  : "✅ Video Uploaded",
-            });
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1:
-                fileType === "image"
-                  ? "Photo Upload Failed"
-                  : "Video Upload Failed",
-            });
-          });
-      })
-      .catch(() => {
-        Toast.show({
-          type: "error",
-          text1:
-            fileType === "image"
-              ? "Photo Upload Failed"
-              : "Video Upload Failed",
-        });
-      });
-  };
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      if (result.canceled) return;
-      await handleFileUpload(result.assets[0]);
-    } catch (error) {
-      // Handle errors from ImagePicker
-      alert("Error picking image.");
-    }
-  };
   // TODO:CODE CLEAN CHECK AFTER BACKEND FIX
   const handleChecking = (type, custom_in) => {
     const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
@@ -365,22 +282,7 @@ const AttendenceAction = ({ navigation }) => {
             </View>
             {checkin ? (
               <React.Fragment>
-                <TouchableOpacity
-                  className={`justify-center ${
-                    !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
-                  disabled={!inTarget && !isWFH}
-                  onPress={pickImage}
-                >
-                  <Ionicons
-                    name="image"
-                    size={SIZES.xxxLarge}
-                    color={"white"}
-                  />
-                  <Text className="text-xl font-bold text-white">
-                    Photo or Video
-                  </Text>
-                </TouchableOpacity>
+                <FileUpload inTarget={inTarget} isWFH={isWFH} />
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
