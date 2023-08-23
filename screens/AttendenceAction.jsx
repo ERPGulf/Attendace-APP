@@ -39,6 +39,8 @@ const AttendenceAction = ({ navigation }) => {
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
   const radiusInMeters = 200;
+
+  // TODO:FIX FLICKERING
   const { custom_in, loading, error, retry, custom_loction } =
     useUserStatus(employeeCode);
   useEffect(() => {
