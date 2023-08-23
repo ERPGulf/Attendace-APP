@@ -150,7 +150,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
     try {
         const formData = new FormData();
         formData.append('custom_in', custom_in);
-        const { data } = userApi.put(`resource/Employee/${employeeCode}`, formData, {
+        const { data } = await userApi.put(`resource/Employee/${employeeCode}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }

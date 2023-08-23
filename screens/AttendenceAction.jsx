@@ -42,6 +42,7 @@ const AttendenceAction = ({ navigation }) => {
   const { custom_in, loading, error, retry, custom_loction } =
     useUserStatus(employeeCode);
   useEffect(() => {
+    console.log(custom_in);
     if (error) {
       Toast.show({
         type: "error",
@@ -56,12 +57,9 @@ const AttendenceAction = ({ navigation }) => {
 
     if (custom_loction === 0) {
       setIsWFH(true);
-      setRefresh(false);
-      setIsLoading(false);
     }
     if (custom_loction === 1) {
       (async () => {
-        setIsLoading(true);
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
           return;
@@ -82,12 +80,8 @@ const AttendenceAction = ({ navigation }) => {
             // 11.791130806353708, 75.59082113912703 test coordinates ,
             const distance = getPreciseDistance(userCords, targetLocation);
             setInTarget(distance <= radiusInMeters);
-            setIsLoading(false);
-            setRefresh(false);
           })
           .catch(() => {
-            setIsLoading(false);
-            setRefresh(false);
             Toast.show({
               type: "error",
               text1: "Location retreving failed",
@@ -96,6 +90,8 @@ const AttendenceAction = ({ navigation }) => {
           });
       })();
     }
+    setRefresh(false);
+    setIsLoading(false);
   }, [refresh, custom_in, error, loading]);
   useEffect(() => {
     // Function to update the date and time in the specified format
@@ -170,6 +166,7 @@ const AttendenceAction = ({ navigation }) => {
           onRefresh={() => {
             setIsLoading(true);
             setRefresh(true);
+            retry();
           }}
         />
       }
@@ -177,7 +174,7 @@ const AttendenceAction = ({ navigation }) => {
       {error && <Retry retry={retry} navigation={navigation} />}
 
       {loading && (
-        <View className="h-screen absolute bottom-0 w-screen items-center pt-32 bg-gray-200/20 justify-start z-50">
+        <View className="h-screen absolute bottom-0 w-screen items-center pt-32 bg-gray-200/50 justify-start z-50">
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
       )}
