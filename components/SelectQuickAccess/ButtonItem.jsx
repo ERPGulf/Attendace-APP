@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { Ionicons } from "@expo/vector-icons";
 
 const ButtonItem = ({ iconName, text1, text2 }) => {
   return (
-    <TouchableOpacity>
+    <View>
       <View className="bg-gray-100 p-2 flex-row justify-center items-center rounded-lg w-16">
         <Ionicons
           name={iconName}
@@ -23,7 +23,7 @@ const ButtonItem = ({ iconName, text1, text2 }) => {
           {text2}
         </Text>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 

@@ -52,7 +52,6 @@ const LavaMenu = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className=""
             onPress={() => {
               navigation.navigate("Attendance history");
             }}
@@ -126,8 +125,8 @@ const LavaMenu = ({ navigation }) => {
         <View className="flex-row bg-white flex-wrap py-4 justify-around px-2 rounded-b-xl ">
           <TouchableOpacity className="w-16">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <Octicons
-                name="id-badge"
+              <Ionicons
+                name="person-circle-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />

@@ -1,28 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    QuickAccessStack: []
+    activeButtons: [null] // Initialize as an empty array
 }
 
 const QuickAccessSlice = createSlice({
-    name:'quickAccess',
+    name: 'quickAccess',
     initialState,
     reducers: {
         setAdd: (state, action) => {
-            state.QuickAccessStack.push(action.payload)
+            if (state.activeButtons) {
+                state.activeButtons = [...state.activeButtons, action.payload]; // Push the payload to the array
+            }
+            else {
+                state.activeButtons = [action.payload]
+            }
         },
         setRemove: (state, action) => {
-            state.QuickAccessStack = state.QuickAccessStack.filter(item => item !== action.payload)
+            state.activeButtons = state.activeButtons.filter(item => item.id !== action.payload.id);
         }
     }
 })
 
-
-export const { setAdd, setRemove } = QuickAccessSlice.actions
-
+export const { setAdd, setRemove } = QuickAccessSlice.actions;
 
 // selectors
+export const activeButtonsSelector = (state) => state.quickAccess.activeButtons;
 
-export const QuickAccessSelector = (state) => state.QuickAccess.QuickAccessStack
-
-export default QuickAccessSlice.reducer
+export default QuickAccessSlice.reducer;
