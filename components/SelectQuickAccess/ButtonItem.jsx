@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const ButtonItem = ({ iconName, text1, text2 }) => {
   return (
-    <View>
+    <View className="my-2.5 mx-2">
       <View className="bg-gray-100 p-2 flex-row justify-center items-center rounded-lg w-16">
         <Ionicons
           name={iconName}

@@ -3,8 +3,12 @@ import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { activeButtonsSelector } from "../../redux/Slices/QuickAccessSlice";
+import ButtonItem from "../SelectQuickAccess/ButtonItem";
 
 const QuickAccess = ({ navigation }) => {
+  const activeButtons = useSelector(activeButtonsSelector);
   return (
     <View className="mt-4 w-full">
       <View className="flex-row justify-between items-center ">
@@ -25,21 +29,40 @@ const QuickAccess = ({ navigation }) => {
             borderRadius: Platform.OS === "android" ? 0 : "12px",
             backgroundColor: "white",
           }}
-          className="border-dashed border-red-900 border-2 h-40 items-center justify-center mt-2"
+          className="border-dashed flex-wrap flex-row justify-evenly border-red-900 border-2 mt-2 p-2"
         >
-          <TouchableOpacity className="items-center justify-center ">
-            <AntDesign
-              name="addfile"
-              size={SIZES.xxxLarge - 4}
-              color={COLORS.red}
-            />
-            <Text className="text-xs mt-2 font-light text-gray-800">
-              Add quick shortcuts to your most used features
-            </Text>
-            <Text className="text-xs font-light text-gray-800">
-              here to access them quickly
-            </Text>
-          </TouchableOpacity>
+          {activeButtons.length > 0 ? (
+            activeButtons?.map((item) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    item.url && navigation.navigate(item.url);
+                  }}
+                  key={item.id}
+                >
+                  <ButtonItem
+                    iconName={item.iconName}
+                    text1={item.text1}
+                    text2={item.text2 || null}
+                  />
+                </TouchableOpacity>
+              );
+            })
+          ) : (
+            <TouchableOpacity className="items-center justify-center mx-auto my-10">
+              <AntDesign
+                name="addfile"
+                size={SIZES.xxxLarge - 4}
+                color={COLORS.red}
+              />
+              <Text className="text-xs mt-2 font-light text-gray-800">
+                Add quick shortcuts to your most used features
+              </Text>
+              <Text className="text-xs font-light text-gray-800">
+                here to access them quickly
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
