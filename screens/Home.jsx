@@ -21,7 +21,7 @@ const Home = ({ navigation }) => {
         automaticallyAdjustContentInsets
       >
         <WelcomeCard />
-        <QuickAccess />
+        <QuickAccess navigation={navigation} />
         <LavaMenu navigation={navigation} />
       </ScrollView>
     </SafeAreaView>

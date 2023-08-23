@@ -4,12 +4,15 @@ import { COLORS, SIZES } from "../../constants";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-const QuickAccess = () => {
+const QuickAccess = ({ navigation }) => {
   return (
     <View className="mt-4 w-full">
       <View className="flex-row justify-between items-center ">
         <Text className="text-sm font-semibold">Quick Access</Text>
-        <TouchableOpacity className="flex-row space-x-2 items-center">
+        <TouchableOpacity
+          className="flex-row space-x-2 items-center"
+          onPress={() => navigation.navigate("Quick access")}
+        >
           <Text className="text-sm font-semibold" style={{ color: COLORS.red }}>
             Add New
           </Text>
@@ -20,7 +23,7 @@ const QuickAccess = () => {
         <View
           style={{
             borderRadius: Platform.OS === "android" ? 0 : "12px",
-            backgroundColor:'white'
+            backgroundColor: "white",
           }}
           className="border-dashed border-red-900 border-2 h-40 items-center justify-center mt-2"
         >

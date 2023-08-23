@@ -8,8 +8,8 @@ const initialState = {
 }
 
 
-export const AttendenceSlice = createSlice({
-    name: 'attendence',
+export const AttendanceSlice = createSlice({
+    name: 'attendance',
     initialState,
     reducers: {
         setCheckin: (state, action) => {
@@ -28,15 +28,15 @@ export const AttendenceSlice = createSlice({
     }
 })
 
-export const { setCheckin, setCheckout, setOnlyCheckIn } = AttendenceSlice.actions
+export const { setCheckin, setCheckout, setOnlyCheckIn } = AttendanceSlice.actions
 
 // selector
-export const selectCheckin = (state) => state.attendence.checkin;
-export const selectCheckinTime = (state) => state.attendence.checkinTime;
-export const selectCheckoutTime = (state) => state.attendence.checkoutTime;
-export const selectLocation = (state) => state.attendence.location;
+export const selectCheckin = (state) => state.attendance.checkin;
+export const selectCheckinTime = (state) => state.attendance.checkinTime;
+export const selectCheckoutTime = (state) => state.attendance.checkoutTime;
+export const selectLocation = (state) => state.attendance.location;
 
 
 
-export default AttendenceSlice.reducer
+export default AttendanceSlice.reducer
 

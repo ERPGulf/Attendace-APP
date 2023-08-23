@@ -1,14 +1,16 @@
 import Home from "./Home";
-import AttendenceAction from "./AttendenceAction";
+import AttendanceAction from "./AttendanceAction";
 import QrScan from "./QrScan";
 import Login from './Login';
 import WelcomeScreen from "./WelcomeScreen";
-import AttendenceHistory from "./AttendenceHistory";
+import AttendanceHistory from "./AttendanceHistory";
+import SelectQuickAccess from "./SelectQuickAccess";
 export {
     Home,
-    AttendenceAction,
+    AttendanceAction,
     QrScan,
     Login,
     WelcomeScreen,
-    AttendenceHistory
+    AttendanceHistory,
+    SelectQuickAccess
 }

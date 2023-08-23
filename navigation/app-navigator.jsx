@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AttendenceAction, AttendenceHistory, Home } from "../screens";
+import { AttendanceAction, AttendanceHistory, Home, SelectQuickAccess } from "../screens";
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -9,8 +9,9 @@ const AppNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="home" component={Home} />
-      <Stack.Screen name="Attendence action" component={AttendenceAction} />
-      <Stack.Screen name="Attendence history" component={AttendenceHistory} />
+      <Stack.Screen name="Attendance action" component={AttendanceAction} />
+      <Stack.Screen name="Attendance history" component={AttendanceHistory} />
+      <Stack.Screen name="Quick access" component={SelectQuickAccess} />
     </Stack.Navigator>
   );
 };

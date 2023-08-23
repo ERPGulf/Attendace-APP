@@ -20,7 +20,7 @@ const WelcomeScreen = ({ navigation }) => {
           className="text-3xl font-semibold"
           style={{ color: COLORS.primary }}
         >
-          Attendence App
+          Attendance App
         </Text>
       </View>
       <TouchableOpacity

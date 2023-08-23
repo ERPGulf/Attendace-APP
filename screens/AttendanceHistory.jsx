@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const AttendenceHistory = () => {
+const AttendanceHistory = () => {
   return (
     <View>
-      <Text>AttendenceHistory</Text>
+      <Text>AttendanceHistory</Text>
     </View>
   );
 };
 
-export default AttendenceHistory;
+export default AttendanceHistory;

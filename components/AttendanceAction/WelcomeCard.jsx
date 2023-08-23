@@ -10,7 +10,7 @@ import {
   selectCheckinTime,
   selectCheckoutTime,
   selectLocation,
-} from "../../redux/Slices/AttendenceSlice";
+} from "../../redux/Slices/AttendanceSlice";
 
 const WelcomeCard = () => {
   const location = useSelector(selectLocation);

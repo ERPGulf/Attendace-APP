@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FileUpload, Retry, WelcomeCard } from "../components/AttendenceAction";
+import { FileUpload, Retry, WelcomeCard } from "../components/AttendanceAction";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
@@ -22,12 +22,12 @@ import {
   setCheckin,
   setCheckout,
   setOnlyCheckIn,
-} from "../redux/Slices/AttendenceSlice";
+} from "../redux/Slices/AttendanceSlice";
 import Toast from "react-native-toast-message";
 import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
 import { setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
-const AttendenceAction = ({ navigation }) => {
+const AttendanceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
   const [refresh, setRefresh] = useState(false);
@@ -192,7 +192,7 @@ const AttendenceAction = ({ navigation }) => {
             />
           </TouchableOpacity>
           <View className="justify-self-center text-center">
-            <Text className="text-lg font-medium">Attendence action</Text>
+            <Text className="text-lg font-medium">Attendance action</Text>
           </View>
         </View>
       </View>
@@ -298,4 +298,4 @@ const AttendenceAction = ({ navigation }) => {
   );
 };
 
-export default AttendenceAction;
+export default AttendanceAction;

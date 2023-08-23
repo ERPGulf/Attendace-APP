@@ -3,7 +3,6 @@ import React from "react";
 import { Octicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants";
 import { AntDesign } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 const LavaMenu = ({ navigation }) => {
@@ -34,9 +33,8 @@ const LavaMenu = ({ navigation }) => {
         </View>
         <View className="flex-row bg-white flex-wrap py-3 justify-around space-x-1 px-2 rounded-b-xl mb-4">
           <TouchableOpacity
-            className=""
             onPress={() => {
-              navigation.navigate("Attendence action");
+              navigation.navigate("Attendance action");
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -47,7 +45,7 @@ const LavaMenu = ({ navigation }) => {
               />
             </View>
             <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Attendence
+              Attendance
             </Text>
             <Text className="text-xs text-center font-medium text-gray-500">
               action
@@ -56,7 +54,7 @@ const LavaMenu = ({ navigation }) => {
           <TouchableOpacity
             className=""
             onPress={() => {
-              navigation.navigate("Attendence history");
+              navigation.navigate("Attendance history");
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -67,7 +65,7 @@ const LavaMenu = ({ navigation }) => {
               />
             </View>
             <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Attendence
+              Attendance
             </Text>
             <Text className="text-xs text-center font-medium text-gray-500">
               history
@@ -134,19 +132,19 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-medium text-gray-500">
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
               My card
             </Text>
           </TouchableOpacity>
           <TouchableOpacity className="w-16">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <MaterialCommunityIcons
-                name="contacts-outline"
+              <Ionicons
+                name="people-outline"
                 size={SIZES.xxxLarge - 3}
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-medium text-gray-500">
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
               Contacts
             </Text>
           </TouchableOpacity>
@@ -158,7 +156,7 @@ const LavaMenu = ({ navigation }) => {
                 color={COLORS.tertiary}
               />
             </View>
-            <Text className="text-xs text-center font-medium text-gray-500">
+            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
               My QR
             </Text>
           </TouchableOpacity>
