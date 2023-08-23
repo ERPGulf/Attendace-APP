@@ -9,6 +9,7 @@ import ButtonItem from "../SelectQuickAccess/ButtonItem";
 
 const QuickAccess = ({ navigation }) => {
   const activeButtons = useSelector(activeButtonsSelector);
+  console.log(activeButtons);
   return (
     <View className="mt-4 w-full">
       <View className="flex-row justify-between items-center ">
@@ -36,14 +37,14 @@ const QuickAccess = ({ navigation }) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    item.url && navigation.navigate(item.url);
+                    item?.url && navigation.navigate(item.url);
                   }}
-                  key={item.id}
+                  key={item?.iconName}
                 >
                   <ButtonItem
-                    iconName={item.iconName}
-                    text1={item.text1}
-                    text2={item.text2 || null}
+                    iconName={item?.iconName}
+                    text1={item?.text1}
+                    text2={item?.text2 || null}
                   />
                 </TouchableOpacity>
               );

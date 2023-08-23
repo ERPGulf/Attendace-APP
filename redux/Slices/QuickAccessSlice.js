@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    activeButtons: [null] // Initialize as an empty array
+    activeButtons: [] // Initialize as an empty array
 }
 
 const QuickAccessSlice = createSlice({

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -58,12 +58,15 @@ const SelectQuickAccess = ({ navigation }) => {
     },
   ];
   const handleClick = (item) => {
-    if (activeButtons?.some((button) => button.id === item.id)) {
+    if (activeButtons?.some((button) => button?.id === item.id)) {
       dispatch(setRemove(item));
     } else {
       dispatch(setAdd(item)); // You probably want to dispatch here
     }
   };
+  useEffect(() => {
+    console.log(activeButtons);
+  }, [activeButtons]);
   return (
     <SafeAreaView
       style={{
@@ -102,10 +105,11 @@ const SelectQuickAccess = ({ navigation }) => {
       >
         {quickAccessItems.map((item) => (
           <TouchableOpacity
-            key={item.id}
+            key={item.iconName}
             onPress={() => handleClick(item)}
             className={`${
-              activeButtons?.some((button) => button.id === item.id)
+              activeButtons &&
+              activeButtons?.some((button) => button?.id === item.id)
                 ? "bg-orange-500"
                 : "bg-orange-100"
             } items-center justify-center rounded-lg mx-1 my-2`}

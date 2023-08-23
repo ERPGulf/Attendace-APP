@@ -32,5 +32,8 @@ export const store = configureStore({
             },
         }),
 });
-
+// clear all state
+export const clearPersistedState = async () => {
+    await persistor.purge(); // Clear all persisted state
+};
 export const persistor = persistStore(store);
