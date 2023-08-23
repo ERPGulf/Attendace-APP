@@ -44,17 +44,13 @@ const AttendenceAction = ({ navigation }) => {
   const { custom_in, loading, error, retry, custom_loction } =
     useUserStatus(employeeCode);
   useEffect(() => {
-    console.log(custom_in);
+    dispatch(setOnlyCheckIn(custom_in === 1));
     if (error) {
       Toast.show({
         type: "error",
         text1: "Status failed",
         text2: "Getting status failed, Please retry",
       });
-    } else if (custom_in === 0) {
-      dispatch(setOnlyCheckIn(false));
-    } else {
-      dispatch(setOnlyCheckIn(true));
     }
 
     if (custom_loction === 0) {
@@ -74,7 +70,6 @@ const AttendenceAction = ({ navigation }) => {
         };
         getOfficeLocation(employeeCode)
           .then(({ latitude, longitude }) => {
-            // TODO:on production set lat and long
             const targetLocation = {
               latitude, // Convert to numbers
               longitude, // Convert to numbers
@@ -113,7 +108,6 @@ const AttendenceAction = ({ navigation }) => {
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-  // TODO:CODE CLEAN CHECK AFTER BACKEND FIX
   const handleChecking = (type, custom_in) => {
     const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
     const dataField = {
@@ -176,7 +170,7 @@ const AttendenceAction = ({ navigation }) => {
       {error && <Retry retry={retry} navigation={navigation} />}
 
       {loading && (
-        <View className="h-screen absolute bottom-0 w-screen items-center pt-32 bg-gray-200/50 justify-start z-50">
+        <View className="h-screen absolute bottom-0 w-screen items-center bg-black/50 justify-center z-50">
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
       )}
