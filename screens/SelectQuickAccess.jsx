@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -64,9 +64,7 @@ const SelectQuickAccess = ({ navigation }) => {
       dispatch(setAdd(item)); // You probably want to dispatch here
     }
   };
-  useEffect(() => {
-    console.log(activeButtons);
-  }, [activeButtons]);
+
   return (
     <SafeAreaView
       style={{

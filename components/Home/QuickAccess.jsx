@@ -9,7 +9,6 @@ import ButtonItem from "../SelectQuickAccess/ButtonItem";
 
 const QuickAccess = ({ navigation }) => {
   const activeButtons = useSelector(activeButtonsSelector);
-  console.log(activeButtons);
   return (
     <View className="mt-4 w-full">
       <View className="flex-row justify-between items-center ">
