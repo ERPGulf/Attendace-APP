@@ -56,6 +56,13 @@ const SelectQuickAccess = ({ navigation }) => {
       iconName: "qr-code",
       text1: "My QR",
     },
+    {
+      id: 8,
+      iconName: "trail-sign-outline",
+      text1: "Trip",
+      text2: "details",
+      url: "Trip details",
+    },
   ];
   const handleClick = (item) => {
     if (activeButtons?.some((button) => button?.id === item.id)) {
@@ -96,7 +103,7 @@ const SelectQuickAccess = ({ navigation }) => {
       </View>
 
       <View
-        className="bg-white flex-row justify-between px-3 flex-wrap"
+        className="bg-white flex-row px-3 space-x-1 flex-wrap"
         style={{
           width: "100%",
         }}
@@ -110,7 +117,7 @@ const SelectQuickAccess = ({ navigation }) => {
               activeButtons?.some((button) => button?.id === item.id)
                 ? "bg-orange-500"
                 : "bg-orange-100"
-            } items-center justify-center rounded-lg mx-1 my-2`}
+            } items-center justify-start rounded-lg flex-grow mx-1 my-2`}
             style={{
               width: 110,
               height: 110,

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { Octicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants";
@@ -8,7 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 const LavaMenu = ({ navigation }) => {
   return (
     // first row
-    <View className="my-2">
+    <View className="my-2" style={{ width: "100%" }}>
       <View>
         <Text className="text-sm font-semibold">Your Lava</Text>
       </View>
@@ -31,75 +31,101 @@ const LavaMenu = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View className="flex-row bg-white flex-wrap py-3 justify-around space-x-1 px-2 rounded-b-xl mb-4">
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Attendance action");
+        <View className="bg-white rounded-b-xl py-3 px-2 mb-2">
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            contentContainerStyle={{
+              flexGrow: 1,
             }}
           >
-            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <Ionicons
-                name="calendar-outline"
-                size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
-              />
-            </View>
-            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Attendance
-            </Text>
-            <Text className="text-xs text-center font-medium text-gray-500">
-              action
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Attendance history");
-            }}
-          >
-            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <Ionicons
-                name="receipt-outline"
-                size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
-              />
-            </View>
-            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Attendance
-            </Text>
-            <Text className="text-xs text-center font-medium text-gray-500">
-              history
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="">
-            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <Ionicons
-                name="airplane-outline"
-                size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
-              />
-            </View>
-            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Vacation
-            </Text>
-            <Text className="text-xs text-center font-medium text-gray-500">
-              request
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="">
-            <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
-              <Ionicons
-                name="list-outline"
-                size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
-              />
-            </View>
-            <Text className="text-xs text-center font-medium text-gray-500 mt-1">
-              Vacation
-            </Text>
-            <Text className="text-xs text-center font-medium text-gray-500">
-              list
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Attendance action");
+              }}
+              className="mr-4"
+            >
+              <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+                <Ionicons
+                  name="calendar-outline"
+                  size={SIZES.xxxLarge - 3}
+                  color={COLORS.tertiary}
+                />
+              </View>
+              <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+                Attendance
+              </Text>
+              <Text className="text-xs text-center font-medium text-gray-500">
+                action
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="mr-4"
+              onPress={() => {
+                navigation.navigate("Attendance history");
+              }}
+            >
+              <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+                <Ionicons
+                  name="receipt-outline"
+                  size={SIZES.xxxLarge - 3}
+                  color={COLORS.tertiary}
+                />
+              </View>
+              <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+                Attendance
+              </Text>
+              <Text className="text-xs text-center font-medium text-gray-500">
+                history
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="mr-4" onPress={()=>navigation.navigate('Trip details')}>
+              <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+                <Ionicons
+                  name="trail-sign-outline"
+                  size={SIZES.xxxLarge - 3}
+                  color={COLORS.tertiary}
+                />
+              </View>
+              <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+                Trip
+              </Text>
+              <Text className="text-xs text-center font-medium text-gray-500">
+                Details
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="mr-4">
+              <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+                <Ionicons
+                  name="airplane-outline"
+                  size={SIZES.xxxLarge - 3}
+                  color={COLORS.tertiary}
+                />
+              </View>
+              <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+                Vacation
+              </Text>
+              <Text className="text-xs text-center font-medium text-gray-500">
+                request
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="mr-4">
+              <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
+                <Ionicons
+                  name="list-outline"
+                  size={SIZES.xxxLarge - 3}
+                  color={COLORS.tertiary}
+                />
+              </View>
+              <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+                Vacation
+              </Text>
+              <Text className="text-xs text-center font-medium text-gray-500">
+                list
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
       </View>
       {/* second row */}
