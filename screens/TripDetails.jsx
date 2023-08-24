@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TopCard } from "../components/TripDetails";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 
 const TripDetails = ({ navigation }) => {
@@ -32,6 +32,12 @@ const TripDetails = ({ navigation }) => {
       </View>
       <View className="px-3">
         <TopCard />
+        <View style={"100%"} className="mt-8">
+          <TouchableOpacity className="justify-center h-16 flex-row items-center space-x-2 p-3 bg-blue-500 rounded-xl">
+            <Text className="text-xl font-semibold text-white">start trip</Text>
+            <Ionicons name="timer-outline" size={28} color={"white"} />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
