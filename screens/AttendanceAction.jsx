@@ -35,6 +35,7 @@ const AttendanceAction = ({ navigation }) => {
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(false);
   const [isWFH, setIsWFH] = useState(false);
+  const [checkLoad, setCheckLoad] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
@@ -109,6 +110,7 @@ const AttendanceAction = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
   const handleChecking = (type, custom_in) => {
+    setCheckLoad(true);
     const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
     const dataField = {
       timestamp,
@@ -120,6 +122,7 @@ const AttendanceAction = ({ navigation }) => {
         dispatch(setFileid(name));
         userStatusPut(employeeCode, custom_in)
           .then(() => {
+            setCheckLoad(false);
             custom_in === 1
               ? dispatch(
                   setCheckin({
@@ -128,12 +131,14 @@ const AttendanceAction = ({ navigation }) => {
                   })
                 )
               : dispatch(setCheckout({ checkoutTime: currentDate }));
+
             Toast.show({
               type: "success",
               text1: `✅ CHECKED ${type}`,
             });
           })
           .catch(() => {
+            setCheckLoad(false);
             Toast.show({
               type: "error",
               text1: "Status update failed ",
@@ -141,6 +146,7 @@ const AttendanceAction = ({ navigation }) => {
           });
       })
       .catch((msg) => {
+        setCheckLoad(false);
         Toast.show({
           type: "error",
           text1: msg,
@@ -169,7 +175,7 @@ const AttendanceAction = ({ navigation }) => {
     >
       {error && <Retry retry={retry} navigation={navigation} />}
 
-      {loading && (
+      {(loading || checkLoad) && (
         <View className="h-screen absolute bottom-0 w-screen items-center bg-black/50 justify-center z-50">
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
