@@ -4,8 +4,22 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TopCard } from "../components/TripDetails";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setEndTrip,
+  setStartTrip,
+  startedSelect,
+} from "../redux/Slices/TripDetailsSlice";
 
 const TripDetails = ({ navigation }) => {
+  const started = useSelector(startedSelect);
+  const dispatch = useDispatch();
+  const handleStart = () => {
+    dispatch(setStartTrip(new Date().toISOString()));
+  };
+  const handleEnd = () => {
+    dispatch(setEndTrip(new Date().toISOString()));
+  };
   return (
     <SafeAreaView>
       {/* chevron  */}
@@ -32,10 +46,16 @@ const TripDetails = ({ navigation }) => {
       </View>
       <View className="px-3">
         <TopCard />
-        <View style={"100%"} className="mt-8">
-          <TouchableOpacity className="justify-center h-16 flex-row items-center space-x-2 p-3 bg-blue-500 rounded-xl">
-            <Text className="text-xl font-semibold text-white">start trip</Text>
-            <Ionicons name="timer-outline" size={28} color={"white"} />
+        <View style={"100%"} className="mt-8 items-center">
+          <TouchableOpacity
+            onPress={started ? handleEnd : handleStart}
+            className={`justify-center h-16 flex-row items-center space-x-2 p-3 ${
+              started ? "bg-red-500" : "bg-blue-500"
+            } rounded-xl w-full`}
+          >
+            <Text className="text-2xl font-semibold text-white">
+              {started ? "end" : "start"} trip
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
