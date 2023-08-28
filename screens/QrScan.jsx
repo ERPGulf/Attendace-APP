@@ -24,7 +24,6 @@ const QrScan = ({ navigation }) => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
     };
-
     if (!hasPermission) getBarCodeScannerPermissions();
   }, [hasPermission]);
 
@@ -36,7 +35,6 @@ const QrScan = ({ navigation }) => {
       const userIdMatch = value.match(/User_id: ([\w@.-]+)/);
       const fullNameMatch = value.match(/Full_Name: (\w+\s+\w+)/);
       const apiMatch = value.match(/API: (https:\/\/.+)$/);
-
       if (fullNameMatch && apiMatch) {
         const company = companyMatch[1];
         const employeeCode = employeeCodeMatch[1];

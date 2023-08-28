@@ -181,3 +181,16 @@ export const getUserCustomIn = async (employeeCode) => {
 }
 
 
+export const tripTrack = async (formData) => {
+    try {
+        const { data } = await userApi.post('method/employee_app.attendance_api.insert_new_trip', formData, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
+        if (data.message) Promise.resolve(data)
+    } catch (error) {
+        console.error(error, 'trip')
+        return Promise.reject("something went wrong")
+    }
+}
