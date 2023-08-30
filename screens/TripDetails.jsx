@@ -26,7 +26,7 @@ import { endTripTrack, tripTrack, userTripStatus } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 const TripDetails = ({ navigation }) => {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,28 +36,27 @@ const TripDetails = ({ navigation }) => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
   const dispatch = useDispatch();
   useEffect(() => {
-    const tripStatus = () => {
+    const tripStatus = async () => {
       setIsLoading(true);
-      userTripStatus(employeeCode)
-        .then(({ custom_trip_status, custom_trip_type, name }) => {
-          if (custom_trip_status == 1) {
-            dispatch(setTripId(name));
-            dispatch(setStarted(custom_trip_type));
-          }
-          if (custom_trip_status == 0) {
-            dispatch(setEndTrip());
-          }
-        })
-        .catch(() => {
-          Toast.show({
-            type: "error",
-            text1: "Getting trip status failed",
-          });
+      try {
+        const { custom_trip_status, custom_trip_type, name } =
+          await userTripStatus(employeeCode);
+        if (custom_trip_status === 1) {
+          dispatch(setTripId(name));
+          dispatch(setStarted(custom_trip_type));
+        } else if (custom_trip_status === 0) {
+          dispatch(setEndTrip());
+        }
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: "Getting trip status failed",
         });
+      }
       setIsLoading(false);
     };
     tripStatus();
-  }, []);
+  }, [employeeCode]);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
