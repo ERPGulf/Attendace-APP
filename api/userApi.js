@@ -188,9 +188,44 @@ export const tripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        if (data.message) Promise.resolve(data)
+        if (!data.message) Promise.reject()
+        return Promise.resolve(data.message)
     } catch (error) {
         console.error(error, 'trip')
+        return Promise.reject("something went wrong")
+    }
+}
+
+
+export const userTripStatus = async (employeeCode) => {
+    try {
+        const { data } = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            },
+            params: {
+                'employee_id': employeeCode
+            }
+        })
+        return Promise.resolve(data.message)
+    } catch (error) {
+        console.error(error, 'trip status')
+        return Promise.reject("something went wrong")
+    }
+}
+
+
+export const endTripTrack = async (formData) => {
+    try {
+        const { data } = await userApi.post('method/employee_app.attendance_api.close_the_trip', formData, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
+        if (!data.message) Promise.reject()
+        return Promise.resolve()
+    } catch (error) {
+        console.error(error, 'trip end')
         return Promise.reject("something went wrong")
     }
 }

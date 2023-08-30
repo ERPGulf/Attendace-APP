@@ -42,7 +42,7 @@ const TopCard = () => {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, [isStarted]);
+  }, [isStarted,startTime]);
   return (
     <View
       style={{ width: "100%" }}
@@ -55,7 +55,9 @@ const TopCard = () => {
         {isStarted ? (
           <View className="w-full py-3 justify-center items-center h-56  flex-row">
             <Text className="text-4xl font-medium text-white">{minutes}</Text>
-            <Text className="text-lg font-medium ml-2 text-white mt-1">Hours</Text>
+            <Text className="text-lg font-medium ml-2 text-white mt-1">
+              Hours
+            </Text>
           </View>
         ) : (
           <View className="w-full py-3 justify-end h-56">

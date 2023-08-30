@@ -17,13 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setEndTrip,
   setStartTrip,
+  setStarted,
+  setTripId,
   startedSelect,
+  tripIdSelect,
 } from "../redux/Slices/TripDetailsSlice";
-import { tripTrack } from "../api/userApi";
+import { endTripTrack, tripTrack, userTripStatus } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 const TripDetails = ({ navigation }) => {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +35,29 @@ const TripDetails = ({ navigation }) => {
   const [tripType, setTripType] = useState(null);
   const [location, setLocation] = useState({ latitude: null, longitude: null });
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    const tripStatus = () => {
+      setIsLoading(true);
+      userTripStatus(employeeCode)
+        .then(({ custom_trip_status, custom_trip_type, name }) => {
+          if (custom_trip_status == 1) {
+            dispatch(setTripId(name));
+            dispatch(setStarted(custom_trip_type));
+          }
+          if (custom_trip_status == 0) {
+            dispatch(setEndTrip());
+          }
+        })
+        .catch(() => {
+          Toast.show({
+            type: "error",
+            text1: "Getting trip status failed",
+          });
+        });
+      setIsLoading(false);
+    };
+    tripStatus();
+  }, []);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -83,20 +108,50 @@ const TripDetails = ({ navigation }) => {
     formData.append("trip_start_location", `${latitude},${longitude}`);
     formData.append("job_order", values.job_order);
     formData.append("vehicle_number", values.vehicle_no);
-    formData.append("trip_status", 0);
-    tripTrack(formData).then(() => {
-      dispatch(
-        setStartTrip({
-          startTime: new Date().toISOString(),
-          tripType,
-        })
-      );
-    });
+    formData.append("trip_status", 1);
+    tripTrack(formData)
+      .then(({ name }) => {
+        dispatch(setTripId(name));
+        dispatch(
+          setStartTrip({
+            startTime: new Date().toISOString(),
+            tripType,
+          })
+        );
+      })
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Trip start failed",
+          text2: "Please try again",
+        });
+      });
     setIsLoading(false);
   };
+  const tripId = useSelector(tripIdSelect);
   const handleEnd = (values) => {
-    setTripType(null);
-    dispatch(setEndTrip(new Date().toISOString()));
+    const currentDateTime = new Date();
+    const formattedDateTime = format(currentDateTime, "yyyy-MM-dd HH:mm:ss");
+    const { latitude, longitude } = location;
+    const formData = new FormData();
+    formData.append("trip_id", tripId);
+    formData.append("trip_end_km", values.ending_km);
+    formData.append("trip_end_location", `${latitude},${longitude}`);
+    formData.append("trip_status", 0);
+    formData.append("trip_end_time", formattedDateTime);
+
+    endTripTrack(formData)
+      .then(() => {
+        setTripType(null);
+        dispatch(setEndTrip(new Date().toISOString()));
+      })
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Trip end failed",
+          text2: "Please try again",
+        });
+      });
   };
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -270,7 +325,7 @@ const TripDetails = ({ navigation }) => {
                           value={values.starting_km}
                           onChangeText={handleChange("starting_km")}
                           placeholder="enter starting km"
-                          textContentType="none"
+                          keyboardType="numbers-and-punctuation"
                           onBlur={() => setFieldTouched("starting_km")}
                           style={{
                             marginTop: Platform.OS === "ios" ? -10 : 0,
