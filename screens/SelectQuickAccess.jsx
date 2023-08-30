@@ -117,10 +117,11 @@ const SelectQuickAccess = ({ navigation }) => {
               activeButtons?.some((button) => button?.id === item.id)
                 ? "bg-orange-500"
                 : "bg-orange-100"
-            } items-center justify-start rounded-lg flex-grow mx-1 my-2`}
+            } items-center justify-center rounded-lg  mx-1 my-2`}
             style={{
               width: 110,
               height: 110,
+              flexGrow: 0.5,
             }}
           >
             <ButtonItem
@@ -130,6 +131,7 @@ const SelectQuickAccess = ({ navigation }) => {
             />
           </TouchableOpacity>
         ))}
+       
       </View>
     </SafeAreaView>
   );
