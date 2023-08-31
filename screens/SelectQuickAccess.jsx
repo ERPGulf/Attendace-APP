@@ -101,7 +101,6 @@ const SelectQuickAccess = ({ navigation }) => {
           </View>
         </View>
       </View>
-
       <View
         className="bg-white flex-row px-3 space-x-1 flex-wrap"
         style={{
