@@ -106,7 +106,11 @@ const QrScan = ({ navigation }) => {
     );
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
+        <Text>No access to camera</Text>
+      </SafeAreaView>
+    );
   }
 
   return (

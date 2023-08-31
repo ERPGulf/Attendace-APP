@@ -6,6 +6,7 @@ import WelcomeScreen from "./WelcomeScreen";
 import AttendanceHistory from "./AttendanceHistory";
 import SelectQuickAccess from "./SelectQuickAccess";
 import TripDetails from "./TripDetails";
+import AttendanceCamera from './AttendanceCamera'
 export {
     Home,
     AttendanceAction,
@@ -14,5 +15,6 @@ export {
     WelcomeScreen,
     AttendanceHistory,
     SelectQuickAccess,
-    TripDetails
+    TripDetails,
+    AttendanceCamera
 }
