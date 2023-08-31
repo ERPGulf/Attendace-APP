@@ -272,7 +272,7 @@ const TripDetails = ({ navigation }) => {
                           onBlur={() => setFieldTouched("job_order")}
                           style={{
                             marginTop: Platform.OS === "ios" ? -10 : 0,
-                            width: 300,
+                            flex: 1,
                           }}
                           className=" h-12 text-lg"
                         />
@@ -300,7 +300,7 @@ const TripDetails = ({ navigation }) => {
                           onBlur={() => setFieldTouched("vehicle_no")}
                           style={{
                             marginTop: Platform.OS === "ios" ? -10 : 0,
-                            width: 300,
+                            flex: 1,
                           }}
                           className=" h-12 text-lg"
                         />
@@ -328,7 +328,7 @@ const TripDetails = ({ navigation }) => {
                           onBlur={() => setFieldTouched("starting_km")}
                           style={{
                             marginTop: Platform.OS === "ios" ? -10 : 0,
-                            width: 300,
+                            flex: 1,
                           }}
                           className=" h-12 text-lg"
                         />
@@ -393,7 +393,7 @@ const TripDetails = ({ navigation }) => {
                         onBlur={() => setFieldTouched("ending_km")}
                         style={{
                           marginTop: Platform.OS === "ios" ? -10 : 0,
-                          width: 300,
+                          flex: 1,
                         }}
                         className=" h-12 text-lg"
                       />

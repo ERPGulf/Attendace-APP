@@ -81,7 +81,7 @@ const Login = ({ navigation }) => {
                   textContentType="password"
                   onBlur={() => setFieldTouched("password")}
                   style={{ marginTop: Platform.OS === "ios" ? -10 : 0 }}
-                  className="max-w-xs h-12 text-lg"
+                  className="flex-1 h-12 text-lg"
                 />
                 <Ionicons
                   name="lock-closed"
