@@ -18,13 +18,14 @@ const QrScan = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch();
-
+  const getBarCodeScannerPermissions = async () => {
+    const { status } = await BarCodeScanner.requestPermissionsAsync();
+    setHasPermission(status === "granted");
+  };
   useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-    if (!hasPermission) getBarCodeScannerPermissions();
+    if (!hasPermission) {
+      getBarCodeScannerPermissions();
+    }
   }, [hasPermission]);
 
   const handleQRCodeData = async (data) => {
