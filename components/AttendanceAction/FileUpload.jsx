@@ -16,6 +16,7 @@ const FileUpload = ({ inTarget, isWFH }) => {
       text1: "File being uploaded",
       text2: "it may take a minute or two dont worry ",
     });
+
     const fileType = result.type;
     const localUri = result.uri;
     const filename = localUri.split("/").pop();
