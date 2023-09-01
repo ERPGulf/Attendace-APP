@@ -17,6 +17,7 @@
     "date-fns": "^2.30.0",
     "expo": "~49.0.5",
     "expo-barcode-scanner": "~12.5.3",
+    "expo-camera": "~13.4.2",
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",
     "expo-image-picker": "~14.3.2",
@@ -34,8 +35,7 @@
     "react-native-toast-message": "^2.1.6",
     "react-redux": "^8.1.2",
     "redux-persist": "^6.0.0",
-    "yup": "^1.2.0",
-    "expo-camera": "~13.4.2"
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
