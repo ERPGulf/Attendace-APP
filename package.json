@@ -35,7 +35,8 @@
     "react-native-toast-message": "^2.1.6",
     "react-redux": "^8.1.2",
     "redux-persist": "^6.0.0",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "expo-av": "~13.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -8,14 +8,14 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FileUpload, Retry, WelcomeCard } from "../components/AttendanceAction";
+import { Retry, WelcomeCard } from "../components/AttendanceAction";
 import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import { format } from "date-fns";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
@@ -244,7 +244,22 @@ const AttendanceAction = ({ navigation }) => {
             </View>
             {checkin ? (
               <React.Fragment>
-                <FileUpload inTarget={inTarget} isWFH={isWFH} />
+                <TouchableOpacity
+                  className={`justify-center ${
+                    !inTarget && !isWFH && `opacity-50`
+                  } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
+                  disabled={!inTarget && !isWFH}
+                  onPress={() => navigation.navigate("Attendance camera")}
+                >
+                  <Ionicons
+                    name="image"
+                    size={SIZES.xxxLarge}
+                    color={"white"}
+                  />
+                  <Text className="text-xl font-bold text-white">
+                    Photo or Video
+                  </Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
