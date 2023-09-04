@@ -164,8 +164,15 @@ const TripDetails = ({ navigation }) => {
   };
   // Debounce the API call with a delay of 500 milliseconds
   const debouncedGetContracts = debounce(async (searchTerm) => {
-    const contractList = await getContracts(searchTerm);
-    setContracts(contractList);
+    try {
+      const contractList = await getContracts(searchTerm);
+      setContracts(contractList);
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Fetching contracts failed",
+      });
+    }
   }, 500);
   return (
     <KeyboardAvoidingView
@@ -325,27 +332,35 @@ const TripDetails = ({ navigation }) => {
                             borderBottomEndRadius: 12,
                             borderBottomStartRadius: 12,
                             flexGrow: 1,
-                            paddingVertical:5,
+                            paddingVertical: 5,
+                            paddingHorizontal: 5,
                             rowGap: 5,
                             alignItems: "center",
                             backgroundColor: "rgba(255,255,255,1)",
                           }}
                         >
-                          {contracts &&
+                          {contracts ? (
                             contracts?.map((item, index) => (
                               <TouchableOpacity
                                 onPress={() => {
                                   setFieldValue("job_order", item);
-                                  setIsTouched('')
+                                  setIsTouched("");
                                 }}
                                 key={index}
-                                className="w-full px-3 h-16 justify-center"
+                                className="w-full px-3 h-16 justify-center bg-gray-100 rounded-lg"
                               >
-                                <Text className="text-lg text-gray-600">
+                                <Text className="text-lg text-gray-800">
                                   {item}
                                 </Text>
                               </TouchableOpacity>
-                            ))}
+                            ))
+                          ) : (
+                            <View className="w-full px-3 h-18 justify-center">
+                              <Text className="text-base text-gray-600/50">
+                                Getting job order
+                              </Text>
+                            </View>
+                          )}
                         </ScrollView>
                       )}
                       <View style={{ width: "100%", marginTop: 10 }}>
