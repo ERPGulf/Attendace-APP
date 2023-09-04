@@ -229,3 +229,24 @@ export const endTripTrack = async (formData) => {
         return Promise.reject("something went wrong")
     }
 }
+
+export const getContracts = async (searchTerms = "") => {
+    const formData = new FormData();
+    formData.append('name', searchTerms); // Remove the single quotes around 'name'
+    try {
+        const { data } = await userApi.post(
+            'method/employee_app.attendance_api.contract_list',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
+        const filteredData = data?.message?.flat(1)
+        return filteredData;
+    } catch (error) {
+        console.error(error, 'contract');
+        return Promise.reject("Something went wrong");
+    }
+};

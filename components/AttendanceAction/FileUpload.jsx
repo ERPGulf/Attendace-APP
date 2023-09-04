@@ -23,7 +23,6 @@ const FileUpload = ({ inTarget, isWFH }) => {
     const match = /\.(\w+)$/.exec(filename);
     const type = match ? `${fileType}/${match[1]}` : fileType;
     const formData = new FormData();
-    console.log(type);
     formData.append(
       "fieldname",
       fileType === "image" ? "custom_photo" : "custom_video"
