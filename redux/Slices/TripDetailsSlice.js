@@ -5,7 +5,8 @@ const initialState = {
     startTime: null,
     endTime: null,
     tripType: null,
-    tripId: null
+    tripId: null,
+    vehicleId: null
 }
 
 
@@ -28,17 +29,22 @@ export const TripDetailsSlice = createSlice({
         },
         setTripId: (state, action) => {
             state.tripId = action.payload
+        },
+        setVehicleId: (state, action) => {
+            state.vehicleId = action.payload
         }
     }
 })
 
-export const { setEndTrip, setStartTrip, setStarted, setTripId } = TripDetailsSlice.actions
+export const { setEndTrip, setStartTrip, setStarted, setTripId, setVehicleId } = TripDetailsSlice.actions
 
 // selector
 export const startTimeSelect = state => state.tripDetails.startTime
 export const endTimeSelect = state => state.tripDetails.endTime
 export const startedSelect = state => state.tripDetails.started
 export const tripIdSelect = state => state.tripDetails.tripId
+export const vehicleIdSelect = state => state.tripDetails.vehicleId
+
 
 
 export default TripDetailsSlice.reducer

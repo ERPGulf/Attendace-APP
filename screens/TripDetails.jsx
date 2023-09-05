@@ -21,12 +21,15 @@ import {
   setStartTrip,
   setStarted,
   setTripId,
+  setVehicleId,
   startedSelect,
   tripIdSelect,
+  vehicleIdSelect,
 } from "../redux/Slices/TripDetailsSlice";
 import {
   endTripTrack,
   getContracts,
+  getVehicle,
   tripTrack,
   userTripStatus,
 } from "../api/userApi";
@@ -38,8 +41,8 @@ const TripDetails = ({ navigation }) => {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [contracts, setContracts] = useState(null);
+  const [vehicles, setVehicles] = useState(null);
   const [isTouched, setIsTouched] = useState("");
-  const [contractSearch, setContractSearch] = useState("");
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const started = useSelector(startedSelect);
   const [tripType, setTripType] = useState(null);
@@ -110,6 +113,7 @@ const TripDetails = ({ navigation }) => {
     setIsLoading(true);
     const { latitude, longitude } = location;
     const formData = new FormData();
+    dispatch(setVehicleId(values.vehicle_no));
     formData.append("employee_id", employeeCode);
     formData.append("trip_start_time", formattedDateTime);
     formData.append("trip_type", tripType);
@@ -138,6 +142,7 @@ const TripDetails = ({ navigation }) => {
     setIsLoading(false);
   };
   const tripId = useSelector(tripIdSelect);
+  const vehicle_no = useSelector(vehicleIdSelect);
   const handleEnd = (values) => {
     const currentDateTime = new Date();
     const formattedDateTime = format(currentDateTime, "yyyy-MM-dd HH:mm:ss");
@@ -147,6 +152,7 @@ const TripDetails = ({ navigation }) => {
     formData.append("trip_end_km", values.ending_km);
     formData.append("trip_end_location", `${latitude},${longitude}`);
     formData.append("trip_status", 0);
+    formData.append("vehicle_id", vehicle_no);
     formData.append("trip_end_time", formattedDateTime);
 
     endTripTrack(formData)
@@ -167,6 +173,18 @@ const TripDetails = ({ navigation }) => {
     try {
       const contractList = await getContracts(searchTerm);
       setContracts(contractList);
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Fetching contracts failed",
+      });
+    }
+  }, 500);
+  // Debounce the API call with a delay of 500 milliseconds
+  const debouncedGetVehicles = debounce(async (searchTerm) => {
+    try {
+      const vehicleList = await getVehicle(searchTerm);
+      setVehicles(vehicleList);
     } catch (error) {
       Toast.show({
         type: "error",
@@ -298,7 +316,7 @@ const TripDetails = ({ navigation }) => {
                             value={values.job_order}
                             onChangeText={async (text) => {
                               handleChange("job_order")(text); // Update Formik's value
-                              debouncedGetContracts(text);
+                              if (!text == "") debouncedGetContracts(text);
                             }}
                             placeholder="enter Job order/Trip No."
                             onBlur={() => setFieldTouched("job_order")}
@@ -366,8 +384,12 @@ const TripDetails = ({ navigation }) => {
                       <View style={{ width: "100%", marginTop: 10 }}>
                         <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
                           <TextInput
+                            onFocus={() => setIsTouched("vehicle_no")}
                             value={values.vehicle_no}
-                            onChangeText={handleChange("vehicle_no")}
+                            onChangeText={async (text) => {
+                              handleChange("vehicle_no")(text); // Update Formik's value
+                              if (!text == "") debouncedGetVehicles(text);
+                            }}
                             placeholder="enter vehicle_no"
                             textContentType="none"
                             onBlur={() => setFieldTouched("vehicle_no")}
@@ -391,33 +413,53 @@ const TripDetails = ({ navigation }) => {
                           </Text>
                         </View>
                       )}
-                      <View style={{ width: "100%", marginTop: 10 }}>
-                        <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
-                          <TextInput
-                            value={values.starting_km}
-                            onChangeText={handleChange("starting_km")}
-                            placeholder="enter starting km"
-                            keyboardType="numbers-and-punctuation"
-                            onBlur={() => setFieldTouched("starting_km")}
-                            style={{
-                              marginTop: Platform.OS === "ios" ? -10 : 0,
-                              flex: 1,
-                            }}
-                            className=" h-12 text-lg"
-                          />
-                          <Ionicons
-                            name="trail-sign-outline"
-                            size={SIZES.xLarge}
-                            color={COLORS.gray2}
-                          />
-                        </View>
-                      </View>
-                      {touched.starting_km && errors.starting_km && (
-                        <View style={{ width: "100%" }} className="left-1 mt-1">
-                          <Text className="text-red-600 text-base">
-                            {errors.starting_km}
-                          </Text>
-                        </View>
+                      {isTouched === "vehicle_no" && (
+                        <ScrollView
+                          contentContainerStyle={{
+                            flex: 1,
+                            borderWidth: 0.5,
+                            borderTopWidth: 0,
+                            borderColor: "rgba(0,0,0,0.3)",
+                            borderBottomEndRadius: 12,
+                            borderBottomStartRadius: 12,
+                            flexGrow: 1,
+                            paddingVertical: 5,
+                            paddingHorizontal: 5,
+                            rowGap: 5,
+                            alignItems: "center",
+                            backgroundColor: "rgba(255,255,255,1)",
+                          }}
+                        >
+                          {vehicles ? (
+                            vehicles?.map((item, index) => (
+                              <TouchableOpacity
+                                onPress={() => {
+                                  setFieldValue(
+                                    "vehicle_no",
+                                    item.vehicle_number_plate
+                                  );
+                                  setFieldValue("starting_km", item.odometer);
+                                  setIsTouched("");
+                                }}
+                                key={index}
+                                className="w-full px-3  h-16 justify-center bg-gray-100 rounded-lg"
+                              >
+                                <Text className="text-lg text-gray-800">
+                                  {item.vehicle_number_plate}
+                                </Text>
+                                <Text className="text-sm text-gray-800">
+                                  {item.vehicle_model}
+                                </Text>
+                              </TouchableOpacity>
+                            ))
+                          ) : (
+                            <View className="w-full px-3 h-18 justify-center">
+                              <Text className="text-base text-gray-600/50">
+                                Getting vehicle number
+                              </Text>
+                            </View>
+                          )}
+                        </ScrollView>
                       )}
                       <View className="mt-6 items-center">
                         <TouchableOpacity

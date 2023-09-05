@@ -232,7 +232,7 @@ export const endTripTrack = async (formData) => {
 
 export const getContracts = async (searchTerms = "") => {
     const formData = new FormData();
-    formData.append('name', searchTerms); // Remove the single quotes around 'name'
+    formData.append('enter_name', searchTerms);
     try {
         const { data } = await userApi.post(
             'method/employee_app.attendance_api.contract_list',
@@ -245,6 +245,31 @@ export const getContracts = async (searchTerms = "") => {
         );
         const filteredData = data?.message?.flat(1)
         return filteredData;
+    } catch (error) {
+        console.error(error, 'contract');
+        return Promise.reject("Something went wrong");
+    }
+};
+
+
+
+export const getVehicle = async (searchTerms = "") => {
+    const formData = new FormData();
+    formData.append('vehicle_no', searchTerms);
+    formData.append('odometer', '');
+    formData.append('vehicle_model', '');
+
+    try {
+        const { data } = await userApi.post(
+            'method/employee_app.attendance_api.vehicle_list',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
+        return data.message;
     } catch (error) {
         console.error(error, 'contract');
         return Promise.reject("Something went wrong");
