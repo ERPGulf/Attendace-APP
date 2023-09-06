@@ -28,6 +28,7 @@ const refreshAccessToken = async () => {
 userApi.interceptors.request.use(
     async (config) => {
         const access_token = await AsyncStorage.getItem('access_token')
+        console.log(access_token);
         config.baseURL = await AsyncStorage.getItem('baseUrl')
         config.headers.Authorization = `Bearer ${access_token}`
         return config;
@@ -42,7 +43,7 @@ userApi.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response && (error.response.status === 400 || error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
+        if (error.response && (error.response.status === 400 || error.response.status === 417 || error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
             originalRequest._retry = true;
             if (!refreshPromise) {
                 refreshPromise = refreshAccessToken().finally(clearPromise)
@@ -243,6 +244,7 @@ export const getContracts = async (searchTerms = "") => {
                 },
             }
         );
+        if (!data.message) Promise.reject()
         const filteredData = data?.message?.flat(1)
         return filteredData;
     } catch (error) {
