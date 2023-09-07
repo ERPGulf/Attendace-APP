@@ -28,7 +28,6 @@ const refreshAccessToken = async () => {
 userApi.interceptors.request.use(
     async (config) => {
         const access_token = await AsyncStorage.getItem('access_token')
-        console.log(access_token);
         config.baseURL = await AsyncStorage.getItem('baseUrl')
         config.headers.Authorization = `Bearer ${access_token}`
         return config;
@@ -201,9 +200,6 @@ export const tripTrack = async (formData) => {
 export const userTripStatus = async (employeeCode) => {
     try {
         const { data } = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
-            headers: {
-                "Content-Type": 'multipart/form-data'
-            },
             params: {
                 'employee_id': employeeCode
             }
@@ -244,7 +240,6 @@ export const getContracts = async (searchTerms = "") => {
                 },
             }
         );
-        if (!data.message) Promise.reject()
         const filteredData = data?.message?.flat(1)
         return filteredData;
     } catch (error) {

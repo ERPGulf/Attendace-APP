@@ -23,9 +23,8 @@ export const TripDetailsSlice = createSlice({
             state.started = false
             state.tripType = null
         },
-        setStarted: (state, action) => {
+        setStarted: (state) => {
             state.started = true
-            state.tripType = action.payload
         },
         setTripId: (state, action) => {
             state.tripId = action.payload

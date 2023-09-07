@@ -52,14 +52,14 @@ const TripDetails = ({ navigation }) => {
     const tripStatus = async () => {
       setIsLoading(true);
       try {
-        const { custom_trip_status, custom_trip_type, name } =
-          await userTripStatus(employeeCode);
-        if (custom_trip_status === 1) {
-          dispatch(setTripId(name));
-          dispatch(setStarted(custom_trip_type));
-        } else if (custom_trip_status === 0) {
-          dispatch(setEndTrip());
-        }
+        await userTripStatus(employeeCode).then(({ trip_status, trip_no }) => {
+          if (trip_status) {
+            dispatch(setTripId(trip_no));
+            dispatch(setStarted());
+          } else if (trip_status === 0) {
+            dispatch(setEndTrip());
+          }
+        });
       } catch (error) {
         Toast.show({
           type: "error",
