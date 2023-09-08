@@ -177,6 +177,7 @@ const TripDetails = ({ navigation }) => {
       if (!error) {
         return setContracts(filteredData);
       }
+      setContracts(null);
       setContractsError(error);
     } catch (error) {
       Toast.show({
@@ -192,6 +193,7 @@ const TripDetails = ({ navigation }) => {
       if (!error) {
         return setVehicles(filteredData);
       }
+      setVehicles(null);
       setVehiclesError(error);
     } catch (error) {
       Toast.show({
@@ -428,6 +430,7 @@ const TripDetails = ({ navigation }) => {
                       {isTouched === "vehicle_no" && (
                         <ScrollView
                           contentContainerStyle={{
+                            height: "auto",
                             flex: 1,
                             borderWidth: 0.5,
                             borderTopWidth: 0,
