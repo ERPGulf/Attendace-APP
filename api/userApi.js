@@ -30,8 +30,6 @@ userApi.interceptors.request.use(
         const access_token = await AsyncStorage.getItem('access_token')
         config.baseURL = await AsyncStorage.getItem('baseUrl')
         if (access_token) {
-            console.log(access_token);
-            console.log(config.baseURL);
             config.headers.Authorization = `Bearer ${access_token}`
         }
         return config;
