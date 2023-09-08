@@ -209,20 +209,12 @@ export const tripTrack = async (formData) => {
 
 export const userTripStatus = async (employeeCode) => {
     try {
-        console.log('CALLING', employeeCode);
-        const response = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
+        const { data } = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
             params: {
                 'employee_id': employeeCode
             }
         });
-
-        if (response.status === 200) {
-            console.log(response.data, 'CALLED');
-            return Promise.resolve(response.data.message);
-        } else {
-            console.error('API request failed with status:', response.status);
-            return Promise.reject("API request failed");
-        }
+            return Promise.resolve(data.message);
     } catch (error) {
         console.error(error, 'trip status');
         return Promise.reject("Something went wrong");
