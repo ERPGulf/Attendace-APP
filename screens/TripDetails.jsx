@@ -231,6 +231,7 @@ const TripDetails = ({ navigation }) => {
             </View>
           </View>
         </View>
+
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -351,20 +352,7 @@ const TripDetails = ({ navigation }) => {
                         </View>
                       )}
                       {isTouched === "job_order" && (
-                        <ScrollView
-                          contentContainerStyle={{
-                            flex: 1,
-                            borderWidth: 0.5,
-                            borderTopWidth: 0,
-                            borderColor: "rgba(0,0,0,0.3)",
-                            borderBottomEndRadius: 12,
-                            borderBottomStartRadius: 12,
-                            flexGrow: 1,
-                            paddingVertical: 5,
-                            alignItems: "center",
-                            backgroundColor: "rgba(255,255,255,1)",
-                          }}
-                        >
+                        <View className="border border-t-0 border-gray-200 rounded-b-lg items-center p-3">
                           {contracts ? (
                             contracts?.map((item, index) => (
                               <TouchableOpacity
@@ -389,11 +377,11 @@ const TripDetails = ({ navigation }) => {
                           ) : (
                             <View className="w-full px-3 h-18 justify-center">
                               <Text className="text-base text-gray-600/50">
-                                Getting job order
+                                Getting job order...
                               </Text>
                             </View>
                           )}
-                        </ScrollView>
+                        </View>
                       )}
                       <View style={{ width: "100%", marginTop: 10 }}>
                         <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
@@ -428,21 +416,7 @@ const TripDetails = ({ navigation }) => {
                         </View>
                       )}
                       {isTouched === "vehicle_no" && (
-                        <ScrollView
-                          contentContainerStyle={{
-                            height: "auto",
-                            flex: 1,
-                            borderWidth: 0.5,
-                            borderTopWidth: 0,
-                            borderColor: "rgba(0,0,0,0.3)",
-                            borderBottomEndRadius: 12,
-                            borderBottomStartRadius: 12,
-                            flexGrow: 1,
-                            paddingVertical: 5,
-                            alignItems: "center",
-                            backgroundColor: "rgba(255,255,255,1)",
-                          }}
-                        >
+                        <View className="border border-t-0 border-gray-200 rounded-b-lg items-center p-2 ">
                           {vehicles ? (
                             vehicles?.map((item, index) => (
                               <TouchableOpacity
@@ -474,11 +448,11 @@ const TripDetails = ({ navigation }) => {
                           ) : (
                             <View className="w-full px-3 h-18 justify-center">
                               <Text className="text-base text-gray-600/50">
-                                Getting job order
+                                Getting job order...
                               </Text>
                             </View>
                           )}
-                        </ScrollView>
+                        </View>
                       )}
                       <View className="mt-6 items-center">
                         <TouchableOpacity
