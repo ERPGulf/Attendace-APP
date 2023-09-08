@@ -30,6 +30,8 @@ userApi.interceptors.request.use(
         const access_token = await AsyncStorage.getItem('access_token')
         config.baseURL = await AsyncStorage.getItem('baseUrl')
         if (access_token) {
+            console.log(access_token);
+            console.log(config.baseURL);
             config.headers.Authorization = `Bearer ${access_token}`
         }
         return config;
@@ -207,15 +209,23 @@ export const tripTrack = async (formData) => {
 
 export const userTripStatus = async (employeeCode) => {
     try {
-        const { data } = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
+        console.log('CALLING', employeeCode);
+        const response = await userApi.get('method/employee_app.attendance_api.get_latest_open_trip', {
             params: {
                 'employee_id': employeeCode
             }
-        })
-        return Promise.resolve(data.message)
+        });
+
+        if (response.status === 200) {
+            console.log(response.data, 'CALLED');
+            return Promise.resolve(response.data.message);
+        } else {
+            console.error('API request failed with status:', response.status);
+            return Promise.reject("API request failed");
+        }
     } catch (error) {
-        console.error(error, 'trip status')
-        return Promise.reject("something went wrong")
+        console.error(error, 'trip status');
+        return Promise.reject("Something went wrong");
     }
 }
 

@@ -33,17 +33,16 @@ const TripDetails = ({ navigation }) => {
   const [location, setLocation] = useState({ latitude: null, longitude: null });
   const dispatch = useDispatch();
   useEffect(() => {
-    const tripStatus = async () => {
+    (async () => {
       setIsLoading(true);
       try {
-        await userTripStatus(employeeCode).then(({ trip_status, trip_no }) => {
-          if (trip_status) {
-            dispatch(setTripId(trip_no));
-            dispatch(setStarted());
-          } else if (trip_status === 0) {
-            dispatch(setEndTrip());
-          }
-        });
+        const { trip_status, trip_no } = await userTripStatus(employeeCode);
+        if (trip_status) {
+          dispatch(setTripId(trip_no));
+          dispatch(setStarted());
+        } else if (trip_status === 0) {
+          dispatch(setEndTrip());
+        }
       } catch (error) {
         Toast.show({
           type: "error",
@@ -51,9 +50,9 @@ const TripDetails = ({ navigation }) => {
         });
       }
       setIsLoading(false);
-    };
-    tripStatus();
-  }, [employeeCode]);
+    })();
+  }, [refresh]);
+  
   useEffect(() => {
     (async () => {
       setIsLoading(true);
