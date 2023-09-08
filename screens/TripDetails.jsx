@@ -41,7 +41,9 @@ const TripDetails = ({ navigation }) => {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [contracts, setContracts] = useState(null);
+  const [contractsError, setContractsError] = useState(null);
   const [vehicles, setVehicles] = useState(null);
+  const [vehiclesError, setVehiclesError] = useState(null);
   const [isTouched, setIsTouched] = useState("");
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const started = useSelector(startedSelect);
@@ -171,8 +173,11 @@ const TripDetails = ({ navigation }) => {
   // Debounce the API call with a delay of 500 milliseconds
   const debouncedGetContracts = debounce(async (searchTerm) => {
     try {
-      const contractList = await getContracts(searchTerm);
-      setContracts(contractList);
+      const { filteredData, error } = await getContracts(searchTerm);
+      if (!error) {
+        return setContracts(filteredData);
+      }
+      setContractsError(error);
     } catch (error) {
       Toast.show({
         type: "error",
@@ -183,8 +188,11 @@ const TripDetails = ({ navigation }) => {
   // Debounce the API call with a delay of 500 milliseconds
   const debouncedGetVehicles = debounce(async (searchTerm) => {
     try {
-      const vehicleList = await getVehicle(searchTerm);
-      setVehicles(vehicleList);
+      const { filteredData, error } = await getVehicle(searchTerm);
+      if (!error) {
+        return setVehicles(filteredData);
+      }
+      setVehiclesError(error);
     } catch (error) {
       Toast.show({
         type: "error",
@@ -351,8 +359,6 @@ const TripDetails = ({ navigation }) => {
                             borderBottomStartRadius: 12,
                             flexGrow: 1,
                             paddingVertical: 5,
-                            paddingHorizontal: 5,
-                            rowGap: 5,
                             alignItems: "center",
                             backgroundColor: "rgba(255,255,255,1)",
                           }}
@@ -365,13 +371,19 @@ const TripDetails = ({ navigation }) => {
                                   setIsTouched("");
                                 }}
                                 key={index}
-                                className="w-full px-3 h-16 justify-center bg-gray-100 rounded-lg"
+                                className="w-full px-3 h-16 justify-center my-1 bg-gray-100 rounded-lg"
                               >
                                 <Text className="text-lg text-gray-800">
                                   {item}
                                 </Text>
                               </TouchableOpacity>
                             ))
+                          ) : contractsError ? (
+                            <View className="w-full px-3 h-18 justify-center">
+                              <Text className="text-base text-red-600/70">
+                                {contractsError}
+                              </Text>
+                            </View>
                           ) : (
                             <View className="w-full px-3 h-18 justify-center">
                               <Text className="text-base text-gray-600/50">
@@ -387,7 +399,7 @@ const TripDetails = ({ navigation }) => {
                             onFocus={() => setIsTouched("vehicle_no")}
                             value={values.vehicle_no}
                             onChangeText={async (text) => {
-                              handleChange("vehicle_no")(text); // Update Formik's value
+                              handleChange("vehicle_no")(text);
                               if (!text == "") debouncedGetVehicles(text);
                             }}
                             placeholder="enter vehicle_no"
@@ -424,8 +436,6 @@ const TripDetails = ({ navigation }) => {
                             borderBottomStartRadius: 12,
                             flexGrow: 1,
                             paddingVertical: 5,
-                            paddingHorizontal: 5,
-                            rowGap: 5,
                             alignItems: "center",
                             backgroundColor: "rgba(255,255,255,1)",
                           }}
@@ -442,7 +452,7 @@ const TripDetails = ({ navigation }) => {
                                   setIsTouched("");
                                 }}
                                 key={index}
-                                className="w-full px-3  h-16 justify-center bg-gray-100 rounded-lg"
+                                className="w-full px-3 my-1 h-16 justify-center bg-gray-100 rounded-lg"
                               >
                                 <Text className="text-lg text-gray-800">
                                   {item.vehicle_number_plate}
@@ -452,10 +462,16 @@ const TripDetails = ({ navigation }) => {
                                 </Text>
                               </TouchableOpacity>
                             ))
+                          ) : vehiclesError ? (
+                            <View className="w-full px-3 h-18 justify-center">
+                              <Text className="text-base text-red-600/70">
+                                {vehiclesError}
+                              </Text>
+                            </View>
                           ) : (
                             <View className="w-full px-3 h-18 justify-center">
                               <Text className="text-base text-gray-600/50">
-                                Getting vehicle number
+                                Getting job order
                               </Text>
                             </View>
                           )}

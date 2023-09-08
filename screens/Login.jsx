@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
         }}
         validationSchema={loginSchema}
         onSubmit={({ password }) => {
-          generateToken({ username, password })
+          generateToken( password )
             .then(async (data) => {
               await AsyncStorage.setItem("access_token", data.access_token);
               await AsyncStorage.setItem("refresh_token", data.refresh_token);

@@ -29,7 +29,9 @@ userApi.interceptors.request.use(
     async (config) => {
         const access_token = await AsyncStorage.getItem('access_token')
         config.baseURL = await AsyncStorage.getItem('baseUrl')
-        config.headers.Authorization = `Bearer ${access_token}`
+        if (access_token) {
+            config.headers.Authorization = `Bearer ${access_token}`
+        }
         return config;
     },
     (error) => Promise.reject(error)
@@ -56,9 +58,15 @@ userApi.interceptors.response.use(
 );
 
 // generate user tokens
-export const generateToken = async (formdata) => {
+export const generateToken = async (password) => {
+    const formData = new FormData()
+    formData.append('password', password)
     try {
-        const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token`, formdata)
+        const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token_for_employee`, formData, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
         if (data.message.message === "Invalid login credentials") {
             return Promise.reject("invalid password")
         }
@@ -188,6 +196,7 @@ export const tripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
+
         if (!data.message) Promise.reject()
         return Promise.resolve(data.message)
     } catch (error) {
@@ -241,7 +250,11 @@ export const getContracts = async (searchTerms = "") => {
             }
         );
         const filteredData = data?.message?.flat(1)
-        return filteredData;
+        if (filteredData.length === 0) {
+            return Promise.resolve({ filteredData, error: 'no contracts available' })
+
+        }
+        return Promise.resolve({ filteredData, error: null })
     } catch (error) {
         console.error(error, 'contract');
         return Promise.reject("Something went wrong");
@@ -266,7 +279,11 @@ export const getVehicle = async (searchTerms = "") => {
                 },
             }
         );
-        return data.message;
+        const filteredData = data?.message?.flat(1)
+        if (filteredData.length === 0) {
+            return Promise.resolve({ filteredData, error: 'no vehicle available' })
+        }
+        return Promise.resolve({ filteredData, error: null })
     } catch (error) {
         console.error(error, 'contract');
         return Promise.reject("Something went wrong");

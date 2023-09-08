@@ -42,7 +42,6 @@ const QrScan = ({ navigation }) => {
         const fullName = fullNameMatch[1].trim().replace(/\s+/g, " ");
         const userId = userIdMatch[1];
         const api = apiMatch[1];
-
         await AsyncStorage.setItem("baseUrl", api);
         dispatch(setFullname(fullName));
         dispatch(setUsername(userId));
