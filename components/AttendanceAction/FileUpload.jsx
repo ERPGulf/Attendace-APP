@@ -14,7 +14,7 @@ const FileUpload = ({ inTarget, isWFH }) => {
     Toast.show({
       type: "info",
       text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
+      text2: "it may take a minute or two dont worry",
     });
 
     const fileType = result.type;

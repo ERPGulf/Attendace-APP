@@ -56,6 +56,7 @@ const AttendanceAction = ({ navigation }) => {
 
     if (custom_loction === 0) {
       setIsWFH(true);
+      
     }
     if (custom_loction === 1) {
       (async () => {
