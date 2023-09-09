@@ -14,27 +14,23 @@ const refreshAccessToken = async () => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        await AsyncStorage.setItem('access_token', data.access_token);
-        await AsyncStorage.setItem('refresh_token', data.refresh_token);
-        return data.access_token
+        if (data.access_token) {
+            await AsyncStorage.setItem('access_token', data.access_token);
+            await AsyncStorage.setItem('refresh_token', data.refresh_token);
+            return data.access_token
+        } else {
+            return Promise.reject('No access token in response');
+        }
     } catch (error) {
         console.error('Token refresh error:', error.response || error.message || error);
         return Promise.reject(error);
     }
 };
-// baseUrl and accessToken preset middleware
-userApi.interceptors.request.use(
-    async (config) => {
-        const access_token = await AsyncStorage.getItem('access_token')
-        config.baseURL = await AsyncStorage.getItem('baseUrl')
-        if (access_token) {
-            config.headers.Authorization = `Bearer ${access_token}`
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
 // ... refresh middleware ...
+
+
+// This code intercepts any response from the api that is of status 400, 417, 403, or 401. It then checks if the refreshPromise variable is null, if it is, it sets it to refreshAccessToken(). If it is not null, it does nothing. It then returns the originalRequest. If the status code is not one of the above, the code rejects the error.
+
 
 let refreshPromise = null;
 const clearPromise = () => refreshPromise = null;
@@ -53,13 +49,25 @@ userApi.interceptors.response.use(
         }
         return Promise.reject(error);
     }
-);
-
-// generate user tokens
-export const generateToken = async (password) => {
-    const formData = new FormData()
-    formData.append('password', password)
-    try {
+    );
+    // baseUrl and accessToken preset middleware
+    userApi.interceptors.request.use(
+        async (config) => {
+            const access_token = await AsyncStorage.getItem('access_token')
+            config.baseURL = await AsyncStorage.getItem('baseUrl')
+            if (access_token) {
+                config.headers.Authorization = `Bearer ${access_token}`
+            }
+            return config;
+        },
+        (error) => Promise.reject(error)
+    );
+    
+    // generate user tokens
+    export const generateToken = async (password) => {
+        const formData = new FormData()
+        formData.append('password', password)
+        try {
         const { data, status } = await userApi.post(`method/employee_app.gauth.generate_custom_token_for_employee`, formData, {
             headers: {
                 "Content-Type": 'multipart/form-data'
@@ -194,7 +202,7 @@ export const tripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        if (!data.message) return Promise.reject(new error('Trip not started'))
+        if (!data.message) return Promise.reject(new Error('Trip not started'))
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error, 'trip')
@@ -225,7 +233,7 @@ export const endTripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        if (!data.message) return Promise.reject(new error('Trip not ended'))
+        if (!data.message) return Promise.reject(new Error('Trip not ended'))
         return Promise.resolve()
     } catch (error) {
         console.error(error, 'trip end')
