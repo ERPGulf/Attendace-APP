@@ -26,7 +26,7 @@ import {
 import Toast from "react-native-toast-message";
 import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
 import { setFileid } from "../redux/Slices/UserSlice";
-import { UseUserStatus } from "../hooks/fetch.user.status";
+import { useUserStatus } from "../hooks/fetch.user.status";
 const AttendanceAction = ({ navigation }) => {
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
@@ -43,7 +43,7 @@ const AttendanceAction = ({ navigation }) => {
 
   // TODO:FIX FLICKERING
   const { custom_in, loading, error, retry, custom_loction } =
-    UseUserStatus(employeeCode);
+    useUserStatus(employeeCode);
   useEffect(() => {
     dispatch(setOnlyCheckIn(custom_in === 1));
     if (error) {
