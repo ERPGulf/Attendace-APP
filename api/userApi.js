@@ -66,13 +66,13 @@ export const generateToken = async (password) => {
             }
         })
         if (data.message.message === "Invalid login credentials") {
-            return Promise.reject("invalid password")
+            return Promise.reject(new Error('Invalid login credentials'))
         }
         if (status === 200) return Promise.resolve(data.message)
 
     } catch (error) {
         console.error(error);
-        return Promise.reject('Please retry or scan again')
+        return Promise.reject(new Error('Login went wrong'))
     }
 }
 // get user location
@@ -96,7 +96,7 @@ export const getOfficeLocation = async (employeeCode) => {
 
     } catch (error) {
         console.error(error, 'location');
-        return Promise.reject('Something went wrong')
+        return Promise.reject(new Error('location went wrong'));
     }
 }
 
