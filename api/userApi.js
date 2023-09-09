@@ -194,7 +194,7 @@ export const tripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        if (!data.message) return Promise.reject()
+        if (!data.message) return Promise.reject(new error('Trip not started'))
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error, 'trip')
@@ -225,7 +225,7 @@ export const endTripTrack = async (formData) => {
                 "Content-Type": 'multipart/form-data'
             }
         })
-        if (!data.message) return Promise.reject()
+        if (!data.message) return Promise.reject(new error('Trip not ended'))
         return Promise.resolve()
     } catch (error) {
         console.error(error, 'trip end')
