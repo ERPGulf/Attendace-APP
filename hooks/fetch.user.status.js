@@ -1,7 +1,7 @@
 import { getUserCustomIn } from "../api/userApi";
 import { useState, useEffect } from "react";
 
-export const useUserStatus = (employeeCode) => {
+export const UseUserStatus = (employeeCode) => {
     const [data, setData] = useState({ loading: true, custom_in: null, error: null, custom_loction: null });
 
     const fetchStatus = async () => {
