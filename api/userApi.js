@@ -19,7 +19,7 @@ const refreshAccessToken = async () => {
             await AsyncStorage.setItem('refresh_token', data.refresh_token);
             return data.access_token
         } else {
-            return Promise.reject('No access token in response');
+            return Promise.reject(new Error('No access token in response'));
         }
     } catch (error) {
         console.error('Token refresh error:', error.response || error.message || error);

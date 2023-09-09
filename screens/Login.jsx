@@ -19,7 +19,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.user.username);
   const loginSchema = Yup.object().shape({
     password: Yup.string()
       .min(5, "Too short!")

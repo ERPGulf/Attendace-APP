@@ -9,13 +9,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Retry, WelcomeCard } from "../components/AttendanceAction";
-import { Entypo } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import { format } from "date-fns";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons ,Entypo} from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
@@ -278,7 +277,6 @@ const AttendanceAction = ({ navigation }) => {
                               type: "success",
                               text1: "CHECK-OUT CANCELLED",
                             });
-                            return;
                           },
                           style: "cancel",
                         },

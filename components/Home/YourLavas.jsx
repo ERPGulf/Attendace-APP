@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
-import { Octicons } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../../constants";
-import { AntDesign,Ionicons} from "@expo/vector-icons";
+import { AntDesign,Ionicons,Octicons} from "@expo/vector-icons";
 
 const LavaMenu = ({ navigation }) => {
   return (
