@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { WelcomeCard } from "../components/Login";
 import { COLORS, SIZES } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setSignIn } from "../redux/Slices/AuthSlice";

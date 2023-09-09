@@ -96,6 +96,7 @@ const WelcomeCard = () => {
           />
         </View>
       </View>
+      
       <Text className=" text-xs text-center pt-2 text-gray-500 font-medium">
         LAST ACTION :{" "}
         {checkin
