@@ -4,9 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import Navigator from './navigation/navigator';
 import Toast from "react-native-toast-message";
 import { PersistGate } from 'redux-persist/integration/react';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import * as Font from 'expo-font';
-import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons'
 function cacheFonts(fonts) {

@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
-import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome,AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { activeButtonsSelector } from "../../redux/Slices/QuickAccessSlice";
 import ButtonItem from "../SelectQuickAccess/ButtonItem";

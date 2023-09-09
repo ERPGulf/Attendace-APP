@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setSignOut } from "../../redux/Slices/AuthSlice";
 const WelcomeCard = () => {

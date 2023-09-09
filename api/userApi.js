@@ -125,7 +125,7 @@ export const userCheckIn = async (fielddata) => {
         return Promise.resolve(data.message);
     } catch (error) {
         console.error(error, 'checkin');
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
     }
 };
 
@@ -140,7 +140,7 @@ export const userFileUpload = async (formdata) => {
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error)
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
 
     }
 }
@@ -172,7 +172,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
         return Promise.resolve(data)
     } catch (error) {
         console.error(error)
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
     }
 }
 
@@ -190,7 +190,7 @@ export const getUserCustomIn = async (employeeCode) => {
         return Promise.resolve(data)
     } catch (error) {
         console.error(error, 'status')
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
     }
 }
 
@@ -206,7 +206,7 @@ export const tripTrack = async (formData) => {
         return Promise.resolve(data.message)
     } catch (error) {
         console.error(error, 'trip')
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
     }
 }
 
@@ -221,7 +221,7 @@ export const userTripStatus = async (employeeCode) => {
             return Promise.resolve(data.message);
     } catch (error) {
         console.error(error, 'trip status');
-        return Promise.reject("Something went wrong");
+        return Promise.reject(new Error(("Something went wrong)")));
     }
 }
 
@@ -237,7 +237,7 @@ export const endTripTrack = async (formData) => {
         return Promise.resolve()
     } catch (error) {
         console.error(error, 'trip end')
-        return Promise.reject("something went wrong")
+        return Promise.reject(new Error("something went wrong"))
     }
 }
 
@@ -262,7 +262,7 @@ export const getContracts = async (searchTerms = "") => {
         return Promise.resolve({ filteredData, error: null })
     } catch (error) {
         console.error(error, 'contract');
-        return Promise.reject("Something went wrong");
+        return Promise.reject(new Error(("Something went wrong)")))
     }
 };
 
@@ -291,6 +291,6 @@ export const getVehicle = async (searchTerms = "") => {
         return Promise.resolve({ filteredData, error: null })
     } catch (error) {
         console.error(error, 'contract');
-        return Promise.reject("Something went wrong");
+        return Promise.reject(new Error(("Something went wrong)")))
     }
 };
