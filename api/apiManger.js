@@ -1,7 +1,8 @@
 import Axios from 'axios';
 
 const userApi = Axios.create({
-    timeout:5000
-})
+    timeout: 10000,
+}
+)
 
 export default userApi;

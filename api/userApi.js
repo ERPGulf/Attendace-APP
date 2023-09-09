@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userApi from './apiManger';
-// import { store } from '../redux/Store'
-// import { setSignOut } from '../redux/Slices/AuthSlice';
 
 
 // refresh accessToken
