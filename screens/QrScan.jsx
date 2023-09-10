@@ -61,7 +61,7 @@ const QrScan = ({ navigation }) => {
   const handleImagePicked = async (result) => {
     if (result.canceled) return;
 
-    if (result && result.assets[0].uri) {
+    if (result?.assets[0]?.uri) {
       try {
         const scannedResults = await BarCodeScanner.scanFromURLAsync(
           result.assets[0].uri

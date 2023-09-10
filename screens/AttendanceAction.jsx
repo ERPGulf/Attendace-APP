@@ -40,7 +40,7 @@ const AttendanceAction = ({ navigation }) => {
   // circle radius for loaction bound
   const radiusInMeters = 200;
 
-  // TODO:FIX FLICKERING
+  //FIX FLICKERING
   const { custom_in, loading, error, retry, custom_loction } =
     useUserStatus(employeeCode);
   useEffect(() => {

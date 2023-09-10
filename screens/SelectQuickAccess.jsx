@@ -28,7 +28,7 @@ const SelectQuickAccess = ({ navigation }) => {
       text2: "history",
       url: "Attendance history",
     },
-    // TODO:ADD URL WHEN REST IS COMPLETE
+    //ADD URL WHEN REST IS COMPLETE
     {
       id: 3,
       iconName: "airplane-outline",
@@ -112,8 +112,7 @@ const SelectQuickAccess = ({ navigation }) => {
             key={item.iconName}
             onPress={() => handleClick(item)}
             className={`${
-              activeButtons &&
-              activeButtons?.some((button) => button?.id === item.id)
+              activeButtons?.some((button) => button?.id === item?.id)
                 ? "bg-orange-500"
                 : "bg-orange-100"
             } items-center justify-center rounded-lg  mx-1 my-2`}
