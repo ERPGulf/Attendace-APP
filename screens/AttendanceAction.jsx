@@ -61,31 +61,42 @@ const AttendanceAction = ({ navigation }) => {
       (async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          return;
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-        const userCords = {
-          latitude,
-          longitude,
-        };
-        getOfficeLocation(employeeCode)
-          .then(({ latitude, longitude }) => {
-            const targetLocation = {
-              latitude, // Convert to numbers
-              longitude, // Convert to numbers
-            };
-            // 11.791130806353708, 75.59082113912703 test coordinates ,
-            const distance = getPreciseDistance(userCords, targetLocation);
-            setInTarget(distance <= radiusInMeters);
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1: "Location retreving failed",
-              text2: "Please make sure you are at work place",
-            });
+          setIsLoading(false)
+          return Toast.show({
+            type: "error",
+            text1: "Location access not granted",
           });
+        }
+        try {
+          const location = await Location.getCurrentPositionAsync({});
+          const { latitude, longitude } = location.coords;
+          const userCords = {
+            latitude,
+            longitude,
+          };
+          getOfficeLocation(employeeCode)
+            .then(({ latitude, longitude }) => {
+              const targetLocation = {
+                latitude, // Convert to numbers
+                longitude, // Convert to numbers
+              };
+              const distance = getPreciseDistance(userCords, targetLocation);
+              setInTarget(distance <= radiusInMeters);
+            })
+            .catch(() => {
+              Toast.show({
+                type: "error",
+                text1: "Location retreving failed",
+                text2: "Please make sure you are at work place",
+              });
+            });
+        } catch (error) {
+          Toast.show({
+            type: "error",
+            text1: "Location retreving failed",
+            text2: "Please make sure you are at work place",
+          });
+        }
       })();
     }
     setRefresh(false);
