@@ -72,7 +72,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
       });
     setIsLoading(false);
   };
-  // Debounce the API call with a delay of 500 milliseconds
+  // Debounce the API call with a delay of 250 milliseconds
   const debouncedGetContracts = debounce(async (searchTerm) => {
     try {
       const { filteredData, error } = await getContracts(searchTerm);
@@ -87,8 +87,8 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         text1: "Fetching contracts failed",
       });
     }
-  }, 500);
-  // Debounce the API call with a delay of 500 milliseconds
+  }, 250);
+  // Debounce the API call with a delay of 250 milliseconds
   const debouncedGetVehicles = debounce(async (searchTerm) => {
     try {
       const { filteredData, error } = await getVehicle(searchTerm);
@@ -103,7 +103,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         text1: "Fetching contracts failed",
       });
     }
-  }, 500);
+  }, 250);
   return (
     <Formik
       initialValues={{
