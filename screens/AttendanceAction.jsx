@@ -156,11 +156,11 @@ const AttendanceAction = ({ navigation }) => {
             });
           });
       })
-      .catch((msg) => {
+      .catch((error) => {
         setCheckLoad(false);
         Toast.show({
           type: "error",
-          text1: msg,
+          text1: error,
         });
       });
   };
