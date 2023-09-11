@@ -22,8 +22,7 @@ const refreshAccessToken = async () => {
       await AsyncStorage.setItem("refresh_token", data.refresh_token);
       return data.access_token;
     } else {
-      //your-api-url/
-      https: return Promise.reject(new Error("No access token in response"));
+      return Promise.reject(new Error("No access token in response"));
     }
   } catch (error) {
     console.error(
@@ -133,7 +132,7 @@ export const userCheckIn = async (fielddata) => {
       "method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field",
       formData
     );
-    if(!data) return Promise.reject(new Error("Employee not found"));
+    if (!data) return Promise.reject(new Error("Employee not found"));
     return Promise.resolve(data?.message);
   } catch (error) {
     console.error(error, "checkin");

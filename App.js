@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/Store';
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import Navigator from './navigation/navigator';
 import Toast from "react-native-toast-message";
