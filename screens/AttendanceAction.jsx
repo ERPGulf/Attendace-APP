@@ -13,8 +13,8 @@ import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
-import { format } from "date-fns";
-import { MaterialCommunityIcons, Ionicons ,Entypo} from "@expo/vector-icons";
+import { format, set } from "date-fns";
+import { MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
@@ -38,10 +38,10 @@ const AttendanceAction = ({ navigation }) => {
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
-  const radiusInMeters = 200;
+  const radiusInMeters = 250;
 
   //FIX FLICKERING
-  const { custom_in, loading, error, retry, custom_loction } =
+  const { custom_in, loading, error, retry, custom_loction, custom_radius } =
     useUserStatus(employeeCode);
   useEffect(() => {
     dispatch(setOnlyCheckIn(custom_in === 1));
@@ -55,13 +55,12 @@ const AttendanceAction = ({ navigation }) => {
 
     if (custom_loction === 0) {
       setIsWFH(true);
-      
     }
     if (custom_loction === 1) {
       (async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          setIsLoading(false)
+          setIsLoading(false);
           return Toast.show({
             type: "error",
             text1: "Location access not granted",
@@ -81,7 +80,10 @@ const AttendanceAction = ({ navigation }) => {
                 longitude, // Convert to numbers
               };
               const distance = getPreciseDistance(userCords, targetLocation);
-              setInTarget(distance <= radiusInMeters);
+              if (!custom_radius) {
+                return setInTarget(distance <= radiusInMeters);
+              }
+              setInTarget(distance <= parseFloat(custom_radius));
             })
             .catch(() => {
               Toast.show({

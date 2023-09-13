@@ -108,7 +108,6 @@ export const getOfficeLocation = async (employeeCode) => {
         fields: JSON.stringify(fields),
       },
     });
-
     // Parse custom_reporting_location assuming it's a JSON string
     const jsonData = JSON.parse(data.data[0].custom_reporting_location);
     const latitude = jsonData.features[0].geometry.coordinates[1];
@@ -130,7 +129,11 @@ export const userCheckIn = async (fielddata) => {
     formData.append("log_type", fielddata.type);
     const { data } = await userApi.post(
       "method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field",
-      formData
+      formData,{
+        headers:{
+          "Content-Type": "multipart/form-data",
+        }
+      }
     );
     if (!data) return Promise.reject(new Error("Employee not found"));
     return Promise.resolve(data?.message);
@@ -201,6 +204,7 @@ export const getUserCustomIn = async (employeeCode) => {
       "first_name",
       "custom_in",
       "custom_restrict_location",
+      'custom_reporting_radius',
     ];
     const { data } = await userApi.get(`resource/Employee`, {
       params: {
