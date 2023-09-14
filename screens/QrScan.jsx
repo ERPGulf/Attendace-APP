@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { COLORS, SIZES } from "../constants";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,7 +27,23 @@ const QrScan = ({ navigation }) => {
       getBarCodeScannerPermissions();
     }
   }, [hasPermission]);
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShadowVisible: false,
+      headerShown: true,
+      headerTitle: "QR CODE",
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <TouchableOpacity className="" onPress={() => navigation.goBack()}>
+          <Entypo
+            name="chevron-left"
+            size={SIZES.xxxLarge - 5}
+            color={COLORS.primary}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const handleQRCodeData = async (data) => {
     try {
       const value = base64.decode(data);
@@ -114,23 +130,6 @@ const QrScan = ({ navigation }) => {
 
   return (
     <SafeAreaView className="flex-1 items-center px-3 bg-white">
-      <View style={{ width: "100%" }} className="relative">
-        <View className="flex-row pb-4 pt-2 items-center justify-center relative">
-          <TouchableOpacity
-            className="absolute pb-4 -left-3 pt-2"
-            onPress={() => navigation.goBack()}
-          >
-            <Entypo
-              name="chevron-left"
-              size={SIZES.xxxLarge}
-              color={COLORS.primary}
-            />
-          </TouchableOpacity>
-          <View className="justify-self-center text-center">
-            <Text className="text-lg font-medium">QR CODE</Text>
-          </View>
-        </View>
-      </View>
       <View
         style={{ width: "100%" }}
         className="justify-center items-center bg-white h-auto overflow-hidden rounded-xl top-1/4 absolute"

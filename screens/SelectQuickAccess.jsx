@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -11,6 +11,23 @@ import {
   setRemove,
 } from "../redux/Slices/QuickAccessSlice";
 const SelectQuickAccess = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShadowVisible: false,
+      headerShown: true,
+      headerTitle: "Quick Access",
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <TouchableOpacity className="" onPress={() => navigation.goBack()}>
+          <Entypo
+            name="chevron-left"
+            size={SIZES.xxxLarge - SIZES.xSmall}
+            color={COLORS.primary}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const activeButtons = useSelector(activeButtonsSelector);
   const dispatch = useDispatch();
   const quickAccessItems = [
@@ -80,27 +97,6 @@ const SelectQuickAccess = ({ navigation }) => {
         backgroundColor: "white",
       }}
     >
-      <View
-        style={{
-          width: "100%",
-        }}
-      >
-        <View className="flex-row pb-4 pt-2 items-center justify-center relative">
-          <TouchableOpacity
-            className="absolute left-0  pb-4 pt-2 "
-            onPress={() => navigation.goBack()}
-          >
-            <Entypo
-              name="chevron-left"
-              size={SIZES.xxxLarge - SIZES.xSmall}
-              color={COLORS.primary}
-            />
-          </TouchableOpacity>
-          <View className="justify-self-center text-center">
-            <Text className="text-lg font-medium">Quick Access Menu</Text>
-          </View>
-        </View>
-      </View>
       <View
         className="bg-white flex-row px-3 space-x-1 flex-wrap"
         style={{

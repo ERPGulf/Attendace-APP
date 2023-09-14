@@ -7,11 +7,10 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Retry, WelcomeCard } from "../components/AttendanceAction";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
-import Constants from "expo-constants";
 import * as Location from "expo-location";
 import { format } from "date-fns";
 import { MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
@@ -29,6 +28,23 @@ import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
 import { setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
 const AttendanceAction = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShadowVisible: false,
+      headerShown: true,
+      headerTitle: "Attendance action",
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <TouchableOpacity className="" onPress={() => navigation.goBack()}>
+          <Entypo
+            name="chevron-left"
+            size={SIZES.xxxLarge - SIZES.xSmall}
+            color={COLORS.primary}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
   const [refresh, setRefresh] = useState(false);
@@ -175,8 +191,8 @@ const AttendanceAction = ({ navigation }) => {
       contentContainerStyle={{
         flex: 1,
         alignItems: "center",
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "white",
+        paddingVertical: 16,
       }}
       refreshControl={
         <RefreshControl
@@ -196,28 +212,6 @@ const AttendanceAction = ({ navigation }) => {
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
       )}
-      {/* chevron  */}
-      <View
-        style={{
-          width: "100%",
-        }}
-      >
-        <View className="flex-row pb-4 pt-2 items-center justify-center relative">
-          <TouchableOpacity
-            className="absolute left-0  pb-4 pt-2 "
-            onPress={() => navigation.goBack()}
-          >
-            <Entypo
-              name="chevron-left"
-              size={SIZES.xxxLarge - SIZES.xSmall}
-              color={COLORS.primary}
-            />
-          </TouchableOpacity>
-          <View className="justify-self-center text-center">
-            <Text className="text-lg font-medium">Attendance action</Text>
-          </View>
-        </View>
-      </View>
       <View style={{ width: "100%" }} className="px-3">
         <WelcomeCard />
         <View className="h-72 mt-4">

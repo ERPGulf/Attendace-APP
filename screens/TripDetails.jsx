@@ -4,10 +4,10 @@ import {
   ScrollView,
   RefreshControl,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as Location from "expo-location";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
   EndForm,
   StartForm,
@@ -23,8 +23,26 @@ import {
 } from "../redux/Slices/TripDetailsSlice";
 import { userTripStatus } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { TopNav } from "../components/global";
+import Entypo from "@expo/vector-icons/Entypo";
+import { COLORS, SIZES } from "../constants";
 const TripDetails = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShadowVisible: false,
+      headerShown: true,
+      headerTitle: "Trip Details",
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <TouchableOpacity className="" onPress={() => navigation.goBack()}>
+          <Entypo
+            name="chevron-left"
+            size={SIZES.xxxLarge - SIZES.xSmall}
+            color={COLORS.primary}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
@@ -52,7 +70,7 @@ const TripDetails = ({ navigation }) => {
       setIsLoading(false);
     })();
   }, [refresh]);
-  
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -76,9 +94,7 @@ const TripDetails = ({ navigation }) => {
       behavior="padding"
       enabled
     >
-      <SafeAreaView className="flex-1 bg-white">
-        <TopNav navigation={navigation} title={"Trip details"} />
-
+      <View className="flex-1 bg-white">
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -90,6 +106,7 @@ const TripDetails = ({ navigation }) => {
           }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
+            justifyContent:'flex-start',
             flexGrow: 1,
             alignItems: "center",
             backgroundColor: "white",
@@ -121,7 +138,7 @@ const TripDetails = ({ navigation }) => {
             )}
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   );
 };
