@@ -19,7 +19,7 @@
     "expo": "~49.0.5",
     "expo-av": "~13.4.1",
     "expo-barcode-scanner": "~12.5.3",
-    "expo-camera": "~13.4.2",
+    "expo-camera": "~13.4.4",
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",
     "expo-image-picker": "~14.3.2",
