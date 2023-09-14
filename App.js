@@ -9,6 +9,8 @@ import { useState ,useEffect} from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import Ionicons from '@expo/vector-icons/Ionicons'
+import "react-native-gesture-handler";
+
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
