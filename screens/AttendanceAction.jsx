@@ -13,13 +13,15 @@ import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
+  selectHasPhoto,
   setCheckin,
   setCheckout,
+  setHasPhoto,
   setOnlyCheckIn,
 } from "../redux/Slices/AttendanceSlice";
 import Toast from "react-native-toast-message";
@@ -36,6 +38,7 @@ const AttendanceAction = ({ navigation }) => {
   const [isWFH, setIsWFH] = useState(false);
   const [checkLoad, setCheckLoad] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
+  const hasPhotoTaken = useSelector(selectHasPhoto);
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
   const radiusInMeters = 250;
@@ -144,7 +147,7 @@ const AttendanceAction = ({ navigation }) => {
                   })
                 )
               : dispatch(setCheckout({ checkoutTime: currentDate }));
-
+            dispatch(setHasPhoto(false));
             Toast.show({
               type: "success",
               text1: `✅ CHECKED ${type}`,
@@ -255,24 +258,8 @@ const AttendanceAction = ({ navigation }) => {
                 color={COLORS.gray}
               />
             </View>
-            {checkin ? (
-              <React.Fragment>
-                <TouchableOpacity
-                  className={`justify-center ${
-                    !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
-                  disabled={!inTarget && !isWFH}
-                  onPress={() => navigation.navigate("Attendance camera")}
-                >
-                  <Ionicons
-                    name="image"
-                    size={SIZES.xxxLarge}
-                    color={"white"}
-                  />
-                  <Text className="text-xl font-bold text-white">
-                    Photo or Video
-                  </Text>
-                </TouchableOpacity>
+            {hasPhotoTaken ? (
+              checkin ? (
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
@@ -307,17 +294,39 @@ const AttendanceAction = ({ navigation }) => {
                     CHECK-OUT
                   </Text>
                 </TouchableOpacity>
-              </React.Fragment>
+              ) : (
+                <TouchableOpacity
+                  className={`justify-center ${
+                    !inTarget && !isWFH && `opacity-50`
+                  } items-center h-16 mt-4 rounded-2xl bg-green-500`}
+                  disabled={!inTarget && !isWFH}
+                  onPress={() => handleChecking("IN", 1)}
+                >
+                  <Text className="text-xl font-bold text-white">CHECK-IN</Text>
+                </TouchableOpacity>
+              )
             ) : (
-              <TouchableOpacity
-                className={`justify-center ${
-                  !inTarget && !isWFH && `opacity-50`
-                } items-center h-16 mt-4 rounded-2xl bg-green-500`}
-                disabled={!inTarget && !isWFH}
-                onPress={() => handleChecking("IN", 1)}
-              >
-                <Text className="text-xl font-bold text-white">CHECK-IN</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  className={`justify-center ${
+                    !inTarget && !isWFH && `opacity-50`
+                  } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
+                  disabled={!inTarget && !isWFH}
+                  onPress={() => navigation.navigate("Attendance camera")}
+                >
+                  <Ionicons
+                    name="image"
+                    size={SIZES.xxxLarge}
+                    color={"white"}
+                  />
+                  <Text className="text-xl font-bold text-white">
+                    Photo or Video
+                  </Text>
+                </TouchableOpacity>
+                <Text className="text-sm text-gray-400 text-center mt-3">
+                  Take photo before check-in and check-out
+                </Text>
+              </>
             )}
           </View>
         </View>

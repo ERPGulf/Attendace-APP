@@ -10,15 +10,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectFileid } from "../redux/Slices/UserSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { putUserFile, userFileUpload } from "../api/userApi";
+import { setHasPhoto } from "../redux/Slices/AttendanceSlice";
 
 const AttendanceCamera = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [hasMicroPhonePermission, setHasMicroPhonePermission] = useState(null);
-
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [mode, setMode] = useState("camera");
   const [photo, setPhoto] = useState(null);
@@ -97,6 +98,7 @@ const AttendanceCamera = ({ navigation }) => {
               type: "success",
               text1: "✅ Photo Uploaded",
             });
+            dispatch(setHasPhoto(true));
             navigation.navigate("Attendance action");
           })
           .catch(() => {
@@ -140,6 +142,7 @@ const AttendanceCamera = ({ navigation }) => {
               type: "success",
               text1: "✅ Video Uploaded",
             });
+            dispatch(setHasPhoto(true));
             navigation.navigate("Attendance action");
           })
           .catch(() => {
