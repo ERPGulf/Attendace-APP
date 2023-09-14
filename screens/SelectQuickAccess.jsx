@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
@@ -29,7 +29,7 @@ const SelectQuickAccess = () => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, []);
   const activeButtons = useSelector(activeButtonsSelector);
   const dispatch = useDispatch();
   const quickAccessItems = [
@@ -127,7 +127,6 @@ const SelectQuickAccess = () => {
             />
           </TouchableOpacity>
         ))}
-       
       </View>
     </SafeAreaView>
   );

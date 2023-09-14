@@ -44,7 +44,7 @@ const TripDetails = ( ) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, []);
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
@@ -61,7 +61,7 @@ const TripDetails = ( ) => {
           dispatch(setTripId(trip_no));
           dispatch(setStarted());
         } else if (trip_status === 0) {
-          dispatch(setEndTrip());
+          dispatch(setEndTrip()); 
         }
       } catch (error) {
         Toast.show({

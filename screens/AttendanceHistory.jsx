@@ -23,7 +23,7 @@ const AttendanceHistory = () => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, []);
   useEffect(() => {
     (async () => {
       await AsyncStorage.setItem("access_token", "23456");

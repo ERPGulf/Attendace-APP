@@ -46,7 +46,7 @@ const AttendanceAction = () => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, []);
   const dispatch = useDispatch();
   const checkin = useSelector(selectCheckin);
   const [refresh, setRefresh] = useState(false);

@@ -45,7 +45,7 @@ const QrScan = () => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, []);
   const handleQRCodeData = async (data) => {
     try {
       const value = base64.decode(data);
@@ -131,10 +131,15 @@ const QrScan = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center px-3 bg-white">
+    <View className="flex-1 items-center px-3 bg-white relative">
       <View
-        style={{ width: "100%" }}
-        className="justify-center items-center bg-white h-auto overflow-hidden rounded-xl top-1/4 absolute"
+        style={{
+          width: "100%",
+          position: 'absolute',
+          top:50,
+          margin: "auto",
+        }}
+        className="justify-center items-center bg-white h-auto overflow-hidden rounded-xl"
       >
         <BarCodeScanner
           barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
@@ -204,7 +209,7 @@ const QrScan = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
