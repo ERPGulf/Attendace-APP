@@ -3,8 +3,10 @@ import React, { useEffect, useLayoutEffect } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, SIZES } from "../constants";
+import { useNavigation } from "@react-navigation/native";
 
-const AttendanceHistory = ({navigation}) => {
+const AttendanceHistory = () => {
+  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,

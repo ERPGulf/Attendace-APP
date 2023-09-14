@@ -15,8 +15,10 @@ import { selectFileid } from "../redux/Slices/UserSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { putUserFile, userFileUpload } from "../api/userApi";
 import { setHasPhoto } from "../redux/Slices/AttendanceSlice";
+import { useNavigation } from "@react-navigation/native";
 
-const AttendanceCamera = ({ navigation }) => {
+const AttendanceCamera = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [hasMicroPhonePermission, setHasMicroPhonePermission] = useState(null);

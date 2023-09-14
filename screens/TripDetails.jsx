@@ -25,7 +25,9 @@ import { userTripStatus } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Entypo from "@expo/vector-icons/Entypo";
 import { COLORS, SIZES } from "../constants";
-const TripDetails = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const TripDetails = ( ) => {
+  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,

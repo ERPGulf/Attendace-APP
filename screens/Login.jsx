@@ -17,7 +17,9 @@ import { setSignIn } from "../redux/Slices/AuthSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
-const Login = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const Login = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const loginSchema = Yup.object().shape({
     password: Yup.string()

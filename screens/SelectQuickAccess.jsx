@@ -10,7 +10,9 @@ import {
   setAdd,
   setRemove,
 } from "../redux/Slices/QuickAccessSlice";
-const SelectQuickAccess = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const SelectQuickAccess = () => {
+  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,

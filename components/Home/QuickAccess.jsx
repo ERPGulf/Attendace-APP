@@ -5,8 +5,10 @@ import { FontAwesome,AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { activeButtonsSelector } from "../../redux/Slices/QuickAccessSlice";
 import ButtonItem from "../SelectQuickAccess/ButtonItem";
+import { useNavigation } from "@react-navigation/native";
 
-const QuickAccess = ({ navigation }) => {
+const QuickAccess = () => {
+  const navigation = useNavigation();
   const activeButtons = useSelector(activeButtonsSelector);
   return (
     <View className="mt-4 w-full">

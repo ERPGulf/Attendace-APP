@@ -14,7 +14,9 @@ import {
   setUserDetails,
   setUsername,
 } from "../redux/Slices/UserSlice";
-const QrScan = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const QrScan = () => {
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch();

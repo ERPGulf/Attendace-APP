@@ -59,6 +59,7 @@
     },
     "owner": "bazim"
   },
+
   "build": {
     "preview": {
       "android": {

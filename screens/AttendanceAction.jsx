@@ -27,7 +27,9 @@ import Toast from "react-native-toast-message";
 import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
 import { setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
-const AttendanceAction = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const AttendanceAction = () => {
+  const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
@@ -205,7 +207,7 @@ const AttendanceAction = ({ navigation }) => {
         />
       }
     >
-      {error && <Retry retry={retry} navigation={navigation} />}
+      {error && <Retry retry={retry}/>}
 
       {(loading || checkLoad) && (
         <View className="h-screen absolute bottom-0 w-screen items-center bg-black/50 justify-center z-50">

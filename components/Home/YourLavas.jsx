@@ -2,8 +2,11 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { AntDesign,Ionicons,Octicons} from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const LavaMenu = ({ navigation }) => {
+const LavaMenu = () => {
+  const navigation = useNavigation();
+
   return (
     // first row
     <View className="my-2" style={{ width: "100%" }}>

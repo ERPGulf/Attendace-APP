@@ -2,8 +2,10 @@ import { ScrollView } from "react-native";
 import React from "react";
 import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
-const Home = ({ navigation }) => {
+const Home = ( ) => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{

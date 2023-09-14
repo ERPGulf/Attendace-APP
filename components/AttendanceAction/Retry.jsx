@@ -1,8 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
 
-const Retry = ({navigation,retry}) => {
+const Retry = ({retry}) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{}}

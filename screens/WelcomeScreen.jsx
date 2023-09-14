@@ -3,8 +3,11 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Zocial } from "@expo/vector-icons";
 import { COLORS, SIZES } from "../constants";
+import { useNavigation } from "@react-navigation/native";
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView
       style={{
