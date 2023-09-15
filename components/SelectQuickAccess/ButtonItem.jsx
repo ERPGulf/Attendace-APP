@@ -14,12 +14,12 @@ const ButtonItem = ({ iconName, text1, text2 }) => {
         />
       </View>
       {text1 && (
-        <Text className="text-xs text-center font-medium text-gray-500 mt-1">
+        <Text className="text-xs text-center font-medium text-black mt-1">
           {text1}
         </Text>
       )}
       {text2 && (
-        <Text className="text-xs text-center font-medium text-gray-500">
+        <Text className="text-xs text-center font-medium text-black">
           {text2}
         </Text>
       )}

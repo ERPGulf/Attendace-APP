@@ -1,6 +1,5 @@
 import { View, TouchableOpacity } from "react-native";
 import React, { useLayoutEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants";
 import Entypo from "@expo/vector-icons/Entypo";
 import ButtonItem from "../components/SelectQuickAccess/ButtonItem";
@@ -92,7 +91,7 @@ const SelectQuickAccess = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         alignItems: "center",
@@ -111,11 +110,11 @@ const SelectQuickAccess = () => {
             onPress={() => handleClick(item)}
             className={`${
               activeButtons?.some((button) => button?.id === item?.id)
-                ? "bg-orange-500"
+                ? "bg-amber-500"
                 : "bg-orange-100"
-            } items-center justify-center rounded-lg  mx-1 my-2`}
+            } items-center  rounded-lg  mx-1 my-2`}
             style={{
-              width: 110,
+              width: SIZES.width / 4,
               height: 110,
               flexGrow: 0.5,
             }}
@@ -128,7 +127,7 @@ const SelectQuickAccess = () => {
           </TouchableOpacity>
         ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

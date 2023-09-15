@@ -10,9 +10,10 @@ const Home = ( ) => {
       style={{
         flex: 1,
         alignItems: "center",
-        paddingTop:Constants.statusBarHeight
+        paddingTop:Constants.statusBarHeight,
+        paddingBottom: 80,
       }}
-      className="bg-gray-200"
+      className="bg-gray-200 flex-grow"
     >
       <ScrollView
         style={{ width: "95%" }}
