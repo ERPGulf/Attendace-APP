@@ -93,7 +93,6 @@ const AttendanceCamera = () => {
       .then(({ file_url }) => {
         const formData = new FormData();
         formData.append("custom_image", file_url);
-        console.log(name)
         putUserFile(formData, name)
           .then(() => {
             Toast.show({

@@ -146,14 +146,12 @@ export const userCheckIn = async (fielddata) => {
 
 // user file upload
 export const userFileUpload = async (formdata) => {
-  console.log('called upload file' )
   try {
     const { data } = await userApi.post("method/upload_file", formdata, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(data, "file upload")
     return Promise.resolve(data.message);
   } catch (error) {
     console.error(error);
@@ -162,8 +160,6 @@ export const userFileUpload = async (formdata) => {
 };
 // putting user file
 export const putUserFile = async (formData, fileId) => {
-  console.log(formData,fileId)
-  console.log('called update upload file' )
   try {
     const { data } = await userApi.put(
       `resource/Employee Checkin/${fileId}`,
