@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectFileid } from "../redux/Slices/UserSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { putUserFile, userFileUpload } from "../api/userApi";
-import { setHasPhoto } from "../redux/Slices/AttendanceSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const AttendanceCamera = () => {
@@ -94,13 +93,13 @@ const AttendanceCamera = () => {
       .then(({ file_url }) => {
         const formData = new FormData();
         formData.append("custom_image", file_url);
+        console.log(name)
         putUserFile(formData, name)
           .then(() => {
             Toast.show({
               type: "success",
               text1: "✅ Photo Uploaded",
             });
-            dispatch(setHasPhoto(true));
             navigation.navigate("Attendance action");
           })
           .catch(() => {
@@ -144,7 +143,6 @@ const AttendanceCamera = () => {
               type: "success",
               text1: "✅ Video Uploaded",
             });
-            dispatch(setHasPhoto(true));
             navigation.navigate("Attendance action");
           })
           .catch(() => {
