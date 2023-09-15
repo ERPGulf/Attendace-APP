@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSignOut } from "../../redux/Slices/AuthSlice";
 const WelcomeCard = () => {
   const fullname = useSelector((state) => state.user.fullname);
-  const dispatch = useDispatch();
   return (
     <View
       style={{ backgroundColor: COLORS.primary, width: "100%" }}
@@ -23,7 +22,6 @@ const WelcomeCard = () => {
         <Text className="text-xl font-bold text-white">Home</Text>
         <TouchableOpacity
           onPress={() => {
-            dispatch(setSignOut());
           }}
           className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full"
         >

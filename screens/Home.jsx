@@ -1,16 +1,16 @@
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import React from "react";
 import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-
+import Constants from 'expo-constants'
 const Home = ( ) => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         alignItems: "center",
+        paddingTop:Constants.statusBarHeight
       }}
       className="bg-gray-200"
     >
@@ -26,7 +26,7 @@ const Home = ( ) => {
         <QuickAccess navigation={navigation} />
         <LavaMenu navigation={navigation} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

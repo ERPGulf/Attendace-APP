@@ -3,19 +3,19 @@ import {
   AttendanceAction,
   AttendanceCamera,
   AttendanceHistory,
-  Home,
   SelectQuickAccess,
   TripDetails,
 } from "../screens";
+import HomeTabGroup from "./home.tabbar";
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="homeTab"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="home" component={Home} />
+      <Stack.Screen name="homeTab" component={HomeTabGroup} />
       <Stack.Screen name="Attendance action" component={AttendanceAction} />
       <Stack.Screen name="Attendance history" component={AttendanceHistory} />
       <Stack.Screen name="Quick access" component={SelectQuickAccess} />

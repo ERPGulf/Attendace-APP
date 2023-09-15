@@ -8,7 +8,7 @@ import AuthNavigator from "./auth-navigator";
 const Navigator = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
