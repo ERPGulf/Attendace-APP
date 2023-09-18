@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { clearPersistedState } from "../redux/Store";
 import { useDispatch } from "react-redux";
 import { revertAll } from "../redux/CommonActions";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 const Profile = () => {
   const dispatch = useDispatch();
