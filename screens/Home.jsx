@@ -11,7 +11,7 @@ const Home = ( ) => {
         flex: 1,
         alignItems: "center",
         paddingTop:Constants.statusBarHeight,
-        paddingBottom: 80,
+        paddingBottom: 78,
       }}
       className="bg-gray-200 flex-grow"
     >

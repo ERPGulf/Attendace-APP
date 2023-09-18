@@ -9,6 +9,7 @@ const initialState = {
 export const AuthSlice = createSlice({
     name: 'userAuth',
     initialState,
+    extraReducers:(builder) => builder.addCase('REVERT_ALL', ()=> initialState),
     reducers: {
         setSignIn: (state, action) => {
             state.isLoggedIn = action.payload.isLoggedIn

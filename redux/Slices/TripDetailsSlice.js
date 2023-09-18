@@ -13,6 +13,7 @@ const initialState = {
 export const TripDetailsSlice = createSlice({
     name: 'userAuth',
     initialState,
+    extraReducers:(builder) => builder.addCase('REVERT_ALL', ()=> initialState),
     reducers: {
         setStartTrip: (state, action) => {
             state.started = true

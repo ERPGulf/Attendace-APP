@@ -7,6 +7,7 @@ import AttendanceHistory from "./AttendanceHistory";
 import SelectQuickAccess from "./SelectQuickAccess";
 import TripDetails from "./TripDetails";
 import AttendanceCamera from './AttendanceCamera'
+import Profile from "./Profile";
 export {
     Home,
     AttendanceAction,
@@ -16,5 +17,6 @@ export {
     AttendanceHistory,
     SelectQuickAccess,
     TripDetails,
-    AttendanceCamera
+    AttendanceCamera,
+    Profile
 }

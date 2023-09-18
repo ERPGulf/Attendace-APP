@@ -12,6 +12,7 @@ const initialState = {
 export const UserSlice = createSlice({
     name: 'user',
     initialState,
+    extraReducers:(builder) => builder.addCase('REVERT_ALL', ()=> initialState),
     reducers: {
         setUsername: (state, action) => {
             state.username = action.payload

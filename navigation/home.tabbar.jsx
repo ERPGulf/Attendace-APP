@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home } from "../screens";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Home, Profile } from "../screens";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { COLORS } from "../constants";
 
 const TabStack = createBottomTabNavigator();
@@ -11,21 +11,16 @@ const HomeTabGroup = () => {
     <TabStack.Navigator
       screenOptions={({ route }) => ({
         tabBarActiveTintColor: COLORS.primary,
-        tabBarIcon: ({ focused, color }) => {
-          let iconName;
+        tabBarIcon: ({ color }) => {
           if (route.name === "home") {
-            iconName = focused ? "home" : "home-outline";
-            return <Ionicons name={iconName} size={32} color={color} />;
-          }
-          if (route.name === "profile") {
-            iconName = focused ? "person" : "person-outline";
-            return <Ionicons name={iconName} size={32} color={color} />;
+           
+            return <AntDesign name={'home'} size={34} color={color} />;
           }
           if (route.name === "chat") {
-            iconName = focused
-              ? "chatbubble-ellipses"
-              : "chatbubble-ellipses-outline";
-            return <Ionicons name={iconName} size={32} color={color} />;
+            return <AntDesign name={'message1'} size={34} color={color} />;
+          }
+          if (route.name === "profile") {
+            return <AntDesign name={'user'} size={34} color={color} />;
           }
         },
         headerShown: false,
@@ -34,13 +29,18 @@ const HomeTabGroup = () => {
           position: "absolute",
           height: 80,
           borderWidth: 0,
-          paddingBottom: 25,
+          paddingBottom: 0,
+          bottom:10,
+          left: 10,
+          right: 10,
+          borderRadius: 20,
+          elevation:5,
         },
       })}
     >
-      <TabStack.Screen name="home" component={Home} />
+      <TabStack.Screen name="home" component={Home}/>
       <TabStack.Screen name="chat" component={Home} />
-      <TabStack.Screen name="profile" component={Home} />
+      <TabStack.Screen name="profile" component={Profile} />
     </TabStack.Navigator>
   );
 };

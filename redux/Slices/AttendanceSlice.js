@@ -11,6 +11,7 @@ const initialState = {
 export const AttendanceSlice = createSlice({
     name: 'attendance',
     initialState,
+    extraReducers:(builder) => builder.addCase('REVERT_ALL', ()=> initialState),
     reducers: {
         setCheckin: (state, action) => {
             state.checkin = true
