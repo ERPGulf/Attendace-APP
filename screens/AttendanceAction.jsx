@@ -165,7 +165,9 @@ const AttendanceAction = () => {
             Toast.show({
               type: "success",
               text1: `✅ CHECKED ${type}`,
+              text2: `Please upload your photo or video`,
             });
+            navigation.navigate("Attendance camera");
           })
           .catch(() => {
             setCheckLoad(false);
@@ -252,7 +254,7 @@ const AttendanceAction = () => {
             </View>
             {checkin ? (
               <>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
                   } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
@@ -267,7 +269,7 @@ const AttendanceAction = () => {
                   <Text className="text-xl font-bold text-white">
                     Photo or Video
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
