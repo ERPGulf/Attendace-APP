@@ -17,12 +17,34 @@ const Profile = () => {
   }, []);
   return (
     <View className="flex-1 items-center justify-center">
-      {/* <TouchableOpacity
-        onPress={() => dispatch(revertAll())}
+      <TouchableOpacity
+        // onPress={}
+        onPress={() => {
+          Alert.alert(
+            "Logout out",
+            "Are you sure you want to logout",
+            [
+              {
+                text: "Cancel",
+                onPress: () => {
+                  Toast.show({
+                    type: "success",
+                    text1: "logout cancelled",
+                  });
+                },
+                style: "cancel",
+              },
+              {
+                text: "OK",
+                onPress:() => dispatch(revertAll()),
+              },
+            ]
+          );
+        }}
         className="h-14 w-32 justify-center items-center rounded-lg bg-red-500"
       >
         <Text className="text-lg font-semibold text-white">LOGOUT</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
