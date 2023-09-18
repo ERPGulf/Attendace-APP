@@ -26,6 +26,7 @@
     "expo-location": "~16.1.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "expo-updates": "^0.18.13",
     "formik": "^2.4.3",
     "geolib": "^3.3.4",
     "lodash.debounce": "^4.0.8",
