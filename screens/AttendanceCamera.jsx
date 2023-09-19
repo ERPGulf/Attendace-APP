@@ -15,7 +15,11 @@ import { selectFileid } from "../redux/Slices/UserSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { putUserFile, userFileUpload } from "../api/userApi";
 import { useNavigation } from "@react-navigation/native";
-import { selectMediaLocation, setMediaLocation } from "../redux/Slices/AttendanceSlice";
+import {
+  selectMediaLocation,
+  setHasTakenPhoto,
+  setMediaLocation,
+} from "../redux/Slices/AttendanceSlice";
 
 const AttendanceCamera = () => {
   const navigation = useNavigation();
@@ -55,7 +59,6 @@ const AttendanceCamera = () => {
     };
     const newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
-    dispatch(setMediaLocation(newPhoto.uri));
   };
   const recordVideo = async () => {
     setIsRecording(true);
@@ -73,93 +76,17 @@ const AttendanceCamera = () => {
     setIsRecording(false);
     cameraRef.current.stopRecording();
   };
-  const name = useSelector(selectFileid);
   const uploadPicture = async () => {
     Toast.show({
       type: "info",
-      text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
+      text1: "File saved",
+      text2: "Uploading file",
     });
-    const formData = new FormData();
-    formData.append("file_name", name);
-    formData.append("fieldname", "custom_photo");
-    formData.append("file", {
-      uri: photo.uri,
-      type: "image/jpeg", // Adjust the type based on your image format
-      name: `${name + new Date().toISOString()}.jpg`, // Adjust the filename as needed
-    });
-    formData.append("is_private", "1");
-    formData.append("doctype", "Employee Checkin");
-    formData.append("docname", name);
-    // userFileUpload(formData)
-    //   .then(({ file_url }) => {
-    //     const formData = new FormData();
-    //     formData.append("custom_image", file_url);
-    //     putUserFile(formData, name)
-    //       .then(() => {
-    //         Toast.show({
-    //           type: "success",
-    //           text1: "✅ Photo Uploaded",
-    //         });
-    //         navigation.navigate("Attendance action");
-    //       })
-    //       .catch(() => {
-    //         Toast.show({
-    //           type: "error",
-    //           text1: "Photo Upload Failed",
-    //         });
-    //       });
-    //   })
-    //   .catch(() => {
-    //     Toast.show({
-    //       type: "error",
-    //       text1: "Photo Upload Failed",
-    //     });
-    //   });
+    dispatch(setMediaLocation(photo.uri));
+    dispatch(setHasTakenPhoto(true));
+    navigation.navigate("Attendance action");
   };
-  const uploadVideo = async () => {
-    Toast.show({
-      type: "info",
-      text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
-    });
-    const formData = new FormData();
-    formData.append("file_name", name);
-    formData.append("fieldname", "custom_video");
-    formData.append("file", {
-      uri: video.uri,
-      type: "video/mov", // Adjust the type based on your image format
-      name: `${name + new Date().toISOString()}.mov`, // Adjust the filename as needed
-    });
-    formData.append("is_private", "1");
-    formData.append("doctype", "Employee Checkin");
-    formData.append("docname", name);
-    userFileUpload(formData)
-      .then(({ file_url }) => {
-        const formData = new FormData();
-        formData.append("custom_video", file_url);
-        putUserFile(formData, name)
-          .then(() => {
-            Toast.show({
-              type: "success",
-              text1: "✅ Video Uploaded",
-            });
-            navigation.navigate("Attendance action");
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1: "Video Upload Failed",
-            });
-          });
-      })
-      .catch(() => {
-        Toast.show({
-          type: "error",
-          text1: "Video Upload Failed",
-        });
-      });
-  };
+
   if (hasCameraPermission === false) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
@@ -297,6 +224,7 @@ const AttendanceCamera = () => {
           <Ionicons name="refresh" size={44} color={"white"} />
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={isRecording}
           onPress={changeMode}
           style={{
             width: 80,

@@ -13,17 +13,27 @@ import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import * as Location from "expo-location";
 import { format } from "date-fns";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
+  selectHasTakenPhoto,
+  selectMediaLocation,
   setCheckin,
   setCheckout,
+  setHasTakenPhoto,
+  setMediaLocation,
   setOnlyCheckIn,
 } from "../redux/Slices/AttendanceSlice";
 import Toast from "react-native-toast-message";
-import { getOfficeLocation, userCheckIn, userStatusPut } from "../api/userApi";
-import { setFileid } from "../redux/Slices/UserSlice";
+import {
+  getOfficeLocation,
+  putUserFile,
+  userCheckIn,
+  userFileUpload,
+  userStatusPut,
+} from "../api/userApi";
+import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
 import { useNavigation } from "@react-navigation/native";
 const AttendanceAction = () => {
@@ -54,6 +64,7 @@ const AttendanceAction = () => {
   const [isWFH, setIsWFH] = useState(false);
   const [checkLoad, setCheckLoad] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
+  const hasTakenPhoto = useSelector(selectHasTakenPhoto);
   const currentDate = new Date().toISOString();
   // circle radius for loaction bound
   const radiusInMeters = 250;
@@ -167,7 +178,16 @@ const AttendanceAction = () => {
               text1: `✅ CHECKED ${type}`,
               text2: `Please upload your photo or video`,
             });
-            navigation.navigate("Attendance camera");
+            try {
+              uploadPicture(name);
+              dispatch(setMediaLocation(null));
+              dispatch(setHasTakenPhoto(false));
+            } catch (error) {
+              Toast.show({
+                type: "error",
+                text1: "Photo upload failed",
+              });
+            }
           })
           .catch(() => {
             setCheckLoad(false);
@@ -182,6 +202,50 @@ const AttendanceAction = () => {
         Toast.show({
           type: "error",
           text1: error,
+        });
+      });
+  };
+  // upload image
+  const photoUri = useSelector(selectMediaLocation);
+  const uploadPicture = async (name) => {
+    Toast.show({
+      type: "info",
+      text1: "File being uploaded",
+      text2: "it may take a minute or two dont worry ",
+    });
+    const formData = new FormData();
+    formData.append("file_name", name);
+    formData.append("fieldname", "custom_photo");
+    formData.append("file", {
+      uri: photoUri,
+      type: "image/jpeg", // Adjust the type based on your image format
+      name: `${name + new Date().toISOString()}.jpg`, // Adjust the filename as needed
+    });
+    formData.append("is_private", "1");
+    formData.append("doctype", "Employee Checkin");
+    formData.append("docname", name);
+    userFileUpload(formData)
+      .then(({ file_url }) => {
+        const formData = new FormData();
+        formData.append("custom_image", file_url);
+        putUserFile(formData, name)
+          .then(() => {
+            Toast.show({
+              type: "success",
+              text1: "✅ Photo Uploaded",
+            });
+          })
+          .catch(() => {
+            Toast.show({
+              type: "error",
+              text1: "Photo Upload Failed",
+            });
+          });
+      })
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Photo Upload Failed",
         });
       });
   };
@@ -252,68 +316,67 @@ const AttendanceAction = () => {
                 color={COLORS.gray}
               />
             </View>
-            {checkin ? (
-              <>
-                {/* <TouchableOpacity
-                  className={`justify-center ${
-                    !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
-                  disabled={!inTarget && !isWFH}
-                  onPress={() => navigation.navigate("Attendance camera")}
-                >
-                  <Ionicons
-                    name="image"
-                    size={SIZES.xxxLarge}
-                    color={"white"}
-                  />
-                  <Text className="text-xl font-bold text-white">
-                    Photo or Video
-                  </Text>
-                </TouchableOpacity> */}
+            {hasTakenPhoto ? (
+              checkin ? (
+                <>
+                  <TouchableOpacity
+                    className={`justify-center ${
+                      !inTarget && !isWFH && `opacity-50`
+                    } items-center h-16 mt-4 rounded-2xl bg-red-500`}
+                    disabled={!inTarget && !isWFH}
+                    onPress={() => {
+                      Alert.alert(
+                        "Check out",
+                        "Are you sure you want to check out",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => {
+                              Toast.show({
+                                type: "success",
+                                text1: "CHECK-OUT CANCELLED",
+                              });
+                            },
+                            style: "cancel",
+                          },
+                          {
+                            text: "OK",
+                            onPress: () => {
+                              handleChecking("OUT", 0);
+                            },
+                          },
+                        ]
+                      );
+                    }}
+                  >
+                    <Text className="text-xl font-bold text-white">
+                      CHECK-OUT
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 rounded-2xl bg-red-500`}
+                  } items-center h-16 mt-4 rounded-2xl bg-green-500`}
                   disabled={!inTarget && !isWFH}
-                  onPress={() => {
-                    Alert.alert(
-                      "Check out",
-                      "Are you sure you want to check out",
-                      [
-                        {
-                          text: "Cancel",
-                          onPress: () => {
-                            Toast.show({
-                              type: "success",
-                              text1: "CHECK-OUT CANCELLED",
-                            });
-                          },
-                          style: "cancel",
-                        },
-                        {
-                          text: "OK",
-                          onPress: () => {
-                            handleChecking("OUT", 0);
-                          },
-                        },
-                      ]
-                    );
-                  }}
+                  onPress={() => handleChecking("IN", 1)}
                 >
-                  <Text className="text-xl font-bold text-white">
-                    CHECK-OUT
-                  </Text>
+                  <Text className="text-xl font-bold text-white">CHECK-IN</Text>
                 </TouchableOpacity>
-              </>
+              )
             ) : (
               <TouchableOpacity
                 className={`justify-center ${
                   !inTarget && !isWFH && `opacity-50`
-                } items-center h-16 mt-4 rounded-2xl bg-green-500`}
+                } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
                 disabled={!inTarget && !isWFH}
-                onPress={() => handleChecking("IN", 1)}
+                onPress={() => navigation.navigate("Attendance camera")}
               >
-                <Text className="text-xl font-bold text-white">CHECK-IN</Text>
+                <Ionicons name="image" size={SIZES.xxxLarge} color={"white"} />
+                <Text className="text-xl font-bold text-white">
+                  Photo or Video
+                </Text>
               </TouchableOpacity>
             )}
           </View>
