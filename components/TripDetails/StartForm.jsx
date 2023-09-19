@@ -159,28 +159,22 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
           {isTouched === "job_order" && (
             <View className="border border-t-0 border-gray-200 rounded-b-lg items-center p-3">
               {contracts ? (
-                contracts?.map((item, index) => (
+                contracts?.map((item) => (
                   <TouchableOpacity
                     onPress={() => {
                       setFieldValue("job_order", item);
                       setIsTouched("");
                     }}
-                    key={index}
+                    key={item}
                     className="w-full px-3 h-16 justify-center my-1 bg-gray-100 rounded-lg"
                   >
                     <Text className="text-lg text-gray-800">{item}</Text>
                   </TouchableOpacity>
                 ))
-              ) : contractsError ? (
-                <View className="w-full px-3 h-18 justify-center">
-                  <Text className="text-base text-red-600/70">
-                    {contractsError}
-                  </Text>
-                </View>
               ) : (
                 <View className="w-full px-3 h-18 justify-center">
-                  <Text className="text-base text-gray-600/50">
-                    Getting job order...
+                  <Text className="text-base text-red-600/70">
+                    {contractsError || "No job order found"}
                   </Text>
                 </View>
               )}
@@ -221,14 +215,14 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
           {isTouched === "vehicle_no" && (
             <View className="border border-t-0 border-gray-200 rounded-b-lg items-center p-2 ">
               {vehicles ? (
-                vehicles?.map((item, index) => (
+                vehicles?.map((item) => (
                   <TouchableOpacity
                     onPress={() => {
                       setFieldValue("vehicle_no", item.vehicle_number_plate);
                       setFieldValue("starting_km", item.odometer);
                       setIsTouched("");
                     }}
-                    key={index}
+                    key={item}
                     className="w-full px-3 my-1 h-16 justify-center bg-gray-100 rounded-lg"
                   >
                     <Text className="text-lg text-gray-800">
