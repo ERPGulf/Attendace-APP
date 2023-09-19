@@ -174,7 +174,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
               ) : (
                 <View className="w-full px-3 h-18 justify-center">
                   <Text className="text-base text-red-600/70">
-                    {contractsError || "No job order found"}
+                    {contractsError || "getting job order..."}
                   </Text>
                 </View>
               )}
@@ -233,16 +233,10 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
                     </Text>
                   </TouchableOpacity>
                 ))
-              ) : vehiclesError ? (
-                <View className="w-full px-3 h-18 justify-center">
-                  <Text className="text-base text-red-600/70">
-                    {vehiclesError}
-                  </Text>
-                </View>
               ) : (
                 <View className="w-full px-3 h-18 justify-center">
-                  <Text className="text-base text-gray-600/50">
-                    Getting job order...
+                  <Text className="text-base text-red-600/70">
+                    {vehiclesError || "getting vehicle numbers..."}
                   </Text>
                 </View>
               )}
