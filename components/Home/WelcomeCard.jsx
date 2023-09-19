@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 const WelcomeCard = () => {
   const fullname = useSelector((state) => state.user.fullname);

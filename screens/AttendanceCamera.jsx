@@ -10,13 +10,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { selectFileid } from "../redux/Slices/UserSlice";
+import { useDispatch } from "react-redux";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { putUserFile, userFileUpload } from "../api/userApi";
 import { useNavigation } from "@react-navigation/native";
 import {
-  selectMediaLocation,
   setHasTakenPhoto,
   setMediaLocation,
 } from "../redux/Slices/AttendanceSlice";

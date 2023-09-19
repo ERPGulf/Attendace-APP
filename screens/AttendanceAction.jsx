@@ -33,7 +33,6 @@ import {
   userFileUpload,
   userStatusPut,
 } from "../api/userApi";
-import { selectFileid, setFileid } from "../redux/Slices/UserSlice";
 import { useUserStatus } from "../hooks/fetch.user.status";
 import { useNavigation } from "@react-navigation/native";
 const AttendanceAction = () => {
