@@ -15,6 +15,7 @@ import { selectFileid } from "../redux/Slices/UserSlice";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { putUserFile, userFileUpload } from "../api/userApi";
 import { useNavigation } from "@react-navigation/native";
+import { selectMediaLocation, setMediaLocation } from "../redux/Slices/AttendanceSlice";
 
 const AttendanceCamera = () => {
   const navigation = useNavigation();
@@ -54,6 +55,7 @@ const AttendanceCamera = () => {
     };
     const newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+    dispatch(setMediaLocation(newPhoto.uri));
   };
   const recordVideo = async () => {
     setIsRecording(true);
@@ -89,31 +91,31 @@ const AttendanceCamera = () => {
     formData.append("is_private", "1");
     formData.append("doctype", "Employee Checkin");
     formData.append("docname", name);
-    userFileUpload(formData)
-      .then(({ file_url }) => {
-        const formData = new FormData();
-        formData.append("custom_image", file_url);
-        putUserFile(formData, name)
-          .then(() => {
-            Toast.show({
-              type: "success",
-              text1: "✅ Photo Uploaded",
-            });
-            navigation.navigate("Attendance action");
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1: "Photo Upload Failed",
-            });
-          });
-      })
-      .catch(() => {
-        Toast.show({
-          type: "error",
-          text1: "Photo Upload Failed",
-        });
-      });
+    // userFileUpload(formData)
+    //   .then(({ file_url }) => {
+    //     const formData = new FormData();
+    //     formData.append("custom_image", file_url);
+    //     putUserFile(formData, name)
+    //       .then(() => {
+    //         Toast.show({
+    //           type: "success",
+    //           text1: "✅ Photo Uploaded",
+    //         });
+    //         navigation.navigate("Attendance action");
+    //       })
+    //       .catch(() => {
+    //         Toast.show({
+    //           type: "error",
+    //           text1: "Photo Upload Failed",
+    //         });
+    //       });
+    //   })
+    //   .catch(() => {
+    //     Toast.show({
+    //       type: "error",
+    //       text1: "Photo Upload Failed",
+    //     });
+    //   });
   };
   const uploadVideo = async () => {
     Toast.show({

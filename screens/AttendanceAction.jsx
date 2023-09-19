@@ -13,7 +13,7 @@ import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import * as Location from "expo-location";
 import { format } from "date-fns";
-import { MaterialCommunityIcons, Ionicons, Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCheckin,
