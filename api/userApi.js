@@ -1,6 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import userApi from "./apiManger";
 
+// seting common headers
+const setCommonHeaders = (headers = {}) => {
+  headers["Content-Type"] = "multipart/form-data";
+  return headers;
+};
+
 // refresh accessToken
 const refreshAccessToken = async () => {
   try {
@@ -12,9 +18,7 @@ const refreshAccessToken = async () => {
       "method/frappe.integrations.oauth2.get_token",
       formdata,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     if (data.access_token) {
@@ -83,9 +87,7 @@ export const generateToken = async (password) => {
       `method/employee_app.gauth.generate_custom_token_for_employee`,
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     if (data.message.message === "Invalid login credentials") {
@@ -131,9 +133,7 @@ export const userCheckIn = async (fielddata) => {
       "method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field",
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     if (!data) return Promise.reject(new Error("Employee not found"));
@@ -148,9 +148,7 @@ export const userCheckIn = async (fielddata) => {
 export const userFileUpload = async (formdata) => {
   try {
     const { data } = await userApi.post("method/upload_file", formdata, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: setCommonHeaders(),
     });
     return Promise.resolve(data.message);
   } catch (error) {
@@ -165,9 +163,7 @@ export const putUserFile = async (formData, fileId) => {
       `resource/Employee Checkin/${fileId}`,
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     return Promise.resolve(data);
@@ -185,9 +181,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
       `resource/Employee/${employeeCode}`,
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     return Promise.resolve(data);
@@ -226,9 +220,7 @@ export const tripTrack = async (formData) => {
       "method/employee_app.attendance_api.insert_new_trip",
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     if (!data.message) return Promise.reject(new Error("Trip not started"));
@@ -262,9 +254,7 @@ export const endTripTrack = async (formData) => {
       "method/employee_app.attendance_api.close_the_trip",
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     if (!data.message) return Promise.reject(new Error("Trip not ended"));
@@ -283,9 +273,7 @@ export const getContracts = async (searchTerms = "") => {
       "method/employee_app.attendance_api.contract_list",
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     const filteredData = data?.message?.flat(1);
@@ -310,9 +298,7 @@ export const getVehicle = async (searchTerms = "") => {
       "method/employee_app.attendance_api.vehicle_list",
       formData,
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: setCommonHeaders(),
       }
     );
     const filteredData = data?.message?.flat(1);

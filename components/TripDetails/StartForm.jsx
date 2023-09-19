@@ -222,7 +222,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
                       setFieldValue("starting_km", item.odometer);
                       setIsTouched("");
                     }}
-                    key={item}
+                    key={item.vehicle_number_plate}
                     className="w-full px-3 my-1 h-16 justify-center bg-gray-100 rounded-lg"
                   >
                     <Text className="text-lg text-gray-800">

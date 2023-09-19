@@ -35,6 +35,7 @@ import {
 } from "../api/userApi";
 import { useUserStatus } from "../hooks/fetch.user.status";
 import { useNavigation } from "@react-navigation/native";
+import { setFileid } from "../redux/Slices/UserSlice";
 const AttendanceAction = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -192,7 +193,8 @@ const AttendanceAction = () => {
             setCheckLoad(false);
             Toast.show({
               type: "error",
-              text1: "Status update failed ",
+              text1: "Status update failed",
+              text2: "Please try again",
             });
           });
       })
@@ -200,7 +202,8 @@ const AttendanceAction = () => {
         setCheckLoad(false);
         Toast.show({
           type: "error",
-          text1: error,
+          text1: "Check-in failed",
+          text2: `Please try again ${error}`,
         });
       });
   };
