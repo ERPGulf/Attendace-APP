@@ -49,25 +49,41 @@ const AttendanceCamera = () => {
     setMode(mode === "camera" ? "video" : "camera");
   };
   const takePicture = async () => {
-    let options = {
-      quality: 0.7,
-      exif: false,
-      base64: true,
-    };
-    const newPhoto = await cameraRef.current.takePictureAsync(options);
-    setPhoto(newPhoto);
+    try {
+      let options = {
+        quality: 0.7,
+        exif: false,
+        base64: true,
+      };
+      const newPhoto = await cameraRef.current.takePictureAsync(options);
+      setPhoto(newPhoto);
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Photo capture failed",
+        text2: "Please try again",
+      });
+    }
   };
   const recordVideo = async () => {
-    setIsRecording(true);
-    let options = {
-      quality: 720,
-      maxDuration: 30,
-      mute: false,
-    };
-    cameraRef.current.recordAsync(options).then((video) => {
-      setVideo(video);
-      setIsRecording(false);
-    });
+    try {
+      setIsRecording(true);
+      let options = {
+        quality: 720,
+        maxDuration: 30,
+        mute: false,
+      };
+      cameraRef.current.recordAsync(options).then((video) => {
+        setVideo(video);
+        setIsRecording(false);
+      });
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Video recording failed",
+        text2: "Please try again",
+      });
+    }
   };
   const stopRecording = () => {
     setIsRecording(false);
