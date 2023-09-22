@@ -26,7 +26,7 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Entypo from "@expo/vector-icons/Entypo";
 import { COLORS, SIZES } from "../constants";
 import { useNavigation } from "@react-navigation/native";
-const TripDetails = ( ) => {
+const TripDetails = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,7 +61,7 @@ const TripDetails = ( ) => {
           dispatch(setTripId(trip_no));
           dispatch(setStarted());
         } else if (trip_status === 0) {
-          dispatch(setEndTrip()); 
+          dispatch(setEndTrip());
         }
       } catch (error) {
         Toast.show({
@@ -108,7 +108,7 @@ const TripDetails = ( ) => {
           }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            justifyContent:'flex-start',
+            justifyContent: "flex-start",
             flexGrow: 1,
             alignItems: "center",
             backgroundColor: "white",
@@ -123,20 +123,22 @@ const TripDetails = ( ) => {
           <View style={{ width: "100%" }} className="px-3 flex-grow">
             <TopCard />
             {!started ? (
-              <React.Fragment>
+              <View className="px-3">
                 <TripType setTripType={setTripType} tripType={tripType} />
                 <StartForm
                   location={location}
                   setIsLoading={setIsLoading}
                   tripType={tripType}
                 />
-              </React.Fragment>
+              </View>
             ) : (
-              <EndForm
-                location={location}
-                setIsLoading={setIsLoading}
-                setTripType={setTripType}
-              />
+              <View className='px-3'>
+                <EndForm
+                  location={location}
+                  setIsLoading={setIsLoading}
+                  setTripType={setTripType}
+                />
+              </View>
             )}
           </View>
         </ScrollView>

@@ -24,11 +24,6 @@ const AttendanceHistory = () => {
       ),
     });
   }, []);
-  useEffect(() => {
-    (async () => {
-      await AsyncStorage.setItem("access_token", "23456");
-    })();
-  });
   return (
     <View>
       <Text>AttendanceHistory</Text>

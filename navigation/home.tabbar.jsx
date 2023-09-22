@@ -17,11 +17,9 @@ const HomeTabGroup = () => {
           position: "absolute",
           height: 80,
           borderWidth: 0,
-          paddingBottom: 0,
-          bottom: 10,
-          left: 10,
-          right: 10,
-          borderRadius: 20,
+          paddingBottom: 10,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
           elevation: 5,
         },
       })}
@@ -30,8 +28,8 @@ const HomeTabGroup = () => {
         name="home"
         component={Home}
         options={{
-          tabBarIcon: ({ color }) => (
-            <AntDesign name={"home"} size={34} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <AntDesign name={"home"} size={30} color={color} />
           ),
         }}
       />
@@ -40,7 +38,7 @@ const HomeTabGroup = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color }) => (
-            <AntDesign name={"message1"} size={34} color={color} />
+            <AntDesign name={"message1"} size={30} color={color} />
           ),
         }}
       />
@@ -49,7 +47,7 @@ const HomeTabGroup = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color }) => (
-            <AntDesign name={"user"} size={34} color={color} />
+            <AntDesign name={"user"} size={30} color={color} />
           ),
         }}
       />
