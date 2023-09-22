@@ -37,9 +37,12 @@
         }
       ]
     ],
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bazim.attendance"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -59,7 +62,6 @@
     },
     "owner": "bazim"
   },
-
   "build": {
     "preview": {
       "android": {
