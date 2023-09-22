@@ -29,10 +29,10 @@ const refreshAccessToken = async () => {
       return Promise.reject(new Error("No access token in response"));
     }
   } catch (error) {
-    console.error(
-      "Token refresh error:",
-      error.response || error.message || error
-    );
+    // console.error(
+    //   "Token refresh error:",
+    //   error.response || error.message || error
+    // );
     return Promise.reject(error);
   }
 };
@@ -95,7 +95,7 @@ export const generateToken = async (password) => {
     }
     if (status === 200) return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return Promise.reject(new Error("Login went wrong"));
   }
 };
@@ -116,7 +116,7 @@ export const getOfficeLocation = async (employeeCode) => {
     const longitude = jsonData.features[0].geometry.coordinates[0];
     return Promise.resolve({ latitude, longitude }); // Return the parsed data
   } catch (error) {
-    console.error(error, "location");
+    // console.error(error, "location");
     return Promise.reject(new Error("location went wrong"));
   }
 };
@@ -139,7 +139,7 @@ export const userCheckIn = async (fielddata) => {
     if (!data) return Promise.reject(new Error("Employee not found"));
     return Promise.resolve(data?.message);
   } catch (error) {
-    console.error(error, "checkin");
+    // console.error(error, "checkin");
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -152,7 +152,7 @@ export const userFileUpload = async (formdata) => {
     });
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -168,7 +168,7 @@ export const putUserFile = async (formData, fileId) => {
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return Promise.reject(error);
   }
 };
@@ -186,7 +186,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -209,7 +209,7 @@ export const getUserCustomIn = async (employeeCode) => {
     });
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error, "status");
+    // console.error(error, "status");
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -226,7 +226,7 @@ export const tripTrack = async (formData) => {
     if (!data.message) return Promise.reject(new Error("Trip not started"));
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error, "trip");
+    // console.error(error, "trip");
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -243,7 +243,7 @@ export const userTripStatus = async (employeeCode) => {
     );
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error, "trip status");
+    // console.error(error, "trip status");
     return Promise.reject(new Error("Something went wrong)"));
   }
 };
@@ -260,7 +260,7 @@ export const endTripTrack = async (formData) => {
     if (!data.message) return Promise.reject(new Error("Trip not ended"));
     return Promise.resolve();
   } catch (error) {
-    console.error(error, "trip end");
+    // console.error(error, "trip end");
     return Promise.reject(new Error("something went wrong"));
   }
 };
@@ -282,7 +282,7 @@ export const getContracts = async (searchTerms = "") => {
     }
     return Promise.resolve({ filteredData, error: null });
   } catch (error) {
-    console.error(error, "contract");
+    // console.error(error, "contract");
     return Promise.reject(new Error("Something went wrong)"));
   }
 };
@@ -307,7 +307,7 @@ export const getVehicle = async (searchTerms = "") => {
     }
     return Promise.resolve({ filteredData, error: null });
   } catch (error) {
-    console.error(error, "contract");
+    // console.error(error, "contract");
     return Promise.reject(new Error("Something went wrong)"));
   }
 };
