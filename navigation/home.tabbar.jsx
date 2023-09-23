@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home, Profile } from "../screens";
+import { Chat, Home, Profile } from "../screens";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS } from "../constants";
 
@@ -15,10 +15,11 @@ const HomeTabGroup = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          height: 80,
+          height: 70,
           paddingBottom: 10,
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
+          backgroundColor:'white'
         },
       })}
     >
@@ -37,11 +38,11 @@ const HomeTabGroup = () => {
       />
       <TabStack.Screen
         name="chat"
-        component={Home}
+        component={Chat}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "chatbubble" : "chatbubble-outline"}
+              name={focused ? "chatbubble-ellipses" : "chatbubble-ellipses-outline"}
               size={30}
               color={color}
             />
