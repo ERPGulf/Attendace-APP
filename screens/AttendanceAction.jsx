@@ -173,13 +173,16 @@ const AttendanceAction = () => {
                   })
                 )
               : dispatch(setCheckout({ checkoutTime: currentDate }));
-            Toast.show({
-              type: "success",
-              text1: `✅ CHECKED ${type}`,
-              text2: `Please upload your photo or video`,
-            });
             try {
-              uploadPicture(name);
+              uploadPicture(name).then(() => {
+                Toast.show({
+                  type: "success",
+                  text1: `CHECKED ${type}`,
+                  text2: `Please upload your photo or video`,
+                  autoHide: true,
+                  visibilityTime: 2000,
+                });
+              });
               dispatch(setMediaLocation(null));
               dispatch(setHasTakenPhoto(false));
             } catch (error) {
@@ -195,6 +198,8 @@ const AttendanceAction = () => {
               type: "error",
               text1: "Status update failed",
               text2: "Please try again",
+              autoHide: true,
+              visibilityTime: 2000,
             });
           });
       })
@@ -214,6 +219,8 @@ const AttendanceAction = () => {
       type: "info",
       text1: "File being uploaded",
       text2: "it may take a minute or two dont worry ",
+      autoHide: true,
+      visibilityTime: 2000,
     });
     const formData = new FormData();
     formData.append("file_name", name);
@@ -232,10 +239,7 @@ const AttendanceAction = () => {
         formData.append("custom_image", file_url);
         putUserFile(formData, name)
           .then(() => {
-            Toast.show({
-              type: "success",
-              text1: "✅ Photo Uploaded",
-            });
+            return Promise.resolve();
           })
           .catch(() => {
             Toast.show({

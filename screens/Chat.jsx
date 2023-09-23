@@ -12,8 +12,8 @@ const Chat = () => {
     });
   }, []);
   return (
-    <View>
-      <Text>Chat</Text>
+    <View className="items-center justify-center flex-1">
+      <Text>Coming soon!</Text>
     </View>
   );
 };

@@ -66,8 +66,7 @@ const Profile = () => {
                     text2: "You are still logged in",
                     visibilityTime: 2000,
                     autoHide: true,
-                    topOffset: 30,
-                    bottomOffset: 40,
+                    
                     
                   });
                 },
