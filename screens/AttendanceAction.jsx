@@ -79,6 +79,8 @@ const AttendanceAction = () => {
         type: "error",
         text1: "Status failed",
         text2: "Getting status failed, Please retry",
+        autoHide: true,
+        visibilityTime: 2000,
       });
     }
 
@@ -93,6 +95,9 @@ const AttendanceAction = () => {
           return Toast.show({
             type: "error",
             text1: "Location access not granted",
+            text2: "Please enable location access",
+            autoHide: true, 
+            visibilityTime: 2000,
           });
         }
         try {
@@ -118,7 +123,9 @@ const AttendanceAction = () => {
               Toast.show({
                 type: "error",
                 text1: "Location retreving failed",
-                text2: "Please make sure you are at work place",
+                text2: "Please check your internet connection",
+                autoHide: true,
+                visibilityTime: 2000,
               });
             });
         } catch (error) {

@@ -11,12 +11,6 @@ import { SIZES } from "../../constants";
 const FileUpload = ({ inTarget, isWFH }) => {
   const name = useSelector(selectFileid);
   const handleFileUpload = async (result) => {
-    Toast.show({
-      type: "info",
-      text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry",
-    });
-
     const fileType = result.type;
     const localUri = result.uri;
     const filename = localUri.split("/").pop();

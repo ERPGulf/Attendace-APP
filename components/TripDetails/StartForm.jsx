@@ -38,7 +38,9 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
     if (!tripType) {
       return Toast.show({
         type: "error",
-        text1: "Please select a trip type",
+        text1: "Select a Trip type",
+        autoHide: true,
+        visibilityTime: 2000,
       });
     }
     setIsLoading(true);
@@ -55,6 +57,12 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
     formData.append("trip_status", 1);
     tripTrack(formData)
       .then(({ name }) => {
+        Toast.show({
+          type: "success",
+          text1: "Trip started successfully",
+          autoHide: true,
+          visibilityTime: 2000,
+        });
         dispatch(setTripId(name));
         dispatch(
           setStartTrip({
@@ -68,6 +76,8 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
           type: "error",
           text1: "Trip start failed",
           text2: "Please try again",
+          autoHide: true,
+          visibilityTime: 2000,
         });
       });
     setIsLoading(false);
@@ -85,6 +95,8 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
       Toast.show({
         type: "error",
         text1: "Fetching contracts failed",
+        autoHide: true,
+        visibilityTime: 2000,
       });
     }
   }, 250);
@@ -101,6 +113,8 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
       Toast.show({
         type: "error",
         text1: "Fetching contracts failed",
+        autoHide: true,
+        visibilityTime: 2000,
       });
     }
   }, 250);

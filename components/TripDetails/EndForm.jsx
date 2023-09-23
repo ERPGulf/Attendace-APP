@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, Platform, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  TextInput,
+} from "react-native";
 import React from "react";
 import { Formik } from "formik";
 import { COLORS, SIZES } from "../../constants";
@@ -6,10 +12,14 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { format } from "date-fns";
-import { setEndTrip, tripIdSelect, vehicleIdSelect } from "../../redux/Slices/TripDetailsSlice";
+import {
+  setEndTrip,
+  tripIdSelect,
+  vehicleIdSelect,
+} from "../../redux/Slices/TripDetailsSlice";
 import { endTripTrack } from "../../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-const EndForm = ({ location ,setIsLoading,setTripType}) => {
+const EndForm = ({ location, setIsLoading, setTripType }) => {
   const dispatch = useDispatch();
   const tripId = useSelector(tripIdSelect);
   const vehicle_no = useSelector(vehicleIdSelect);
@@ -27,16 +37,23 @@ const EndForm = ({ location ,setIsLoading,setTripType}) => {
     formData.append("trip_end_time", formattedDateTime);
     endTripTrack(formData)
       .then(() => {
+        Toast.show({
+          type: "success",
+          text1: "Trip ended successfully",
+          autoHide: true,
+          visibilityTime: 2000,
+        });
         setTripType(null);
-          dispatch(setEndTrip(new Date().toISOString()));
+        dispatch(setEndTrip(new Date().toISOString()));
         setIsLoading(false);
-          
       })
       .catch(() => {
         Toast.show({
           type: "error",
           text1: "Trip end failed",
           text2: "Please try again",
+          autoHide: true,
+          visibilityTime: 2000,
         });
         setIsLoading(false);
       });
