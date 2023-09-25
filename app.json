@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ERPGULF ESS",
-    "slug": "ERPGULF_ESS",
+    "slug": "erpgulf-ess",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,10 +31,16 @@
         }
       ]
     ],
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bazim.attendance"
+      "bundleIdentifier": "com.bazim.attendance",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      }
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -42,14 +48,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.bazim.attendance"
+      "package": "com.bazim.attendance",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4adc6173-2aa4-4665-a9a4-978ead73c10e"
+        "projectId": "bb4481f6-4e18-4911-a90f-f73649f5c0de"
       }
     },
     "owner": "erpgulf"
