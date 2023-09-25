@@ -16,10 +16,10 @@ const HomeTabGroup = () => {
         tabBarStyle: {
           position: "absolute",
           height: 70,
-          paddingBottom: 10,
+          paddingBottom: 0,
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
-          backgroundColor:'white'
+          backgroundColor: "white",
         },
       })}
     >
@@ -42,7 +42,9 @@ const HomeTabGroup = () => {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "chatbubble-ellipses" : "chatbubble-ellipses-outline"}
+              name={
+                focused ? "chatbubble-ellipses" : "chatbubble-ellipses-outline"
+              }
               size={30}
               color={color}
             />

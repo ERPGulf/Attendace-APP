@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { COLORS, SIZES } from "../../constants";
-import { AntDesign,Ionicons,Octicons} from "@expo/vector-icons";
+import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 const LavaMenu = () => {
@@ -81,7 +81,10 @@ const LavaMenu = () => {
                 history
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="mr-4" onPress={()=>navigation.navigate('Trip details')}>
+            <TouchableOpacity
+              className="mr-4"
+              onPress={() => navigation.navigate("Trip details")}
+            >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
                 <Ionicons
                   name="trail-sign-outline"
@@ -111,7 +114,7 @@ const LavaMenu = () => {
                 request
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="mr-4">
+            <TouchableOpacity>
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
                 <Ionicons
                   name="list-outline"
@@ -149,8 +152,8 @@ const LavaMenu = () => {
             />
           </TouchableOpacity>
         </View>
-        <View className="flex-row bg-white flex-wrap py-4 justify-around px-2 rounded-b-xl ">
-          <TouchableOpacity className="w-16">
+        <View className="flex-row bg-white flex-wrap py-4 items-center px-2 rounded-b-xl ">
+          <TouchableOpacity className="w-16 mr-4">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="person-circle-outline"
@@ -162,7 +165,7 @@ const LavaMenu = () => {
               My card
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-16">
+          <TouchableOpacity className="w-16 mr-4">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="people-outline"
@@ -174,7 +177,7 @@ const LavaMenu = () => {
               Contacts
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-16" onPress={()=>navigation.navigate('Attendance camera')}>
+          <TouchableOpacity className="w-16 ">
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="qr-code"
