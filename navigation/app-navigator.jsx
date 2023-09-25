@@ -3,6 +3,7 @@ import {
   AttendanceAction,
   AttendanceCamera,
   AttendanceHistory,
+  Notifications,
   SelectQuickAccess,
   TripDetails,
 } from "../screens";
@@ -21,6 +22,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Quick access" component={SelectQuickAccess} />
       <Stack.Screen name="Trip details" component={TripDetails} />
       <Stack.Screen name="Attendance camera" component={AttendanceCamera} />
+      <Stack.Screen name="Notifications" component={Notifications} />
     </Stack.Navigator>
   );
 };

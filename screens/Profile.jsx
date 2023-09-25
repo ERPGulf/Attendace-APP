@@ -48,10 +48,12 @@ const Profile = () => {
             <Image source={user} style={{ width: 75, height: 75 }} />
           </View>
           <View className="justify-center">
-            <Text className="text-2xl font-semibold text-gray-700">
+            <Text className="text-xl font-semibold text-gray-700">
               {fullname}
             </Text>
-            <Text className="text-xl font-normal text-gray-400">Employee</Text>
+            <Text className="text-base font-normal text-gray-400">
+              Employee
+            </Text>
           </View>
         </View>
         <TouchableOpacity
@@ -66,8 +68,6 @@ const Profile = () => {
                     text2: "You are still logged in",
                     visibilityTime: 2000,
                     autoHide: true,
-                    
-                    
                   });
                 },
                 style: "cancel",

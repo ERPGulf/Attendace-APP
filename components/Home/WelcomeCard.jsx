@@ -3,7 +3,9 @@ import React from "react";
 import { COLORS, SIZES } from "../../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 const WelcomeCard = () => {
+  const navigation = useNavigation();
   const fullname = useSelector((state) => state.user.fullname);
   return (
     <View
@@ -11,7 +13,10 @@ const WelcomeCard = () => {
       className="h-48 rounded-2xl p-3 justify-between"
     >
       <View className="flex-row justify-center items-center relative h-14">
-        <TouchableOpacity className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full absolute right-1 top-1">
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Notifications")}
+          className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full absolute right-1 top-1"
+        >
           <MaterialCommunityIcons
             name="bell"
             color={COLORS.white}
