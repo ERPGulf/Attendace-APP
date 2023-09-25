@@ -13,29 +13,14 @@ import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
 import * as Location from "expo-location";
 import { format } from "date-fns";
-import { MaterialCommunityIcons, Entypo, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectCheckin,
-  selectHasTakenPhoto,
-  selectMediaLocation,
-  setCheckin,
-  setCheckout,
-  setHasTakenPhoto,
-  setMediaLocation,
-  setOnlyCheckIn,
-} from "../redux/Slices/AttendanceSlice";
+import { selectCheckin, setOnlyCheckIn } from "../redux/Slices/AttendanceSlice";
 import Toast from "react-native-toast-message";
-import {
-  getOfficeLocation,
-  putUserFile,
-  userCheckIn,
-  userFileUpload,
-  userStatusPut,
-} from "../api/userApi";
+import { getOfficeLocation } from "../api/userApi";
 import { useUserStatus } from "../hooks/fetch.user.status";
 import { useNavigation } from "@react-navigation/native";
-import { setFileid } from "../redux/Slices/UserSlice";
+import { setIsWfh } from "../redux/Slices/UserSlice";
 const AttendanceAction = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -62,10 +47,7 @@ const AttendanceAction = () => {
   const [dateTime, setDateTime] = useState(null);
   const [inTarget, setInTarget] = useState(false);
   const [isWFH, setIsWFH] = useState(false);
-  const [checkLoad, setCheckLoad] = useState(false);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
-  const hasTakenPhoto = useSelector(selectHasTakenPhoto);
-  const currentDate = new Date().toISOString();
   // circle radius for loaction bound
   const radiusInMeters = 250;
 
@@ -86,6 +68,7 @@ const AttendanceAction = () => {
 
     if (custom_loction === 0) {
       setIsWFH(true);
+      dispatch(setIsWfh(true));
     }
     if (custom_loction === 1) {
       (async () => {
@@ -96,7 +79,7 @@ const AttendanceAction = () => {
             type: "error",
             text1: "Location access not granted",
             text2: "Please enable location access",
-            autoHide: true, 
+            autoHide: true,
             visibilityTime: 2000,
           });
         }
@@ -158,110 +141,6 @@ const AttendanceAction = () => {
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-  const handleChecking = (type, custom_in) => {
-    setCheckLoad(true);
-    const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
-    const dataField = {
-      timestamp,
-      employeeCode,
-      type,
-    };
-    userCheckIn(dataField)
-      .then(({ name }) => {
-        dispatch(setFileid(name));
-        userStatusPut(employeeCode, custom_in)
-          .then(() => {
-            setCheckLoad(false);
-            custom_in === 1
-              ? dispatch(
-                  setCheckin({
-                    checkinTime: currentDate,
-                    location: isWFH ? "Work from Home" : "Head Office",
-                  })
-                )
-              : dispatch(setCheckout({ checkoutTime: currentDate }));
-            try {
-              uploadPicture(name).then(() => {
-                Toast.show({
-                  type: "success",
-                  text1: `CHECKED ${type}`,
-                  text2: `Please upload your photo or video`,
-                  autoHide: true,
-                  visibilityTime: 2000,
-                });
-              });
-              dispatch(setMediaLocation(null));
-              dispatch(setHasTakenPhoto(false));
-            } catch (error) {
-              Toast.show({
-                type: "error",
-                text1: "Photo upload failed",
-              });
-            }
-          })
-          .catch(() => {
-            setCheckLoad(false);
-            Toast.show({
-              type: "error",
-              text1: "Status update failed",
-              text2: "Please try again",
-              autoHide: true,
-              visibilityTime: 2000,
-            });
-          });
-      })
-      .catch((error) => {
-        setCheckLoad(false);
-        Toast.show({
-          type: "error",
-          text1: "Check-in failed",
-          text2: `Please try again ${error}`,
-        });
-      });
-  };
-  // upload image
-  const photoUri = useSelector(selectMediaLocation);
-  const uploadPicture = async (name) => {
-    Toast.show({
-      type: "info",
-      text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
-      autoHide: true,
-      visibilityTime: 2000,
-    });
-    const formData = new FormData();
-    formData.append("file_name", name);
-    formData.append("fieldname", "custom_photo");
-    formData.append("file", {
-      uri: photoUri,
-      type: "image/jpeg", // Adjust the type based on your image format
-      name: `${name + new Date().toISOString()}.jpg`, // Adjust the filename as needed
-    });
-    formData.append("is_private", "1");
-    formData.append("doctype", "Employee Checkin");
-    formData.append("docname", name);
-    userFileUpload(formData)
-      .then(({ file_url }) => {
-        const formData = new FormData();
-        formData.append("custom_image", file_url);
-        putUserFile(formData, name)
-          .then(() => {
-            return Promise.resolve();
-          })
-          .catch(() => {
-            Toast.show({
-              type: "error",
-              text1: "Photo Upload Failed",
-            });
-          });
-      })
-      .catch(() => {
-        Toast.show({
-          type: "error",
-          text1: "Photo Upload Failed",
-        });
-      });
-  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -284,7 +163,7 @@ const AttendanceAction = () => {
     >
       {error && <Retry retry={retry} />}
 
-      {(loading || checkLoad) && (
+      {loading && (
         <View className="h-screen absolute bottom-0 w-screen items-center bg-black/50 justify-center z-50">
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
@@ -329,67 +208,53 @@ const AttendanceAction = () => {
                 color={COLORS.gray}
               />
             </View>
-            {hasTakenPhoto ? (
-              checkin ? (
-                <>
-                  <TouchableOpacity
-                    className={`justify-center ${
-                      !inTarget && !isWFH && `opacity-50`
-                    } items-center h-16 mt-4 rounded-2xl bg-red-500`}
-                    disabled={!inTarget && !isWFH}
-                    onPress={() => {
-                      Alert.alert(
-                        "Check out",
-                        "Are you sure you want to check out",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => {
-                              Toast.show({
-                                type: "success",
-                                text1: "CHECK-OUT CANCELLED",
-                              });
-                            },
-                            style: "cancel",
-                          },
-                          {
-                            text: "OK",
-                            onPress: () => {
-                              handleChecking("OUT", 0);
-                            },
-                          },
-                        ]
-                      );
-                    }}
-                  >
-                    <Text className="text-xl font-bold text-white">
-                      CHECK-OUT
-                    </Text>
-                  </TouchableOpacity>
-                </>
-              ) : (
+            {checkin ? (
+              <>
                 <TouchableOpacity
                   className={`justify-center ${
                     !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 rounded-2xl bg-green-500`}
+                  } items-center h-16 mt-4 rounded-2xl bg-red-500`}
                   disabled={!inTarget && !isWFH}
-                  onPress={() => handleChecking("IN", 1)}
+                  onPress={() => {
+                    Alert.alert(
+                      "Check out",
+                      "Are you sure you want to check out",
+                      [
+                        {
+                          text: "Cancel",
+                          onPress: () => {
+                            Toast.show({
+                              type: "success",
+                              text1: "CHECK-OUT CANCELLED",
+                            });
+                          },
+                          style: "cancel",
+                        },
+                        {
+                          text: "OK",
+                          onPress: () => {
+                            navigation.navigate("Attendance camera");
+                          },
+                        },
+                      ]
+                    );
+                  }}
                 >
-                  <Text className="text-xl font-bold text-white">CHECK-IN</Text>
+                  <Text className="text-xl font-bold text-white">
+                    CHECK-OUT
+                  </Text>
                 </TouchableOpacity>
-              )
+              </>
             ) : (
               <TouchableOpacity
                 className={`justify-center ${
                   !inTarget && !isWFH && `opacity-50`
-                } items-center h-16 mt-4 flex-row justify-center space-x-2 rounded-2xl bg-blue-500`}
+                } items-center h-16 mt-4 rounded-2xl bg-green-500`}
                 disabled={!inTarget && !isWFH}
+                // onPress={() => handleChecking("IN", 1)}
                 onPress={() => navigation.navigate("Attendance camera")}
               >
-                <Ionicons name="image" size={SIZES.xxxLarge} color={"white"} />
-                <Text className="text-xl font-bold text-white">
-                  Photo or Video
-                </Text>
+                <Text className="text-xl font-bold text-white">CHECK-IN</Text>
               </TouchableOpacity>
             )}
           </View>

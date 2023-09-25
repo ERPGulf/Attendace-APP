@@ -5,8 +5,6 @@ const initialState = {
   checkinTime: null,
   checkoutTime: null,
   location: null,
-  mediaLocation: null,
-  hasTakenPhoto: false,
 };
 
 export const AttendanceSlice = createSlice({
@@ -26,29 +24,16 @@ export const AttendanceSlice = createSlice({
     setOnlyCheckIn: (state, action) => {
       state.checkin = action.payload;
     },
-    setMediaLocation: (state, action) => {
-      state.mediaLocation = action.payload;
-    },
-    setHasTakenPhoto: (state, action) => {
-      state.hasTakenPhoto = action.payload;
-    },
   },
 });
 
-export const {
-  setCheckin,
-  setCheckout,
-  setOnlyCheckIn,
-  setMediaLocation,
-  setHasTakenPhoto,
-} = AttendanceSlice.actions;
+export const { setCheckin, setCheckout, setOnlyCheckIn } =
+  AttendanceSlice.actions;
 
 // selector
 export const selectCheckin = (state) => state.attendance.checkin;
 export const selectCheckinTime = (state) => state.attendance.checkinTime;
 export const selectCheckoutTime = (state) => state.attendance.checkoutTime;
 export const selectLocation = (state) => state.attendance.location;
-export const selectMediaLocation = (state) => state.attendance.mediaLocation;
-export const selectHasTakenPhoto = (state) => state.attendance.hasTakenPhoto;
 
 export default AttendanceSlice.reducer;

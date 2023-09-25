@@ -12,8 +12,8 @@ export const toastConfig = {
     <SuccessToast
       {...props}
       style={{
-        backgroundColor: "#00D100",
-        borderLeftColor: "#00D100",
+        backgroundColor: "#22c55e",
+        borderLeftColor: "#22c55e",
         borderRadius: 30,
       }}
       text1Style={{
@@ -36,8 +36,8 @@ export const toastConfig = {
     <ErrorToast
       {...props}
       style={{
-        backgroundColor: "#FF4B2E",
-        borderLeftColor: "#FF4B2E",
+        backgroundColor: "rgb(239 68 68)",
+        borderLeftColor: "rgb(239 68 68)",
         borderRadius: 30,
       }}
       text1Style={{
