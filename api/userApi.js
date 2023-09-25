@@ -34,7 +34,7 @@ const refreshAccessToken = async () => {
       "Token refresh error:",
       error.response || error.message || error
     );
-    return Promise.reject(error);
+    return Promise.reject(Error("Token expired"));
   }
 };
 // ... refresh middleware ...

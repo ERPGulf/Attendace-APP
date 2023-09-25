@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Zocial } from "@expo/vector-icons";
-import { COLORS, SIZES } from "../constants";
+import { COLORS } from "../constants";
 import { useNavigation } from "@react-navigation/native";
+import icon from "../assets/icon.png";
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
@@ -18,12 +18,12 @@ const WelcomeScreen = () => {
       className="px-3 relative items-center justify-end pb-4"
     >
       <View className="flex-row justify-center space-x-3 items-center absolute top-1/2 ">
-        <Zocial name="logmein" size={SIZES.xxxLarge} color={COLORS.primary} />
+        <Image source={icon} style={{ width: 50, height: 50 }} />
         <Text
-          className="text-3xl font-semibold"
+          className="text-base font-semibold"
           style={{ color: COLORS.primary }}
         >
-          Attendance App
+          Employee Self Service
         </Text>
       </View>
       <TouchableOpacity

@@ -130,6 +130,8 @@ const AttendanceCamera = () => {
           type: "error",
           text1: "Check-in failed",
           text2: `Please try again ${error}`,
+          autoHide: true,
+          visibilityTime: 2000,
         });
       });
   };
@@ -197,30 +199,28 @@ const AttendanceCamera = () => {
         >
           <View className="flex-row pb-4 pt-2 items-center justify-center relative">
             <TouchableOpacity
-              className="absolute pb-4 left-0 pt-2"
+              className="absolute justify-center items-center left-0 "
               onPress={() => {
                 setPhoto(null);
               }}
             >
-              <Text className="text-base font-normal text-red-500">Retake</Text>
+              <Text className="text-base font-medium text-red-500">Retake</Text>
             </TouchableOpacity>
             {checkin ? (
               <TouchableOpacity
-                className="absolute pb-4 right-0 pt-2"
+                className="absolute justify-center items-center right-0 bg-blue-500 py-1 px-2 rounded-lg"
                 onPress={() => handleChecking("OUT", 0)}
               >
-                <Text className="text-base font-normal text-blue-500">
+                <Text className="text-base font-medium text-white">
                   Check Out
                 </Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                className="absolute pb-4 right-0 pt-2"
+                className="absolute justify-center items-center right-0 bg-blue-500 py-1 px-2 rounded-lg"
                 onPress={() => handleChecking("IN", 1)}
               >
-                <Text className="text-base font-normal text-blue-500">
-                  Check In
-                </Text>
+                <Text className="text-base font-bold text-white">CHECK-IN</Text>
               </TouchableOpacity>
             )}
             <View className="justify-self-center text-center">
@@ -228,9 +228,9 @@ const AttendanceCamera = () => {
             </View>
           </View>
         </View>
-        <View className="w-full flex-1 border-b border-black/30">
+        <View className="w-full flex-1 border-b border-black/30 px-3 bg-black">
           <Image
-            resizeMode="contain"
+            resizeMode="cover"
             className="w-full flex-1"
             source={{ uri: "data:image/jpg;base64," + photo.base64 }}
           />
