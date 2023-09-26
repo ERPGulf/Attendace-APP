@@ -13,6 +13,12 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "rishal@htsqatar.com",
+        "ascAppId": "6467380092",
+        "appleTeamId": "VWL956UDWG"
+      }
+    }
   }
 }
