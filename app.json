@@ -33,13 +33,13 @@
     ],
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "com.bazim.attendance",
       "infoPlist": {
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
