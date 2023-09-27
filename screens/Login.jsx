@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import Constants from "expo-constants";
@@ -21,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 const Login = () => {
   const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loginSchema = Yup.object().shape({
@@ -46,6 +48,7 @@ const Login = () => {
         }}
         validationSchema={loginSchema}
         onSubmit={({ password }) => {
+          setIsLoading(true);
           generateToken(password)
             .then(async (data) => {
               await AsyncStorage.setItem("access_token", data.access_token);
@@ -57,12 +60,14 @@ const Login = () => {
               dispatch(
                 setSignIn({ isLoggedIn: true, token: data.access_token })
               );
+              setIsLoading(false);
             })
             .catch((msg) => {
               Toast.show({
                 type: "error",
                 text1: `${msg}`,
               });
+              setIsLoading(false);
             });
         }}
       >
@@ -120,7 +125,11 @@ const Login = () => {
                 }`}
                 style={{ width: "100%", backgroundColor: COLORS.primary }}
               >
-                <Text className="text-xl font-bold text-white">Login</Text>
+                {isLoading ? (
+                  <ActivityIndicator color={"white"} size={'large'} />
+                ) : (
+                  <Text className="text-xl font-bold text-white">Login</Text>
+                )}
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("Qrscan")}

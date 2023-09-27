@@ -59,14 +59,15 @@ export const toastConfig = {
         backgroundColor: "#0096FF",
         borderLeftColor: "#0096FF",
         borderRadius: 30,
+        width: "60%",
       }}
       text1Style={{
-        fontSize: 15,
+        fontSize: 16,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 8,
+        fontSize: 10,
         color: "#fff",
         textAlign: "center",
       }}
