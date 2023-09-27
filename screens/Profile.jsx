@@ -14,6 +14,7 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { SIZES } from "../constants";
 import user from "../assets/images/user.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,10 @@ const Profile = () => {
     });
   }, []);
   const fullname = useSelector((state) => state.user.fullname);
+  const handleLogout = async () => {
+    dispatch(revertAll());
+    await AsyncStorage.clear();
+  };
   return (
     <View
       style={{
@@ -74,7 +79,7 @@ const Profile = () => {
               },
               {
                 text: "OK",
-                onPress: () => dispatch(revertAll()),
+                onPress: handleLogout,
               },
             ]);
           }}

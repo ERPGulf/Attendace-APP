@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import userApi from "./apiManger";
-import { da } from "date-fns/locale";
 
 // seting common headers
 const setCommonHeaders = (headers = {}) => {
@@ -50,9 +49,8 @@ userApi.interceptors.response.use(
     if (
       error.response &&
       (error.response.status === 400 ||
-        error.response.status === 417 ||
         error.response.status === 403 ||
-        error.response.status === 401) &&
+        error.response.status === 417) &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;

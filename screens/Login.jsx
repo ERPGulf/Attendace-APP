@@ -6,7 +6,7 @@ import {
   Platform,
 } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 import { WelcomeCard } from "../components/Login";
 import { COLORS, SIZES } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,10 +31,11 @@ const Login = () => {
   });
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         alignItems: "center",
+        paddingTop: Constants.statusBarHeight,
       }}
       className="bg-gray-100 px-3 justify-between relative"
     >
@@ -93,7 +94,7 @@ const Login = () => {
                   }}
                 >
                   <Ionicons
-                    name={show ? "ios-eye-off" : "ios-eye"}
+                    name={show ? "ios-eye" : "ios-eye-off"}
                     size={SIZES.xLarge}
                     color={COLORS.gray2}
                   />
@@ -137,7 +138,7 @@ const Login = () => {
           </React.Fragment>
         )}
       </Formik>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import icon from "../assets/icon.png";
@@ -9,7 +8,7 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         alignItems: "center",
@@ -25,7 +24,7 @@ const WelcomeScreen = () => {
       </View>
       <TouchableOpacity
         style={{ width: "100%", borderWidth: 2, borderColor: COLORS.primary }}
-        className="h-16 rounded-2xl justify-center items-center shadow-black shadow-lg absolute bottom-5"
+        className="h-16 rounded-2xl justify-center items-center absolute bottom-5"
         onPress={() => navigation.navigate("Qrscan")}
       >
         <Text
@@ -35,7 +34,7 @@ const WelcomeScreen = () => {
           GET STARTED
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
