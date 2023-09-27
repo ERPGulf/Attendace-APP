@@ -150,7 +150,7 @@ const QrScan = () => {
         <Ionicons
           name="qr-code-outline"
           size={SIZES.width * 0.6}
-          color={"rgba(255,255,255,0.3)"}
+          color={"rgba(255,255,255,0.1)"}
           className=""
         />
       </View>

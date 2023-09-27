@@ -55,17 +55,23 @@ const Login = () => {
               await AsyncStorage.setItem("refresh_token", data.refresh_token);
               Toast.show({
                 type: "success",
-                text1: "Login successfull",
+                text1: "login success",
+                text2: "lets get productive now",
+                autoHide: true,
+                visibilityTime: 2000,
               });
               dispatch(
                 setSignIn({ isLoggedIn: true, token: data.access_token })
               );
               setIsLoading(false);
             })
-            .catch((msg) => {
+            .catch(() => {
               Toast.show({
                 type: "error",
-                text1: `${msg}`,
+                text1: `login failed`,
+                text2: "Invalid password. Please try again",
+                autoHide: true,
+                visibilityTime: 2000,
               });
               setIsLoading(false);
             });
@@ -118,7 +124,7 @@ const Login = () => {
               style={{ width: "100%", flex: 1, justifyContent: "flex-end" }}
             >
               <TouchableOpacity
-                disabled={!isValid}
+                disabled={!isValid || isLoading}
                 onPress={handleSubmit}
                 className={`h-16 rounded-xl justify-center items-center ${
                   !isValid && "opacity-70"
@@ -126,7 +132,7 @@ const Login = () => {
                 style={{ width: "100%", backgroundColor: COLORS.primary }}
               >
                 {isLoading ? (
-                  <ActivityIndicator color={"white"} size={'large'} />
+                  <ActivityIndicator color={"white"} size={"large"} />
                 ) : (
                   <Text className="text-xl font-bold text-white">Login</Text>
                 )}

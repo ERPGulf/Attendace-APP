@@ -3,6 +3,7 @@ import React from "react";
 import { COLORS } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import icon from "../assets/icon.png";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
@@ -27,12 +28,25 @@ const WelcomeScreen = () => {
         className="h-16 rounded-2xl justify-center items-center absolute bottom-5"
         onPress={() => navigation.navigate("Qrscan")}
       >
-        <Text
-          className="text-xl font-semibold"
-          style={{ color: COLORS.primary }}
+        <View
+          style={{ width: "100%" }}
+          className="h-full rounded-2xl justify-center items-center relative
+          flex-row"
         >
-          GET STARTED
-        </Text>
+          <Text
+            className="text-xl font-semibold text-center"
+            style={{ color: COLORS.primary }}
+          >
+            GET STARTED
+          </Text>
+          <View className="absolute right-5">
+            <Ionicons
+              name="ios-arrow-forward"
+              size={38}
+              color={COLORS.primary}
+            />
+          </View>
+        </View>
       </TouchableOpacity>
     </View>
   );
