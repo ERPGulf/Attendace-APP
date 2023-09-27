@@ -30,7 +30,6 @@ const AttendanceCamera = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [hasMicroPhonePermission, setHasMicroPhonePermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [mode, setMode] = useState("camera");
   const [photo, setPhoto] = useState(null);
@@ -42,10 +41,7 @@ const AttendanceCamera = () => {
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const microPhonePermission =
-        await Camera.requestMicrophonePermissionsAsync();
       setHasCameraPermission(cameraPermission.status === "granted");
-      setHasMicroPhonePermission(microPhonePermission.status === "granted");
     })();
   }, []);
   const changeCamera = () => {
@@ -182,7 +178,6 @@ const AttendanceCamera = () => {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
         <Text>No access to camera</Text>
-        {!hasMicroPhonePermission && <Text>No access to Microphone</Text>}
       </SafeAreaView>
     );
   }
