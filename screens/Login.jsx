@@ -18,7 +18,9 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 const Login = () => {
+  const [show, setShow] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loginSchema = Yup.object().shape({
@@ -43,13 +45,13 @@ const Login = () => {
         }}
         validationSchema={loginSchema}
         onSubmit={({ password }) => {
-          generateToken( password )
+          generateToken(password)
             .then(async (data) => {
               await AsyncStorage.setItem("access_token", data.access_token);
               await AsyncStorage.setItem("refresh_token", data.refresh_token);
               Toast.show({
                 type: "success",
-                text1: "✅ Login successfull",
+                text1: "Login successfull",
               });
               dispatch(
                 setSignIn({ isLoggedIn: true, token: data.access_token })
@@ -58,7 +60,7 @@ const Login = () => {
             .catch((msg) => {
               Toast.show({
                 type: "error",
-                text1: `❌  ${msg}`,
+                text1: `${msg}`,
               });
             });
         }}
@@ -76,6 +78,7 @@ const Login = () => {
             <View style={{ width: "100%", marginTop: 30 }}>
               <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
                 <TextInput
+                  secureTextEntry={!show}
                   value={values.password}
                   onChangeText={handleChange("password")}
                   placeholder="enter password"
@@ -84,11 +87,17 @@ const Login = () => {
                   style={{ marginTop: Platform.OS === "ios" ? -10 : 0 }}
                   className="flex-1 h-12 text-lg"
                 />
-                <Ionicons
-                  name="lock-closed"
-                  size={SIZES.xLarge}
-                  color={COLORS.gray2}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setShow((prev) => !prev);
+                  }}
+                >
+                  <Ionicons
+                    name={show ? "ios-eye-off" : "ios-eye"}
+                    size={SIZES.xLarge}
+                    color={COLORS.gray2}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
             {touched.password && errors.password && (

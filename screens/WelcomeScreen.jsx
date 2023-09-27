@@ -15,23 +15,23 @@ const WelcomeScreen = () => {
         alignItems: "center",
         backgroundColor: COLORS.white,
       }}
-      className="px-3 relative items-center justify-end pb-4"
+      className="px-3 relative items-center justify-center pb-4"
     >
-      <View className="flex-row justify-center space-x-3 items-center absolute top-1/2 ">
-        <Image source={icon} style={{ width: 50, height: 50 }} />
-        <Text
-          className="text-base font-semibold"
-          style={{ color: COLORS.primary }}
-        >
-          Employee Self Service
+      <View className=" justify-center space-x-3 items-center">
+        <Image source={icon} style={{ width: 150, height: 150 }} />
+        <Text className="text-sm font-normal text-gray-400 mt-2">
+          ESS by ERPGULF
         </Text>
       </View>
       <TouchableOpacity
-        style={{ width: "100%", backgroundColor: COLORS.primary }}
-        className="h-16 rounded-2xl justify-center items-center shadow-black shadow-lg"
+        style={{ width: "100%", borderWidth: 2, borderColor: COLORS.primary }}
+        className="h-16 rounded-2xl justify-center items-center shadow-black shadow-lg absolute bottom-5"
         onPress={() => navigation.navigate("Qrscan")}
       >
-        <Text className="text-xl font-semibold" style={{ color: "white" }}>
+        <Text
+          className="text-xl font-semibold"
+          style={{ color: COLORS.primary }}
+        >
           GET STARTED
         </Text>
       </TouchableOpacity>

@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
 import {
   setBaseUrl,
   setFullname,
@@ -131,29 +132,17 @@ const QrScan = () => {
   }
 
   return (
-    <View className="flex-1 items-center px-3 bg-white relative">
+    <Camera
+      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+      style={{ flex: 1, width: "100%", height: "100%" }}
+      type={"back"}
+      onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+      className="flex-1 items-center px-3 bg-white justify-end"
+    >
       <View
         style={{
           width: "100%",
-          position: 'absolute',
-          top:50,
-          margin: "auto",
-        }}
-        className="justify-center items-center bg-white h-auto overflow-hidden rounded-xl"
-      >
-        <BarCodeScanner
-          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-          className="w-full"
-          style={{ height: 350 }}
-          type={"back"}
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        />
-      </View>
-
-      <View
-        style={{
-          width: "100%",
-          flex: 1,
+          flex: 0.2,
           justifyContent: "flex-end",
           paddingVertical: 20,
         }}
@@ -209,7 +198,7 @@ const QrScan = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Camera>
   );
 };
 
