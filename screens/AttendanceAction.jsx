@@ -84,7 +84,9 @@ const AttendanceAction = () => {
           });
         }
         try {
-          const location = await Location.getCurrentPositionAsync({});
+          const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+          });
           const { latitude, longitude } = location.coords;
           const userCords = {
             latitude,
