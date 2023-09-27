@@ -17,12 +17,12 @@ export const toastConfig = {
         borderRadius: 30,
       }}
       text1Style={{
-        fontSize: 15,
+        fontSize: 16,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 8,
+        fontSize: 10,
         color: "#fff",
         textAlign: "center",
       }}
@@ -41,12 +41,12 @@ export const toastConfig = {
         borderRadius: 30,
       }}
       text1Style={{
-        fontSize: 15,
+        fontSize: 16,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 8,
+        fontSize: 10,
         color: "#fff",
         textAlign: "center",
       }}
@@ -60,6 +60,7 @@ export const toastConfig = {
         borderLeftColor: "#0096FF",
         borderRadius: 30,
         width: "60%",
+        borderWidth: 1,
       }}
       text1Style={{
         fontSize: 16,
