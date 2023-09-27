@@ -48,9 +48,7 @@ userApi.interceptors.response.use(
     const originalRequest = error.config;
     if (
       error.response &&
-      (error.response.status === 400 ||
-        error.response.status === 403 ||
-        error.response.status === 417) &&
+      (error.response.status === 400 || error.response.status === 403) &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
