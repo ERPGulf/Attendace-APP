@@ -137,8 +137,23 @@ const QrScan = () => {
       style={{ flex: 1, width: "100%", height: "100%" }}
       type={"back"}
       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      className="flex-1 items-center px-3 bg-white justify-end"
+      className="flex-1 items-center px-3 bg-white justify-end relative"
     >
+      <View
+        style={{
+          position: "absolute",
+          top: 100,
+          height: SIZES.width * 0.9,
+        }}
+        className="w-full bg-transparent border-4 border-white/50 rounded-2xl justify-center items-center"
+      >
+        <Ionicons
+          name="qr-code-outline"
+          size={SIZES.width * 0.6}
+          color={"rgba(255,255,255,0.3)"}
+          className=""
+        />
+      </View>
       <View
         style={{
           width: "100%",
