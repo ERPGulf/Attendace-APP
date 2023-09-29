@@ -48,5 +48,6 @@ export const {
 export const selectBaseUrl = (state) => state.user.baseUrl;
 export const selectFileid = (state) => state.user.fileId;
 export const selectIsWfh = (state) => state.user.isWfh;
+export const selectName = (state) => state.user.fullname;
 
 export default UserSlice.reducer;

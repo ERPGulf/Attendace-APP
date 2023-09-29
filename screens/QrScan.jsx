@@ -66,7 +66,12 @@ const QrScan = () => {
         dispatch(setUsername(userId));
         dispatch(setBaseUrl(api));
         dispatch(
-          setUserDetails({ company, employeeCode, fullName, userId, api })
+          setUserDetails({
+            company,
+            employeeCode,
+            fullName,
+            api,
+          })
         );
         navigation.navigate("login");
       } else {
