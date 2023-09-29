@@ -135,7 +135,7 @@ const TripDetails = () => {
                 />
               </View>
             ) : (
-              <View className='px-3'>
+              <View className="px-3">
                 <EndForm
                   location={location}
                   setIsLoading={setIsLoading}
