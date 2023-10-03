@@ -11,7 +11,7 @@ import Constants from "expo-constants";
 import { WelcomeCard } from "../components/Login";
 import { COLORS, SIZES } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { generateToken } from "../api/userApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setSignIn } from "../redux/Slices/AuthSlice";
@@ -20,18 +20,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { selectName } from "../redux/Slices/UserSlice";
 const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const userName = useSelector(selectName);
   const loginSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(5, "Too short!")
-      .max(24, "Too Long!")
-      .required("Please enter username"),
     password: Yup.string()
       .min(5, "Too short!")
       .max(24, "Too Long!")
@@ -50,7 +44,6 @@ const Login = () => {
       <WelcomeCard />
       <Formik
         initialValues={{
-          username: userName,
           password: "",
         }}
         validationSchema={loginSchema}
@@ -94,26 +87,6 @@ const Login = () => {
           setFieldTouched,
         }) => (
           <React.Fragment>
-            <View style={{ width: "100%", marginTop: 30 }}>
-              <Text className="text-lg my-1 text-gray-600">username</Text>
-              <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
-                <TextInput
-                  value={values.username}
-                  onChangeText={handleChange("username")}
-                  placeholder="enter username"
-                  onBlur={() => setFieldTouched("username")}
-                  style={{ marginTop: Platform.OS === "ios" ? -10 : 0 }}
-                  className="flex-1 h-12 text-lg"
-                />
-              </View>
-            </View>
-            {touched.username && errors.username && (
-              <View style={{ width: "100%" }} className="left-1 mt-1">
-                <Text className="text-red-600 text-base">
-                  {errors.username}
-                </Text>
-              </View>
-            )}
             <View style={{ width: "100%", marginTop: 5 }}>
               <Text className="text-lg my-1 text-gray-600">password</Text>
               <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
