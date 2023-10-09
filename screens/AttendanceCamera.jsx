@@ -91,8 +91,8 @@ const AttendanceCamera = () => {
                   })
                 )
               : dispatch(setCheckout({ checkoutTime: currentDate }));
-            try {
-              uploadPicture(name).then(() => {
+            uploadPicture(name)
+              .then(() => {
                 Toast.show({
                   type: "success",
                   text1: `CHECKED ${type}`,
@@ -101,15 +101,15 @@ const AttendanceCamera = () => {
                   visibilityTime: 2000,
                 });
                 navigation.navigate("Attendance action");
+              })
+              .catch(() => {
+                Toast.show({
+                  type: "error",
+                  text1: "Photo upload failed",
+                  autoHide: true,
+                  visibilityTime: 2000,
+                });
               });
-            } catch (error) {
-              Toast.show({
-                type: "error",
-                text1: "Photo upload failed",
-                autoHide: true,
-                visibilityTime: 2000,
-              });
-            }
           })
           .catch(() => {
             Toast.show({
