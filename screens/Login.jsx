@@ -6,7 +6,7 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Constants from "expo-constants";
 import { WelcomeCard } from "../components/Login";
 import { COLORS, SIZES } from "../constants";
@@ -19,7 +19,6 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
