@@ -15,7 +15,7 @@ const WelcomeCard = () => {
       <View className="flex-row justify-center items-center relative h-14">
         <TouchableOpacity
           onPress={() => navigation.navigate("Notifications")}
-          className="bg-orange-400 w-12 h-12 items-center justify-center rounded-full absolute right-1 top-1"
+          className="bg-gray-800 w-12 h-12 items-center justify-center rounded-full absolute right-1 top-1"
         >
           <MaterialCommunityIcons
             name="bell"
@@ -35,8 +35,12 @@ const WelcomeCard = () => {
           >
             {!fullname ? `username` : fullname}
           </Text>
-          <View className="bg-orange-400 w-10 h-10 items-center justify-center rounded-full">
-            <Text className="text-3xl">👋</Text>
+          <View className="bg-gray-800 w-10 h-10 items-center justify-center rounded-full">
+            <MaterialCommunityIcons
+              name="hand-wave"
+              color={"white"}
+              size={24}
+            />
           </View>
         </View>
       </View>

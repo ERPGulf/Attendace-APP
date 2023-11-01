@@ -25,6 +25,7 @@ import {
   userStatusPut,
 } from "../api/userApi";
 import { selectIsWfh, setFileid } from "../redux/Slices/UserSlice";
+import { SIZES } from "../constants";
 
 const AttendanceCamera = () => {
   const navigation = useNavigation();
@@ -87,7 +88,7 @@ const AttendanceCamera = () => {
               ? dispatch(
                   setCheckin({
                     checkinTime: currentDate,
-                    location: isWFH ? "Work from Home" : "Head Office",
+                    location: isWFH ? "On-site" : "Head Office",
                   })
                 )
               : dispatch(setCheckout({ checkoutTime: currentDate }));
@@ -244,6 +245,17 @@ const AttendanceCamera = () => {
         flexDirection: "column-reverse",
       }}
     >
+      <View
+        style={{ top: Constants.statusBarHeight }}
+        className="absolute left-3"
+      >
+        <Ionicons
+          name="chevron-back"
+          color={"white"}
+          size={SIZES.xxxLarge - SIZES.xSmall}
+          onPress={() => navigation.goBack()}
+        />
+      </View>
       <View className="flex-row items-center justify-center w-full px-3 relative">
         {mode === "camera" ? (
           <TouchableOpacity

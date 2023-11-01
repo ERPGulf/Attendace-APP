@@ -170,7 +170,7 @@ const AttendanceAction = () => {
           <ActivityIndicator size={"large"} color={"white"} />
         </View>
       )}
-      <View style={{ width: "100%" }} className="px-3">
+      <View style={{ width: "100%" }} className=" flex-1 px-3">
         <WelcomeCard />
         <View className="h-72 mt-4">
           <View className="p-3">
@@ -199,7 +199,7 @@ const AttendanceAction = () => {
                 ) : inTarget ? (
                   "Head Office"
                 ) : isWFH ? (
-                  "Work from home"
+                  "in bound"
                 ) : (
                   "Out of bound"
                 )}
@@ -211,47 +211,43 @@ const AttendanceAction = () => {
               />
             </View>
             {checkin ? (
-              <>
-                <TouchableOpacity
-                  className={`justify-center ${
-                    !inTarget && !isWFH && `opacity-50`
-                  } items-center h-16 mt-4 rounded-2xl bg-red-500`}
-                  disabled={!inTarget && !isWFH}
-                  onPress={() => {
-                    Alert.alert(
-                      "Check out",
-                      "Are you sure you want to check out",
-                      [
-                        {
-                          text: "Cancel",
-                          onPress: () => {
-                            Toast.show({
-                              type: "success",
-                              text1: "CHECK-OUT CANCELLED",
-                            });
-                          },
-                          style: "cancel",
+              <TouchableOpacity
+                className={`justify-center  ${
+                  !inTarget && !isWFH && `opacity-50`
+                } items-center h-16 mt-4 rounded-2xl bg-red-600`}
+                disabled={!inTarget && !isWFH}
+                onPress={() => {
+                  Alert.alert(
+                    "Check out",
+                    "Are you sure you want to check out",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => {
+                          Toast.show({
+                            type: "success",
+                            text1: "CHECK-OUT CANCELLED",
+                          });
                         },
-                        {
-                          text: "OK",
-                          onPress: () => {
-                            navigation.navigate("Attendance camera");
-                          },
+                        style: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          navigation.navigate("Attendance camera");
                         },
-                      ]
-                    );
-                  }}
-                >
-                  <Text className="text-xl font-bold text-white">
-                    CHECK-OUT
-                  </Text>
-                </TouchableOpacity>
-              </>
+                      },
+                    ]
+                  );
+                }}
+              >
+                <Text className="text-xl font-bold text-white">CHECK-OUT</Text>
+              </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 className={`justify-center ${
                   !inTarget && !isWFH && `opacity-50`
-                } items-center h-16 mt-4 rounded-2xl bg-green-500`}
+                } items-center h-16 mt-4 rounded-2xl bg-green-600`}
                 disabled={!inTarget && !isWFH}
                 // onPress={() => handleChecking("IN", 1)}
                 onPress={() => navigation.navigate("Attendance camera")}

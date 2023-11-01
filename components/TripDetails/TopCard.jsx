@@ -61,11 +61,8 @@ const TopCard = () => {
           </View>
         ) : (
           <View className="w-full py-3 justify-end h-56">
-            <Text className="text-xl font-medium text-white">
-              start trip to
-            </Text>
             <Text className="text-6xl mt-2 font-semibold text-white">
-              track trip
+             Start Trip
             </Text>
           </View>
         )}

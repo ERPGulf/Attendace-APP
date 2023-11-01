@@ -60,7 +60,6 @@ export const toastConfig = {
         borderLeftColor: "#0096FF",
         borderRadius: 30,
         width: "60%",
-        borderWidth: 1,
       }}
       text1Style={{
         fontSize: 16,

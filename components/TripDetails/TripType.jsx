@@ -10,7 +10,7 @@ const TripType = ({ setTripType, tripType }) => {
           setTripType("RM");
         }}
         className={`items-center justify-center rounded-lg flex-grow mx-1 ${
-          tripType === "RM" ? "bg-orange-500" : "bg-orange-200"
+          tripType === "RM" ? "bg-gray-900" : "bg-gray-300"
         }`}
         style={{
           width: 100,
@@ -25,7 +25,7 @@ const TripType = ({ setTripType, tripType }) => {
           setTripType("NRM");
         }}
         className={`items-center justify-center rounded-lg flex-grow mx-1 ${
-          tripType === "NRM" ? "bg-orange-500" : "bg-orange-200"
+          tripType === "NRM" ? "bg-gray-900" : "bg-gray-300"
         }`}
         style={{
           width: 100,

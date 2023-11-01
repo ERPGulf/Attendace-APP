@@ -141,7 +141,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         setFieldValue,
       }) => (
         <React.Fragment>
-          <View style={{ width: "100%", marginTop: 30}}>
+          <View style={{ width: "100%", marginTop: 30 }}>
             <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
               <TextInput
                 onFocus={() => setIsTouched("job_order")}
@@ -265,7 +265,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
               } rounded-xl w-full`}
             >
               <Text className="text-2xl font-semibold text-white">
-                start trip
+                START
               </Text>
             </TouchableOpacity>
           </View>

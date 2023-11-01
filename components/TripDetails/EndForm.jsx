@@ -117,9 +117,7 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
                 isValid ? "bg-red-500" : "bg-red-200"
               } rounded-xl w-full`}
             >
-              <Text className="text-2xl font-semibold text-white">
-                end trip
-              </Text>
+              <Text className="text-2xl font-semibold text-white">END</Text>
             </TouchableOpacity>
           </View>
         </React.Fragment>

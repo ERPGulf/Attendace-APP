@@ -10,7 +10,7 @@ const ButtonItem = ({ iconName, text1, text2 }) => {
         <Ionicons
           name={iconName}
           size={SIZES.xxxLarge - 3}
-          color={COLORS.tertiary}
+          color={COLORS.primary}
         />
       </View>
       {text1 && (

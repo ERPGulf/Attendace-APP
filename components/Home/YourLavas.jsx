@@ -24,7 +24,7 @@ const LavaMenu = () => {
           <Text className="text-lg font-medium text-white text-center ">
             Human Resources
           </Text>
-          <TouchableOpacity className="bg-white justify-center items-center rounded-lg">
+          <TouchableOpacity className="bg-gray-600 justify-center items-center rounded-lg">
             <AntDesign
               name="arrowright"
               size={SIZES.xxLarge + 4}
@@ -50,7 +50,7 @@ const LavaMenu = () => {
                 <Ionicons
                   name="calendar-outline"
                   size={SIZES.xxxLarge - 3}
-                  color={COLORS.tertiary}
+                  color={COLORS.primary}
                 />
               </View>
               <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -71,7 +71,7 @@ const LavaMenu = () => {
                 <Ionicons
                   name="receipt-outline"
                   size={SIZES.xxxLarge - 3}
-                  color={COLORS.tertiary}
+                  color={COLORS.primary}
                 />
               </View>
               <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -89,7 +89,7 @@ const LavaMenu = () => {
                 <Ionicons
                   name="trail-sign-outline"
                   size={SIZES.xxxLarge - 3}
-                  color={COLORS.tertiary}
+                  color={COLORS.primary}
                 />
               </View>
               <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -104,7 +104,7 @@ const LavaMenu = () => {
                 <Ionicons
                   name="airplane-outline"
                   size={SIZES.xxxLarge - 3}
-                  color={COLORS.tertiary}
+                  color={COLORS.primary}
                 />
               </View>
               <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -119,7 +119,7 @@ const LavaMenu = () => {
                 <Ionicons
                   name="list-outline"
                   size={SIZES.xxxLarge - 3}
-                  color={COLORS.tertiary}
+                  color={COLORS.primary}
                 />
               </View>
               <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -158,7 +158,7 @@ const LavaMenu = () => {
               <Ionicons
                 name="person-circle-outline"
                 size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
+                color={COLORS.primary}
               />
             </View>
             <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -170,7 +170,7 @@ const LavaMenu = () => {
               <Ionicons
                 name="people-outline"
                 size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
+                color={COLORS.primary}
               />
             </View>
             <Text className="text-xs text-center font-medium text-gray-500 mt-1">
@@ -182,7 +182,7 @@ const LavaMenu = () => {
               <Ionicons
                 name="qr-code"
                 size={SIZES.xxxLarge - 3}
-                color={COLORS.tertiary}
+                color={COLORS.primary}
               />
             </View>
             <Text className="text-xs text-center font-medium text-gray-500 mt-1">

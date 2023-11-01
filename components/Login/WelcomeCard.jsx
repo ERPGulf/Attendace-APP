@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { COLORS } from "../../constants";
 import { useSelector } from "react-redux";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 const WelcomeCard = () => {
   const fullname = useSelector((state) => state.user.fullname);
   return (
@@ -15,15 +16,19 @@ const WelcomeCard = () => {
       <View>
         <Text className="text-xl font-semibold text-white">Hey,</Text>
         <View className="flex-row items-center space-x-2 mt-2">
-        <Text
+          <Text
             numberOfLines={1}
             style={{ maxWidth: 260 }}
             className="text-3xl font-semibold text-white"
           >
             {!fullname ? `username` : fullname}
           </Text>
-          <View className="bg-orange-400 w-10 h-10 items-center justify-center rounded-full">
-            <Text className="text-3xl font-bold text-white">👋</Text>
+          <View className="bg-gray-800 w-10 h-10 items-center justify-center rounded-full">
+            <MaterialCommunityIcons
+              name="hand-wave"
+              color={"white"}
+              size={24}
+            />
           </View>
         </View>
       </View>
