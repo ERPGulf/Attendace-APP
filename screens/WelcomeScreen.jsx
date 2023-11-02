@@ -18,10 +18,8 @@ const WelcomeScreen = () => {
       className="px-3 relative items-center justify-center pb-4"
     >
       <View className=" justify-center space-x-3 items-center">
-        <Image source={icon} style={{ width: 150, height: 150 }} />
-        <Text className="text-sm font-normal text-gray-400 mt-2">
-          ESS by ERPGULF
-        </Text>
+        <Image source={icon} style={{ width: 250, height: 250 }} />
+       
       </View>
       <TouchableOpacity
         style={{ width: "100%", borderWidth: 2, borderColor: COLORS.primary }}
