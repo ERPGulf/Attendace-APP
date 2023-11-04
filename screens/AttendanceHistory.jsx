@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 import { selectName } from "../redux/Slices/UserSlice";
 import { getUserAttendance } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { is } from "date-fns/locale";
 
 const AttendanceHistory = () => {
   const navigation = useNavigation();
@@ -73,7 +72,7 @@ const AttendanceHistory = () => {
     <View className="flex-1">
       {isLoading ? (
         <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size={52} />
+          <ActivityIndicator size={"large"} />
         </View>
       ) : !error ? (
         <View className="flex-1 justify-center items-center">

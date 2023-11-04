@@ -24,11 +24,11 @@ const LavaMenu = () => {
           <Text className="text-lg font-medium text-white text-center ">
             Human Resources
           </Text>
-          <TouchableOpacity className="bg-gray-600 justify-center items-center rounded-lg">
+          <TouchableOpacity className="justify-center items-center rounded-lg">
             <AntDesign
               name="arrowright"
               size={SIZES.xxLarge + 4}
-              color={COLORS.primary}
+              color={COLORS.white}
             />
           </TouchableOpacity>
         </View>
@@ -144,11 +144,11 @@ const LavaMenu = () => {
           <Text className="text-lg font-medium text-white text-center ">
             Business card
           </Text>
-          <TouchableOpacity className="bg-white justify-center items-center  rounded-lg">
+          <TouchableOpacity className="justify-center items-center rounded-lg">
             <AntDesign
               name="arrowright"
               size={SIZES.xxLarge + 4}
-              color={COLORS.primary}
+              color={COLORS.white}
             />
           </TouchableOpacity>
         </View>
