@@ -19,7 +19,7 @@ export const toastConfig = {
         height: 40,
       }}
       text1Style={{
-        fontSize: 10,
+        fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}
@@ -45,7 +45,7 @@ export const toastConfig = {
         height: 40,
       }}
       text1Style={{
-        fontSize: 8,
+        fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}
@@ -67,7 +67,7 @@ export const toastConfig = {
         height: 40,
       }}
       text1Style={{
-        fontSize: 10,
+        fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}

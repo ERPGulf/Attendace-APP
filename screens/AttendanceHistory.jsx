@@ -59,14 +59,14 @@ const AttendanceHistory = () => {
   ];
   return (
     <View className="flex-1">
-      {!error ? (
+      {error ? (
         <View className="flex-1 justify-center items-center">
-          <Text className="text-base">{error}</Text>
+          <Text className="text-base text-gray-600">{error}</Text>
         </View>
       ) : (
-        mockData && (
+        data && (
           <FlatList
-            data={mockData}
+            data={data}
             contentContainerStyle={{
               flexGrow: 1,
               flex: 1,
