@@ -1,4 +1,10 @@
-import { View, TouchableOpacity, FlatList, Text } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import { COLORS, SIZES } from "../constants";
@@ -8,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectName } from "../redux/Slices/UserSlice";
 import { getUserAttendance } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import { is } from "date-fns/locale";
 
 const AttendanceHistory = () => {
   const navigation = useNavigation();
@@ -29,10 +36,12 @@ const AttendanceHistory = () => {
     });
   }, []);
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const employeeName = useSelector(selectName);
 
   useEffect(() => {
+    setIsLoading(true);
     getUserAttendance(employeeName)
       .then((res) => {
         setData(res);
@@ -45,6 +54,9 @@ const AttendanceHistory = () => {
           autoHide: true,
           visibilityTime: 2000,
         });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
   const mockData = [
@@ -59,14 +71,18 @@ const AttendanceHistory = () => {
   ];
   return (
     <View className="flex-1">
-      {error ? (
+      {isLoading ? (
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size={52} />
+        </View>
+      ) : !error ? (
         <View className="flex-1 justify-center items-center">
           <Text className="text-base text-gray-600">{error}</Text>
         </View>
       ) : (
-        data && (
+        mockData && (
           <FlatList
-            data={data}
+            data={mockData}
             contentContainerStyle={{
               flexGrow: 1,
               flex: 1,
