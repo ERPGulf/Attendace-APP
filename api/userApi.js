@@ -308,3 +308,17 @@ export const getVehicle = async (searchTerms = "") => {
     return Promise.reject(new Error("Something went wrong)"));
   }
 };
+
+export const getUserAttendance = async (employeeName) => {
+  try {
+    const { data } = await userApi.get(
+      `method/employee_app.attendance_api.employee_checkin`,
+      {
+        employee_name: employeeName,
+      }
+    );
+    return Promise.resolve(data.message);
+  } catch (error) {
+    return Promise.reject(new Error("Something went wrong)"));
+  }
+};
