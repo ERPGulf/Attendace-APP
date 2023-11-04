@@ -67,7 +67,6 @@ const TripDetails = () => {
         Toast.show({
           type: "error",
           text1: "Getting trip status failed",
-          text2: "Please try again",
           autoHide: true,
           visibilityTime: 2000,
         });

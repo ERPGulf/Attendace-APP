@@ -51,7 +51,6 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
         Toast.show({
           type: "error",
           text1: "Trip end failed",
-          text2: "Please try again",
           autoHide: true,
           visibilityTime: 2000,
         });

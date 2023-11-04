@@ -75,7 +75,6 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         Toast.show({
           type: "error",
           text1: "Trip start failed",
-          text2: "Please try again",
           autoHide: true,
           visibilityTime: 2000,
         });

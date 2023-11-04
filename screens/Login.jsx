@@ -55,7 +55,6 @@ const Login = () => {
               Toast.show({
                 type: "success",
                 text1: "login success",
-                text2: "lets get productive now",
                 autoHide: true,
                 visibilityTime: 2000,
               });
@@ -68,7 +67,6 @@ const Login = () => {
               Toast.show({
                 type: "error",
                 text1: `login failed`,
-                text2: "Invalid password. Please try again",
                 autoHide: true,
                 visibilityTime: 2000,
               });

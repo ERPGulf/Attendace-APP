@@ -68,7 +68,6 @@ const AttendanceCamera = () => {
       Toast.show({
         type: "error",
         text1: "Photo capture failed",
-        text2: "Please try again",
       });
     }
   };
@@ -97,7 +96,6 @@ const AttendanceCamera = () => {
                 Toast.show({
                   type: "success",
                   text1: `CHECKED ${type}`,
-                  text2: `Please upload your photo or video`,
                   autoHide: true,
                   visibilityTime: 2000,
                 });
@@ -116,7 +114,6 @@ const AttendanceCamera = () => {
             Toast.show({
               type: "error",
               text1: "Status update failed",
-              text2: "Please try again",
               autoHide: true,
               visibilityTime: 2000,
             });
@@ -126,7 +123,6 @@ const AttendanceCamera = () => {
         Toast.show({
           type: "error",
           text1: "Check-in failed",
-          text2: `Please try again ${error}`,
           autoHide: true,
           visibilityTime: 2000,
         });
@@ -137,7 +133,6 @@ const AttendanceCamera = () => {
     Toast.show({
       type: "info",
       text1: "File being uploaded",
-      text2: "it may take a minute or two dont worry ",
       autoHide: true,
       visibilityTime: 2000,
     });

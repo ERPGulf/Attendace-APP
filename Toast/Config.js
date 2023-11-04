@@ -15,14 +15,16 @@ export const toastConfig = {
         backgroundColor: "#22c55e",
         borderLeftColor: "#22c55e",
         borderRadius: 30,
+        width: 150,
+        height: 40,
       }}
       text1Style={{
-        fontSize: 16,
+        fontSize: 10,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 10,
+        fontSize: 6,
         color: "#fff",
         textAlign: "center",
       }}
@@ -39,14 +41,16 @@ export const toastConfig = {
         backgroundColor: "rgb(239 68 68)",
         borderLeftColor: "rgb(239 68 68)",
         borderRadius: 30,
+        width: 150,
+        height: 40,
       }}
       text1Style={{
-        fontSize: 16,
+        fontSize: 8,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 10,
+        fontSize: 5,
         color: "#fff",
         textAlign: "center",
       }}
@@ -59,15 +63,16 @@ export const toastConfig = {
         backgroundColor: "#0096FF",
         borderLeftColor: "#0096FF",
         borderRadius: 30,
-        width: "60%",
+        width: 150,
+        height: 40,
       }}
       text1Style={{
-        fontSize: 16,
+        fontSize: 10,
         color: "#fff",
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 10,
+        fontSize: 6,
         color: "#fff",
         textAlign: "center",
       }}
