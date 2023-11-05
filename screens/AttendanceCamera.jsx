@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Constants from "expo-constants";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { useNavigation } from "@react-navigation/native";
@@ -181,7 +181,7 @@ const AttendanceCamera = () => {
   if (photo) {
     return (
       <View
-        style={{ paddingVertical: Constants.statusBarHeight }}
+        style={{ paddingTop: Constants.statusBarHeight }}
         className="flex-1 items-center justify-center bg-white relative"
       >
         <View
@@ -195,25 +195,8 @@ const AttendanceCamera = () => {
                 setPhoto(null);
               }}
             >
-              <Text className="text-base font-medium text-red-500">Retake</Text>
+              <Text className="text-base font-normal text-red-500">Retake</Text>
             </TouchableOpacity>
-            {checkin ? (
-              <TouchableOpacity
-                className="absolute justify-center items-center right-0 bg-blue-500 py-1 px-2 rounded-lg"
-                onPress={() => handleChecking("OUT", 0)}
-              >
-                <Text className="text-base font-medium text-white">
-                  Check Out
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                className="absolute justify-center items-center right-0 bg-blue-500 py-1 px-2 rounded-lg"
-                onPress={() => handleChecking("IN", 1)}
-              >
-                <Text className="text-base font-bold text-white">CHECK-IN</Text>
-              </TouchableOpacity>
-            )}
             <View className="justify-self-center text-center">
               <Text className="text-xl font-medium">Preview</Text>
             </View>
@@ -225,6 +208,39 @@ const AttendanceCamera = () => {
             className="w-full flex-1"
             source={{ uri: "data:image/jpg;base64," + photo.base64 }}
           />
+          <View className="w-full items-center justify-center">
+            {checkin ? (
+              <TouchableOpacity
+                className="justify-center items-center bg-blue-500 py-1 px-2 rounded-full p-5 relative"
+                onPress={() => handleChecking("OUT", 0)}
+              >
+                <MaterialCommunityIcons
+                  style={{ top: -10, margin: 4 }}
+                  name="upload"
+                  size={32}
+                  color={"white"}
+                />
+                <Text className="absolute bottom-4 text-xs font-medium text-white p-1">
+                  CHECK OUT
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                className="justify-center items-center bg-blue-500 py-1 px-2 rounded-full p-5 relative"
+                onPress={() => handleChecking("IN", 1)}
+              >
+                <MaterialCommunityIcons
+                  style={{ top: -10, margin: 4 }}
+                  name="upload"
+                  size={32}
+                  color={"white"}
+                />
+                <Text className="absolute bottom-4 text-xs font-medium text-white p-1">
+                  CHECK IN
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     );

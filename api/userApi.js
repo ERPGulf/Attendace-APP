@@ -319,6 +319,7 @@ export const getUserAttendance = async (employeeName) => {
     );
     return Promise.resolve(data.message);
   } catch (error) {
+    console.error(error, "attendance");
     return Promise.reject(new Error("Something went wrong)"));
   }
 };

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { revertAll } from "../redux/CommonActions";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { SIZES } from "../constants";
+import { COLORS, SIZES } from "../constants";
 import user from "../assets/images/user.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -24,6 +24,7 @@ const Profile = () => {
       headerShown: true,
       headerTitle: "My Profile",
       headerTitleAlign: "center",
+      headerShadowVisible: false,
     });
   }, []);
   const fullname = useSelector((state) => state.user.fullname);
@@ -37,6 +38,7 @@ const Profile = () => {
         flex: 1,
         flexGrow: 1,
         alignItems: "center",
+        backgroundColor: "white",
       }}
     >
       {/* scrollview */}
@@ -48,15 +50,16 @@ const Profile = () => {
           alignItems: "center",
         }}
       >
-        <View className="flex-row bg-white w-full h-24 rounded-2xl">
+        <View
+          style={{ backgroundColor: COLORS.primary }}
+          className="flex-row w-full h-24 rounded-2xl"
+        >
           <View className="justify-center items-center p-3">
             <Image source={user} style={{ width: 75, height: 75 }} />
           </View>
           <View className="justify-center">
-            <Text className="text-xl font-semibold text-gray-700">
-              {fullname}
-            </Text>
-            <Text className="text-base font-normal text-gray-400">
+            <Text className="text-xl font-semibold text-white">{fullname}</Text>
+            <Text className="text-base font-normal text-gray-300">
               Employee
             </Text>
           </View>
@@ -82,7 +85,8 @@ const Profile = () => {
               },
             ]);
           }}
-          className="flex-row h-16 w-full items-center rounded-2xl px-3 justify-between bg-white mt-4"
+          style={{ backgroundColor: COLORS.primary }}
+          className="flex-row h-16 w-full items-center rounded-xl px-3 justify-between bg-white mt-4"
         >
           <View className="flex-row items-center">
             <Ionicons name="log-out" color={"red"} size={34} />

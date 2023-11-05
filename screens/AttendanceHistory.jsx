@@ -11,9 +11,10 @@ import { COLORS, SIZES } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import { LogCard } from "../components/AttendanceHistory";
 import { useSelector } from "react-redux";
-import { selectName } from "../redux/Slices/UserSlice";
+import { selectName, selectUserDetails } from "../redux/Slices/UserSlice";
 import { getUserAttendance } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AttendanceHistory = () => {
   const navigation = useNavigation();
@@ -38,9 +39,13 @@ const AttendanceHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const employeeName = useSelector(selectName);
-
+  const employeeCode = useSelector(selectUserDetails);
   useEffect(() => {
     setIsLoading(true);
+    AsyncStorage.getItem("access_token").then((token) => {
+      console.log(token, employeeCode.employeeCode);
+    });
+
     getUserAttendance(employeeName)
       .then((res) => {
         setData(res);
@@ -69,7 +74,7 @@ const AttendanceHistory = () => {
     },
   ];
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
       {isLoading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size={"large"} />
