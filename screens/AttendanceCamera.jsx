@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
@@ -17,7 +18,7 @@ import {
   setCheckin,
   setCheckout,
 } from "../redux/Slices/AttendanceSlice";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import {
   putUserFile,
   userCheckIn,
@@ -34,6 +35,7 @@ const AttendanceCamera = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [mode, setMode] = useState("camera");
   const [photo, setPhoto] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const checkin = useSelector(selectCheckin);
   const { employeeCode } = useSelector((state) => state.user.userDetails);
   const isWFH = useSelector(selectIsWfh);
@@ -72,6 +74,7 @@ const AttendanceCamera = () => {
     }
   };
   const handleChecking = (type, custom_in) => {
+    setIsLoading(true);
     const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
     const dataField = {
       timestamp,
@@ -99,6 +102,7 @@ const AttendanceCamera = () => {
                   autoHide: true,
                   visibilityTime: 2000,
                 });
+                setIsLoading(false);
                 navigation.navigate("Attendance action");
               })
               .catch(() => {
@@ -108,6 +112,7 @@ const AttendanceCamera = () => {
                   autoHide: true,
                   visibilityTime: 2000,
                 });
+                setIsLoading(false);
               });
           })
           .catch(() => {
@@ -117,15 +122,17 @@ const AttendanceCamera = () => {
               autoHide: true,
               visibilityTime: 2000,
             });
+            setIsLoading(false);
           });
       })
-      .catch((error) => {
+      .catch(() => {
         Toast.show({
           type: "error",
           text1: "Check-in failed",
           autoHide: true,
           visibilityTime: 2000,
         });
+        setIsLoading(false);
       });
   };
   // upload image
@@ -211,33 +218,31 @@ const AttendanceCamera = () => {
           <View className="w-full items-center justify-center">
             {checkin ? (
               <TouchableOpacity
-                className="justify-center items-center bg-blue-500 py-1 px-2 rounded-full p-5 relative"
+                className="justify-center items-center mb-3 bg-blue-500 w-full h-16 rounded-2xl"
                 onPress={() => handleChecking("OUT", 0)}
+                disabled={isLoading}
               >
-                <MaterialCommunityIcons
-                  style={{ top: -10, margin: 4 }}
-                  name="upload"
-                  size={32}
-                  color={"white"}
-                />
-                <Text className="absolute bottom-4 text-xs font-medium text-white p-1">
-                  CHECK OUT
-                </Text>
+                {isLoading ? (
+                  <ActivityIndicator size={"large"} color={"white"} />
+                ) : (
+                  <Text className="text-lg font-semibold text-white">
+                    CHECK OUT
+                  </Text>
+                )}
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                className="justify-center items-center bg-blue-500 py-1 px-2 rounded-full p-5 relative"
+                className="justify-center items-center mb-3 bg-blue-500 w-full h-16 rounded-2xl"
                 onPress={() => handleChecking("IN", 1)}
+                disabled={isLoading}
               >
-                <MaterialCommunityIcons
-                  style={{ top: -10, margin: 4 }}
-                  name="upload"
-                  size={32}
-                  color={"white"}
-                />
-                <Text className="absolute bottom-4 text-xs font-medium text-white p-1">
-                  CHECK IN
-                </Text>
+                {isLoading ? (
+                  <ActivityIndicator size={"large"} color={"white"} />
+                ) : (
+                  <Text className="text-lg font-semibold text-white">
+                    CHECK IN
+                  </Text>
+                )}
               </TouchableOpacity>
             )}
           </View>
