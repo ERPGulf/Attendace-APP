@@ -5,6 +5,7 @@ import {
   Alert,
   ScrollView,
   Image,
+  Platform,
 } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -85,7 +86,11 @@ const Profile = () => {
               },
             ]);
           }}
-          className="flex-row h-16 w-full items-center rounded-xl px-3 justify-between bg-white mt-4 shadow-md shadow-black"
+          className={`flex-row h-16 w-full items-center rounded-xl px-3 justify-between bg-white mt-4 ${
+            Platform.OS === "ios"
+              ? "shadow-sm shadow-black/10"
+              : "shadow-sm shadow-black"
+          }`}
         >
           <View className="flex-row items-center">
             <Ionicons name="log-out" color={"red"} size={34} />

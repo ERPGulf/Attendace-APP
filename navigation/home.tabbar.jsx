@@ -17,8 +17,6 @@ const HomeTabGroup = () => {
           position: "absolute",
           height: 70,
           paddingBottom: 0,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
           backgroundColor: "white",
         },
       })}
