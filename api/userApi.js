@@ -314,14 +314,19 @@ export const getUserAttendance = async (employee_code, limit_start) => {
     const { data } = await userApi.get(
       `method/employee_app.attendance_api.employee_checkin`,
       {
-        employee_code,
-        limit_start,
-        limit_page_length: 10,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        params: {
+          employee_code: "HR-EMP-00032",
+          limit_start: 0,
+          limit_page_length: 15,
+        },
       }
     );
     return Promise.resolve(data.message);
   } catch (error) {
     console.error(error, "attendance");
-    return Promise.reject(new Error("Something went wrong)"));
+    return Promise.reject(new Error("Something went wrong"));
   }
 };

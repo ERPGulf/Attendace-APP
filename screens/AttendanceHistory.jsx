@@ -36,17 +36,19 @@ const AttendanceHistory = () => {
   }, []);
   const [data, setData] = useState(null);
   const [limit_start, setLimitStart] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const employeeCode = useSelector(selectEmployeeCode);
   useEffect(() => {
-    setIsLoading(true);
     getUserAttendance(employeeCode, limit_start)
       .then((res) => {
+        if (limit_start === 0) {
+          setData(res);
+          return;
+        }
         setData([...data, ...res]);
       })
       .catch(() => {
-        setError("Failed to fetch data");
+        setError(true);
         Toast.show({
           type: "error",
           text1: "Something went wrong",
@@ -54,40 +56,31 @@ const AttendanceHistory = () => {
           visibilityTime: 2000,
         });
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      
   }, [limit_start]);
   const loadMoreItem = () => {
     setLimitStart((prev) => prev + 1);
   };
-  const mockData = [
-    {
-      log_type: "IN",
-      time: "10:00 AM",
-    },
-    {
-      log_type: "OUT",
-      time: "10:00 AM",
-    },
-  ];
+  if (data && data.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-base text-gray-600">No data found</Text>
+      </View>
+    );
+  }
   return (
     <View className="flex-1 bg-white">
-      {isLoading ? (
+      {error ? (
         <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size={"large"} />
-        </View>
-      ) : error ? (
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-base text-gray-600">{error}</Text>
+          <Text className="text-base text-gray-600">
+            Something went wrong! Please try again.{" "}
+          </Text>
         </View>
       ) : (
-        mockData && (
+        data && (
           <FlatList
             data={data}
             contentContainerStyle={{
-              flexGrow: 1,
-              flex: 1,
               paddingVertical: 15,
               paddingHorizontal: 15,
               rowGap: 10,
@@ -96,7 +89,7 @@ const AttendanceHistory = () => {
             renderItem={({ item }) => (
               <LogCard type={item.log_type} time={item.time} />
             )}
-            ListFooterComponent={<RenderLoader isLoading={isLoading} />}
+            ListFooterComponent={<RenderLoader />}
             onEndReached={loadMoreItem}
             onEndReachedThreshold={0}
           />

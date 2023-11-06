@@ -3,7 +3,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { COLORS } from "../../constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { format } from "date-fns";
 const LogCard = ({ type, time }) => {
+  const formattedDate = (inputDate) => {
+    const date = new Date(inputDate);
+    return format(date, "HH:mm a, dd/MM/yy");
+  };
+  const times = formattedDate(time);
   return (
     <View
       style={{ backgroundColor: COLORS.primary }}
@@ -12,7 +18,7 @@ const LogCard = ({ type, time }) => {
       }`}
     >
       <Text className="text-white font-semibold">
-        CHECKED {type} AT {time}
+        CHECKED {type} AT {times}
       </Text>
       <View
         className={`justify-between items-center rounded-full p-1 ${
