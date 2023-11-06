@@ -309,12 +309,14 @@ export const getVehicle = async (searchTerms = "") => {
   }
 };
 
-export const getUserAttendance = async (employeeName) => {
+export const getUserAttendance = async (employee_code, limit_start) => {
   try {
     const { data } = await userApi.get(
       `method/employee_app.attendance_api.employee_checkin`,
       {
-        employee_name: employeeName,
+        employee_code,
+        limit_start,
+        limit_page_length: 10,
       }
     );
     return Promise.resolve(data.message);

@@ -1,3 +1,3 @@
 import LogCard from "./LogCard";
-
-export { LogCard };
+import RenderLoader from "./RenderLoader";
+export { LogCard, RenderLoader };
