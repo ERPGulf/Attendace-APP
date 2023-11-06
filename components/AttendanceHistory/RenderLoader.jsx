@@ -1,10 +1,11 @@
 import { ActivityIndicator, View } from "react-native";
-const RenderLoader = ({isLoading}) => {
-  return isLoading ? (
-    <View style={styles.loaderStyle}>
-    <ActivityIndicator size="large" color="black" />
+import { COLORS } from "../../constants";
+const RenderLoader = () => {
+  return (
+    <View>
+      <ActivityIndicator size="large" color={COLORS.primary} />
     </View>
-  ) : null;
+  );
 };
 
 export default RenderLoader;

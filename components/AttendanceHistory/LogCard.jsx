@@ -17,7 +17,7 @@ const LogCard = ({ type, time }) => {
         type === "IN" ? " border-green-600" : "bg-red-400 "
       }`}
     >
-      <Text className="text-white font-semibold">
+      <Text className="text-white font-semibold text-xs">
         CHECKED {type} AT {times}
       </Text>
       <View
