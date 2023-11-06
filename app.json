@@ -2,7 +2,7 @@
   "expo": {
     "name": "ERPGULF ESS",
     "slug": "erpgulf-ess",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -41,7 +41,7 @@
         "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location for tracking check-ins, check-outs, and real-time location updates for drivers during trips, enhancing user experiences.",
         "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification."
       },
-      "buildNumber": "9"
+      "buildNumber": "10"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",

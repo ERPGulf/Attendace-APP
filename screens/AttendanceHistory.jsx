@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectEmployeeCode } from "../redux/Slices/UserSlice";
 import { getUserAttendance } from "../api/userApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import { set } from "date-fns";
 
 const AttendanceHistory = () => {
   const navigation = useNavigation();
@@ -55,12 +56,18 @@ const AttendanceHistory = () => {
           autoHide: true,
           visibilityTime: 2000,
         });
-      })
-      
+      });
   }, [limit_start]);
   const loadMoreItem = () => {
     setLimitStart((prev) => prev + 1);
   };
+  if (!data) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
+  }
   if (data && data.length === 0) {
     return (
       <View className="flex-1 justify-center items-center">
