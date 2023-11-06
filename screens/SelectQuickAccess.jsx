@@ -110,7 +110,7 @@ const SelectQuickAccess = () => {
             onPress={() => handleClick(item)}
             className={`${
               activeButtons?.some((button) => button?.id === item?.id)
-                ? "bg-gray-600"
+                ? "bg-gray-400"
                 : "bg-gray-200"
             } items-center  rounded-lg  mx-1 my-2`}
             style={{
