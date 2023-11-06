@@ -21,7 +21,7 @@ const AttendanceHistory = () => {
     navigation.setOptions({
       headerShadowVisible: false,
       headerShown: true,
-      headerTitle: "Attendance",
+      headerTitle: "Attendance history",
       headerTitleAlign: "center",
       headerLeft: () => (
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
