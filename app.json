@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ERPGULF ESS",
-    "slug": "erpgulf-ess",
-    "version": "1.0.1",
+    "name": "Castle Employee",
+    "slug": "castle-employee",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -36,12 +36,13 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.bazim.attendance",
       "infoPlist": {
-        "NSCameraUsageDescription": " Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location for tracking check-ins, check-outs, and real-time location updates for drivers during trips, enhancing user experiences.",
         "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location for tracking check-ins, check-outs, and real-time location updates for drivers during trips, enhancing user experiences.",
-        "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification."
+        "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "buildNumber": "10"
+      "buildNumber": "1"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -63,7 +64,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "bb4481f6-4e18-4911-a90f-f73649f5c0de"
+        "projectId": "141fcc19-16b9-477b-a52c-480369e186c3"
       }
     },
     "owner": "erpgulf"
