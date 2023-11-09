@@ -67,7 +67,7 @@ const WelcomeCard = () => {
           {checkin ? (
             <View className=" w-3/5 break-words h-40 justify-center">
               <Text className="text-base font-normal pt-1 text-white">
-                Woring from
+                Working from
               </Text>
               <Text className="text-lg font-bold text-white pb-1">
                 {location}
