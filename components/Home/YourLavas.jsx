@@ -11,7 +11,7 @@ const LavaMenu = () => {
     // first row
     <View className="my-2" style={{ width: "100%" }}>
       <View>
-        <Text className="text-sm font-semibold">Your Lava</Text>
+        <Text className="text-sm font-semibold">Menu</Text>
       </View>
       <View className="my-2">
         <View
