@@ -99,7 +99,12 @@ const LavaMenu = () => {
                 Details
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="mr-4">
+            <TouchableOpacity
+              className="mr-4"
+              onPress={() => {
+                navigation.navigate("comingsoon");
+              }}
+            >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
                 <Ionicons
                   name="airplane-outline"
@@ -114,7 +119,11 @@ const LavaMenu = () => {
                 request
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("comingsoon");
+              }}
+            >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
                 <Ionicons
                   name="list-outline"
@@ -153,7 +162,12 @@ const LavaMenu = () => {
           </TouchableOpacity>
         </View>
         <View className="flex-row bg-white flex-wrap py-4 items-center px-2 rounded-b-xl ">
-          <TouchableOpacity className="w-16 mr-4">
+          <TouchableOpacity
+            className="w-16 mr-4"
+            onPress={() => {
+              navigation.navigate("comingsoon");
+            }}
+          >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="person-circle-outline"
@@ -165,7 +179,12 @@ const LavaMenu = () => {
               My card
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-16 mr-4">
+          <TouchableOpacity
+            className="w-16 mr-4"
+            onPress={() => {
+              navigation.navigate("comingsoon");
+            }}
+          >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="people-outline"
@@ -177,7 +196,12 @@ const LavaMenu = () => {
               Contacts
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-16">
+          <TouchableOpacity
+            className="w-16"
+            onPress={() => {
+              navigation.navigate("comingsoon");
+            }}
+          >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
               <Ionicons
                 name="qr-code"

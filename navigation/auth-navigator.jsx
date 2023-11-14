@@ -7,16 +7,14 @@ const Stack = createNativeStackNavigator();
 
 const AuthNavigator = () => {
   return (
-
-      <Stack.Navigator
-        initialRouteName="welcome"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="Qrscan" component={QrScan} />
-        <Stack.Screen name="welcome" component={WelcomeScreen} />
-      </Stack.Navigator>
-
+    <Stack.Navigator
+      initialRouteName="welcome"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="login" component={Login} />
+      <Stack.Screen name="Qrscan" component={QrScan} />
+      <Stack.Screen name="welcome" component={WelcomeScreen} />
+    </Stack.Navigator>
   );
 };
 

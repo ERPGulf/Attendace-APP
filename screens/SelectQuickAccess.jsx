@@ -47,33 +47,33 @@ const SelectQuickAccess = () => {
       url: "Attendance history",
     },
     //ADD URL WHEN REST IS COMPLETE
-    {
-      id: 3,
-      iconName: "airplane-outline",
-      text1: "Vacation",
-      text2: "request",
-    },
-    {
-      id: 4,
-      iconName: "list-outline",
-      text1: "Vacation",
-      text2: "list",
-    },
-    {
-      id: 5,
-      iconName: "person-circle-outline",
-      text1: "My Card",
-    },
-    {
-      id: 6,
-      iconName: "people-outline",
-      text1: "Contacts",
-    },
-    {
-      id: 7,
-      iconName: "qr-code",
-      text1: "My QR",
-    },
+    // {
+    //   id: 3,
+    //   iconName: "airplane-outline",
+    //   text1: "Vacation",
+    //   text2: "request",
+    // },
+    // {
+    //   id: 4,
+    //   iconName: "list-outline",
+    //   text1: "Vacation",
+    //   text2: "list",
+    // },
+    // {
+    //   id: 5,
+    //   iconName: "person-circle-outline",
+    //   text1: "My Card",
+    // },
+    // {
+    //   id: 6,
+    //   iconName: "people-outline",
+    //   text1: "Contacts",
+    // },
+    // {
+    //   id: 7,
+    //   iconName: "qr-code",
+    //   text1: "My QR",
+    // },
     {
       id: 8,
       iconName: "trail-sign-outline",

@@ -8,6 +8,7 @@ import {
   TripDetails,
 } from "../screens";
 import HomeTabGroup from "./home.tabbar";
+import ComingSoon from "../screens/ComingSoon";
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -23,6 +24,8 @@ const AppNavigator = () => {
       <Stack.Screen name="Trip details" component={TripDetails} />
       <Stack.Screen name="Attendance camera" component={AttendanceCamera} />
       <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="comingsoon" component={ComingSoon} />
+
     </Stack.Navigator>
   );
 };
