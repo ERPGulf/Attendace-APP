@@ -42,7 +42,7 @@
         "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
