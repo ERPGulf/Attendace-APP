@@ -2,7 +2,7 @@
   "expo": {
     "name": "Castle Employee",
     "slug": "castle-employee",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -42,7 +42,7 @@
         "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "buildNumber": "3"
+      "buildNumber": "5"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -51,7 +51,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.bazim.attendance",
-      "versionCode": 2,
+      "versionCode": 5,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.ACCESS_COARSE_LOCATION",
