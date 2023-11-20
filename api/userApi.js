@@ -21,50 +21,62 @@ const refreshAccessToken = async () => {
         headers: setCommonHeaders(),
       }
     );
-    if (data.access_token) {
-      await AsyncStorage.setItem("access_token", data.access_token);
-      await AsyncStorage.setItem("refresh_token", data.refresh_token);
-      return data.access_token;
-    } else {
-      return Promise.reject(new Error("No access token in response"));
-    }
+    AsyncStorage.multiSet([
+      ["access_token", data.access_token],
+      ["refresh_token", data.refresh_token],
+    ]);
+    return Promise.resolve(data.access_token);
   } catch (error) {
-    console.error(
-      "Token refresh error:",
-      error.response || error.message || error
-    );
-    return Promise.reject(Error("Token expired"));
+    console.error("Token refresh error:", error);
+    return Promise.reject(new Error("Token refresh failed"));
   }
 };
-// ... refresh middleware ...
 
-// This code intercepts any response from the api that is of status 400, 417, 403, or 401. It then checks if the refreshPromise variable is null, if it is, it sets it to refreshAccessToken(). If it is not null, it does nothing. It then returns the originalRequest. If the status code is not one of the above, the code rejects the error.
+// ... refresh middleware ...
 
 let refreshPromise = null;
 const clearPromise = () => (refreshPromise = null);
+
 userApi.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     if (
       error.response &&
-      (error.response.status === 400 || error.response.status === 403) &&
+      [400, 403, 401].includes(error.response.status) &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      if (!refreshPromise) {
-        refreshPromise = refreshAccessToken().finally(clearPromise);
+
+      try {
+        if (!refreshPromise) {
+          refreshPromise = refreshAccessToken().finally(clearPromise);
+        }
+
+        const token = await refreshPromise;
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+
+        // Retry the original request with the new token
+        return userApi(originalRequest);
+      } catch (refreshError) {
+        console.error("Error refreshing token:", refreshError);
+        // Handle refresh error appropriately, e.g., log out user or redirect to login
+        return Promise.reject(refreshError);
       }
-      const token = await refreshPromise;
-      originalRequest.headers.Authorization = `Bearer ${token}`;
-      return userApi(originalRequest);
     }
+
+    // If the error is not related to token expiration, reject the promise
     return Promise.reject(error);
   }
 );
 // baseUrl and accessToken preset middleware
 userApi.interceptors.request.use(
   async (config) => {
+    if (config.url === "method/frappe.integrations.oauth2.get_token") {
+      config.baseURL = await AsyncStorage.getItem("baseUrl");
+      return config;
+    }
     const access_token = await AsyncStorage.getItem("access_token");
     config.baseURL = await AsyncStorage.getItem("baseUrl");
     if (access_token) {
@@ -189,6 +201,7 @@ export const userStatusPut = async (employeeCode, custom_in) => {
 };
 // geting user status
 export const getUserCustomIn = async (employeeCode) => {
+  AsyncStorage.multiGet(["baseUrl", "access_token"]).then((data) => {});
   try {
     const filters = [["name", "=", employeeCode]];
     const fields = [
