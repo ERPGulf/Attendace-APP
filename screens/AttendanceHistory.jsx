@@ -79,7 +79,7 @@ const AttendanceHistory = () => {
       {error ? (
         <View className="flex-1 justify-center items-center">
           <Text className="text-base text-gray-600">
-            Something went wrong! Please try again.{" "}
+            Something went wrong! Please try again.
           </Text>
         </View>
       ) : (

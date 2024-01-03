@@ -3,7 +3,7 @@ import userApi from "./apiManger";
 
 // seting common headers
 const setCommonHeaders = (headers = {}) => {
-  headers["Content-Type"] = "multipart/form-data";
+  headers["Content-Type"] = "multipart/form-data";  
   return headers;
 };
 
