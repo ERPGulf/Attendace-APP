@@ -14,17 +14,18 @@ export const toastConfig = {
       style={{
         backgroundColor: "#22c55e",
         borderLeftColor: "#22c55e",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        borderRadius: 15,
+        width: "94%",
+        height: 60,
       }}
       text1Style={{
-        fontSize: 12,
+        fontSize: 20,
         color: "#fff",
+        fontWeight:500,
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 6,
+        fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}
@@ -40,20 +41,22 @@ export const toastConfig = {
       style={{
         backgroundColor: "rgb(239 68 68)",
         borderLeftColor: "rgb(239 68 68)",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        borderRadius: 15,
+        width: "94%",
+        height: 60,
       }}
       text1Style={{
+        fontSize: 20,
+        color: "#fff",
+        fontWeight:500,
+        textAlign: "center",
+      }}
+      text2Style={{
         fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}
-      text2Style={{
-        fontSize: 5,
-        color: "#fff",
-        textAlign: "center",
-      }}
+      
     />
   ),
   info: (props) => (
@@ -62,17 +65,18 @@ export const toastConfig = {
       style={{
         backgroundColor: "#0096FF",
         borderLeftColor: "#0096FF",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        borderRadius: 15,
+        width: "94%",
+        height: 60,
       }}
       text1Style={{
-        fontSize: 12,
+        fontSize: 20,
         color: "#fff",
+        fontWeight:500,
         textAlign: "center",
       }}
       text2Style={{
-        fontSize: 6,
+        fontSize: 12,
         color: "#fff",
         textAlign: "center",
       }}

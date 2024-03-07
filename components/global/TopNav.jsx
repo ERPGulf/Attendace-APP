@@ -17,7 +17,7 @@ const TopNav = ({ navigation, title }) => {
         >
           <Entypo
             name="chevron-left"
-            size={SIZES.xxxLarge - SIZES.xSmall}
+            size={SIZES.xxxLarge - 5}
             color={COLORS.primary}
           />
         </TouchableOpacity>

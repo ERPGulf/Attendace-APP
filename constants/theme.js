@@ -28,7 +28,8 @@ const SIZES = {
     xxLarge: 26,
     xxxLarge: 44,
     height: height - StatusBar.currentHeight,
-    width
+    width,
+    topOffset: StatusBar.currentHeight,
 };
 
 

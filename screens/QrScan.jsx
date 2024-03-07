@@ -34,10 +34,10 @@ const QrScan = () => {
     navigation.setOptions({
       headerShadowVisible: false,
       headerShown: true,
-      headerTitle: "QR CODE",
+      headerTitle: "Scan QR Code",
       headerTitleAlign: "center",
       headerLeft: () => (
-        <TouchableOpacity className="" onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Entypo
             name="chevron-left"
             size={SIZES.xxxLarge - 5}
@@ -142,7 +142,7 @@ const QrScan = () => {
       style={{ flex: 1, width: "100%", height: "100%" }}
       type={"back"}
       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      className="flex-1 items-center px-3 bg-white justify-end relative"
+      className="flex-1 items-center px-3 py-1 bg-white justify-end relative"
     >
       <View
         style={{
@@ -173,7 +173,7 @@ const QrScan = () => {
               backgroundColor: COLORS.primary,
               width: "100%",
             }}
-            className=" mt-2 h-16 justify-center rounded-xl items-center flex-row space-x-2"
+            className="mt-2 h-16 justify-center rounded-xl items-center flex-row space-x-2"
             onPress={() => setScanned(false)}
           >
             <Ionicons
@@ -202,6 +202,7 @@ const QrScan = () => {
             />
           </View>
         )}
+
         <TouchableOpacity
           style={{
             backgroundColor: COLORS.primary,

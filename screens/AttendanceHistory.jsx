@@ -27,7 +27,7 @@ const AttendanceHistory = () => {
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
           <Entypo
             name="chevron-left"
-            size={SIZES.xxxLarge - SIZES.xSmall}
+            size={SIZES.xxxLarge - 5}
             color={COLORS.primary}
           />
         </TouchableOpacity>

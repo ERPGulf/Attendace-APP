@@ -10,7 +10,9 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { toastConfig } from "./Toast/Config";
-
+import { SIZES } from "./constants";
+import { Platform } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function cacheFonts(fonts) {
   return fonts.map((font) => Font.loadAsync(font));
 }
@@ -36,13 +38,20 @@ export default function App() {
   if (!appReady) {
     return null;
   }
-
+  const queryClient = new QueryClient();
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <Navigator />
-        <StatusBar style="auto" />
-        <Toast config={toastConfig} />
+        <QueryClientProvider client={queryClient}>
+          <Navigator />
+          <StatusBar style="auto" />
+          <Toast
+            topOffset={
+              Platform.OS === "ios" ? SIZES.topOffset + 55 : SIZES.topOffset
+            }
+            config={toastConfig}
+          />
+        </QueryClientProvider>
       </PersistGate>
     </Provider>
   );

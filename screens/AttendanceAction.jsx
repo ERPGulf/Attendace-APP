@@ -17,10 +17,11 @@ import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCheckin, setOnlyCheckIn } from "../redux/Slices/AttendanceSlice";
 import Toast from "react-native-toast-message";
-import { getOfficeLocation } from "../api/userApi";
+import { getOfficeLocation, getUserCustomIn } from "../api/userApi";
 import { useUserStatus } from "../hooks/fetch.user.status";
 import { useNavigation } from "@react-navigation/native";
 import { setIsWfh } from "../redux/Slices/UserSlice";
+import { useQuery } from "@tanstack/react-query";
 const AttendanceAction = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -33,7 +34,7 @@ const AttendanceAction = () => {
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
           <Entypo
             name="chevron-left"
-            size={SIZES.xxxLarge - SIZES.xSmall}
+            size={SIZES.xxxLarge - 5}
             color={COLORS.primary}
           />
         </TouchableOpacity>
@@ -54,14 +55,19 @@ const AttendanceAction = () => {
   //FIX FLICKERING
   const { custom_in, loading, error, retry, custom_loction, custom_radius } =
     useUserStatus(employeeCode);
+  const { data: custom } = useQuery({
+    queryKey: ["custom_in", employeeCode],
+    queryFn: () => getUserCustomIn(employeeCode),
+  });
+  console.log(custom, "data");
   useEffect(() => {
     dispatch(setOnlyCheckIn(custom_in === 1));
     if (error) {
       Toast.show({
         type: "error",
-        text1: "Status failed",
+        text1: "Status fetching failed",
         autoHide: true,
-        visibilityTime: 2000,
+        visibilityTime: 3000,
       });
     }
 

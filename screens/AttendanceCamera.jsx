@@ -32,7 +32,7 @@ const AttendanceCamera = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type, setType] = useState(Camera.Constants.Type.front);
   const [mode, setMode] = useState("camera");
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -188,7 +188,7 @@ const AttendanceCamera = () => {
   if (photo) {
     return (
       <View
-        style={{ paddingTop: Constants.statusBarHeight }}
+        style={{ paddingTop: Constants.statusBarHeight, paddingBottom: 20 }}
         className="flex-1 items-center justify-center bg-white relative"
       >
         <View
@@ -209,10 +209,18 @@ const AttendanceCamera = () => {
             </View>
           </View>
         </View>
-        <View className="w-full flex-1 border-b border-black/30 px-3 bg-black">
+        <View
+          style={{ width: "100%" }}
+          className="flex-1 border-black/30 px-3  bg-white"
+        >
           <Image
             resizeMode="cover"
-            className="w-full flex-1"
+            style={{
+              width: "100%",
+              flex: 1,
+              borderRadius: 12,
+              marginVertical: 12,
+            }}
             source={{ uri: "data:image/jpg;base64," + photo.base64 }}
           />
           <View className="w-full items-center justify-center">

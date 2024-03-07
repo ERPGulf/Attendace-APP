@@ -3,7 +3,7 @@ import userApi from "./apiManger";
 
 // seting common headers
 const setCommonHeaders = (headers = {}) => {
-  headers["Content-Type"] = "multipart/form-data";  
+  headers["Content-Type"] = "multipart/form-data";
   return headers;
 };
 
@@ -201,8 +201,8 @@ export const userStatusPut = async (employeeCode, custom_in) => {
 };
 // geting user status
 export const getUserCustomIn = async (employeeCode) => {
-  AsyncStorage.multiGet(["baseUrl", "access_token"]).then((data) => {});
   try {
+    console.log(employeeCode);
     const filters = [["name", "=", employeeCode]];
     const fields = [
       "name",
