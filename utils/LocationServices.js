@@ -3,23 +3,23 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 export const useLocationForegroundAccess = async () => {
   try {
-    console.log("running");
     Toast.show({
       type: "info",
       text1: "Requesting location access",
       autoHide: true,
-      visibilityTime: 3000,
+      visibilityTime: 2000,
     });
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       return Toast.show({
         type: "error",
         text1: "Location access not granted",
+        text2: "Please enable location access to continue",
         autoHide: true,
         visibilityTime: 3000,
       });
     }
-    if(status === "granted") {
+    if (status === "granted") {
       Toast.show({
         type: "success",
         text1: "Location access granted",

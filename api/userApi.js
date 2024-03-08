@@ -120,7 +120,6 @@ export const getOfficeLocation = async (employeeCode) => {
       },
     });
     // Parse custom_reporting_location assuming it's a JSON string
-    console.log(data,'test')
     const jsonData = JSON.parse(data.data[0].custom_reporting_location);
     const latitude = jsonData.features[0].geometry.coordinates[1];
     const longitude = jsonData.features[0].geometry.coordinates[0];

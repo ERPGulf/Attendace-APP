@@ -73,11 +73,9 @@ const AttendanceAction = () => {
       });
     }
     if (!customIsLoading && customIsSuccess) {
-      console.log(custom);
       dispatch(setOnlyCheckIn(custom.custom_in === 1));
       setIsWFH(custom.custom_restrict_location === 0);
       dispatch(setIsWfh(custom.custom_restrict_location === 0));
-      console.log(isWFH);
       if (custom.custom_restrict_location === 1) {
         const checkUserDistanceToOffice = async (
           employeeCode,
