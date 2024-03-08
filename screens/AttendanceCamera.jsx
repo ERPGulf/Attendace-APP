@@ -86,21 +86,23 @@ const AttendanceCamera = () => {
         dispatch(setFileid(name));
         userStatusPut(employeeCode, custom_in)
           .then(() => {
-            custom_in === 1
-              ? dispatch(
-                  setCheckin({
-                    checkinTime: currentDate,
-                    location: isWFH ? "On-site" : "Head Office",
-                  })
-                )
-              : dispatch(setCheckout({ checkoutTime: currentDate }));
+            if (custom_in === 1) {
+              dispatch(
+                setCheckin({
+                  checkinTime: currentDate,
+                  location: isWFH ? "On-site" : "Head Office",
+                })
+              );
+            } else {
+              dispatch(setCheckout({ checkoutTime: currentDate }));
+            }
             uploadPicture(name)
               .then(() => {
                 Toast.show({
                   type: "success",
                   text1: `CHECKED ${type}`,
                   autoHide: true,
-                  visibilityTime: 2000,
+                 visibilityTime: 3000,
                 });
                 setIsLoading(false);
                 navigation.navigate("Attendance action");
@@ -110,7 +112,7 @@ const AttendanceCamera = () => {
                   type: "error",
                   text1: "Photo upload failed",
                   autoHide: true,
-                  visibilityTime: 2000,
+                 visibilityTime: 3000,
                 });
                 setIsLoading(false);
               });
@@ -120,7 +122,7 @@ const AttendanceCamera = () => {
               type: "error",
               text1: "Status update failed",
               autoHide: true,
-              visibilityTime: 2000,
+             visibilityTime: 3000,
             });
             setIsLoading(false);
           });
@@ -130,7 +132,7 @@ const AttendanceCamera = () => {
           type: "error",
           text1: "Check-in failed",
           autoHide: true,
-          visibilityTime: 2000,
+         visibilityTime: 3000,
         });
         setIsLoading(false);
       });
@@ -141,7 +143,7 @@ const AttendanceCamera = () => {
       type: "info",
       text1: "File being uploaded",
       autoHide: true,
-      visibilityTime: 2000,
+     visibilityTime: 3000,
     });
     const formData = new FormData();
     formData.append("file_name", name);
@@ -210,13 +212,14 @@ const AttendanceCamera = () => {
           </View>
         </View>
         <View
-          style={{ width: "100%" }}
-          className="flex-1 border-black/30 px-3  bg-white"
+          style={{ width: SIZES.width }}
+          className="flex-1 border-black/30 px-3 bg-white"
         >
           <Image
-            resizeMode="cover"
+            resizeMode="contain"
             style={{
               width: "100%",
+              height: "100%",
               flex: 1,
               borderRadius: 12,
               marginVertical: 12,

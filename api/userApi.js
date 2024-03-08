@@ -120,6 +120,7 @@ export const getOfficeLocation = async (employeeCode) => {
       },
     });
     // Parse custom_reporting_location assuming it's a JSON string
+    console.log(data,'test')
     const jsonData = JSON.parse(data.data[0].custom_reporting_location);
     const latitude = jsonData.features[0].geometry.coordinates[1];
     const longitude = jsonData.features[0].geometry.coordinates[0];
@@ -177,7 +178,7 @@ export const putUserFile = async (formData, fileId) => {
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error);
+    console.error(error, "image");
     return Promise.reject(error);
   }
 };
@@ -195,14 +196,13 @@ export const userStatusPut = async (employeeCode, custom_in) => {
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error);
+    console.error(error, "status put");
     return Promise.reject(new Error("something went wrong"));
   }
 };
 // geting user status
 export const getUserCustomIn = async (employeeCode) => {
   try {
-    console.log(employeeCode);
     const filters = [["name", "=", employeeCode]];
     const fields = [
       "name",
@@ -217,7 +217,7 @@ export const getUserCustomIn = async (employeeCode) => {
         fields: JSON.stringify(fields),
       },
     });
-    return Promise.resolve(data);
+    return Promise.resolve(data.data[0]);
   } catch (error) {
     console.error(error, "status");
     return Promise.reject(new Error("something went wrong"));

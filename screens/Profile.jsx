@@ -74,7 +74,7 @@ const Profile = () => {
                   Toast.show({
                     type: "info",
                     text1: "Logout cancelled",
-                    visibilityTime: 2000,
+                   visibilityTime: 3000,
                     autoHide: true,
                   });
                 },

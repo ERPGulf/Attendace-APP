@@ -8,7 +8,6 @@ import { differenceInMinutes, format } from "date-fns";
 import {
   selectCheckin,
   selectCheckinTime,
-  selectCheckoutTime,
   selectLocation,
 } from "../../redux/Slices/AttendanceSlice";
 
@@ -49,11 +48,6 @@ const WelcomeCard = () => {
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, [checkin]);
-  const checkoutTime = useSelector(selectCheckoutTime);
-  const showDate = checkin
-    ? format(new Date(checkinTime), "d MMM yyyy @hh:mm a")
-    : format(new Date(checkoutTime), "d MMM yyyy @hh:mm a");
-
   return (
     <View
       style={{ width: "100%" }}
@@ -96,13 +90,6 @@ const WelcomeCard = () => {
           />
         </View>
       </View>
-      
-      <Text className=" text-xs text-center pt-2 text-gray-500 font-medium">
-        LAST ACTION :{" "}
-        {checkin
-          ? `CHECK-IN ${checkinTime ? showDate : "CANNOT FIND LAST ACTION"}`
-          : `CHECK-OUT ${checkoutTime ? showDate : "CANNOT FIND LAST ACTION"}`}
-      </Text>
     </View>
   );
 };

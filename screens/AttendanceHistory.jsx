@@ -53,7 +53,7 @@ const AttendanceHistory = () => {
           type: "error",
           text1: "Something went wrong",
           autoHide: true,
-          visibilityTime: 2000,
+         visibilityTime: 3000,
         });
       });
   }, [limit_start]);

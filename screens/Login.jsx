@@ -56,7 +56,7 @@ const Login = () => {
                 type: "success",
                 text1: "login success",
                 autoHide: true,
-                visibilityTime: 2000,
+               visibilityTime: 3000,
               });
               dispatch(
                 setSignIn({ isLoggedIn: true, token: data.access_token })
@@ -68,7 +68,7 @@ const Login = () => {
                 type: "error",
                 text1: `login failed`,
                 autoHide: true,
-                visibilityTime: 2000,
+               visibilityTime: 3000,
               });
               setIsLoading(false);
             });

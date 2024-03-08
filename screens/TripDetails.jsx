@@ -68,7 +68,7 @@ const TripDetails = () => {
           type: "error",
           text1: "Getting trip status failed",
           autoHide: true,
-          visibilityTime: 2000,
+         visibilityTime: 3000,
         });
       }
       setIsLoading(false);

@@ -41,7 +41,7 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
           type: "success",
           text1: "Trip ended successfully",
           autoHide: true,
-          visibilityTime: 2000,
+          visibilityTime: 3000,
         });
         setTripType(null);
         dispatch(setEndTrip(new Date().toISOString()));
@@ -52,7 +52,7 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
           type: "error",
           text1: "Trip end failed",
           autoHide: true,
-          visibilityTime: 2000,
+          visibilityTime: 3000,
         });
         setIsLoading(false);
       });
