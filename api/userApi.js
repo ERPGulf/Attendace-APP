@@ -210,11 +210,12 @@ export const getUserCustomIn = async (employeeCode) => {
       "custom_restrict_location",
       "custom_reporting_radius",
     ];
+    const params = {
+      filters: JSON.stringify(filters),
+      fields: JSON.stringify(fields),
+    };
     const { data } = await userApi.get(`resource/Employee`, {
-      params: {
-        filters: JSON.stringify(filters),
-        fields: JSON.stringify(fields),
-      },
+      params,
     });
     return Promise.resolve(data.data[0]);
   } catch (error) {

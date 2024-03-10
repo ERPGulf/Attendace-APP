@@ -13,9 +13,7 @@ const LogCard = ({ type, time }) => {
   return (
     <View
       style={{ backgroundColor: COLORS.primary }}
-      className={`w-full flex-row h-16 rounded-xl py-2 px-4 justify-between items-center  ${
-        type === "IN" ? " border-green-600" : "bg-red-400 "
-      }`}
+      className={`w-full flex-row h-16 rounded-xl py-2 px-4 justify-between items-center my-1`}
     >
       <Text className="text-white font-semibold text-xs">
         CHECKED {type} AT {times}

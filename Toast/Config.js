@@ -21,7 +21,7 @@ export const toastConfig = {
       text1Style={{
         fontSize: 20,
         color: "#fff",
-        fontWeight:500,
+        fontWeight: 500,
         textAlign: "center",
       }}
       text2Style={{
@@ -48,7 +48,7 @@ export const toastConfig = {
       text1Style={{
         fontSize: 20,
         color: "#fff",
-        fontWeight:500,
+        fontWeight: 500,
         textAlign: "center",
       }}
       text2Style={{
@@ -56,7 +56,6 @@ export const toastConfig = {
         color: "#fff",
         textAlign: "center",
       }}
-      
     />
   ),
   info: (props) => (
@@ -72,7 +71,7 @@ export const toastConfig = {
       text1Style={{
         fontSize: 20,
         color: "#fff",
-        fontWeight:500,
+        fontWeight: 500,
         textAlign: "center",
       }}
       text2Style={{

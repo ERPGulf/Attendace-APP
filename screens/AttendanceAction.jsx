@@ -11,7 +11,6 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Retry, WelcomeCard } from "../components/AttendanceAction";
 import { COLORS, SIZES } from "../constants";
 import { getPreciseDistance } from "geolib";
-import { format } from "date-fns";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCheckin, setOnlyCheckIn } from "../redux/Slices/AttendanceSlice";
@@ -25,6 +24,7 @@ import {
   useLocationForegroundAccess,
 } from "../utils/LocationServices";
 import { updateDateTime } from "../utils/TimeServices";
+import { hapticsMessage } from "../utils/HapticsMessage";
 const AttendanceAction = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -65,6 +65,7 @@ const AttendanceAction = () => {
   });
   useEffect(() => {
     if (customIsError) {
+      hapticsMessage("error");
       Toast.show({
         type: "error",
         text1: `${"⚠️"} Status fetching failed`,

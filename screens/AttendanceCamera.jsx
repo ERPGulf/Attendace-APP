@@ -81,8 +81,10 @@ const AttendanceCamera = () => {
       employeeCode,
       type,
     };
+    console.log(dataField, "dataField")
     userCheckIn(dataField)
       .then(({ name }) => {
+        console.log(name, "name")
         dispatch(setFileid(name));
         userStatusPut(employeeCode, custom_in)
           .then(() => {

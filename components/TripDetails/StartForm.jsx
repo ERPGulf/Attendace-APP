@@ -40,7 +40,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         type: "error",
         text1: "Select a Trip type",
         autoHide: true,
-       visibilityTime: 3000,
+        visibilityTime: 3000,
       });
     }
     setIsLoading(true);
@@ -61,7 +61,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
           type: "success",
           text1: "Trip started successfully",
           autoHide: true,
-         visibilityTime: 3000,
+          visibilityTime: 3000,
         });
         dispatch(setTripId(name));
         dispatch(
@@ -76,7 +76,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
           type: "error",
           text1: "Trip start failed",
           autoHide: true,
-         visibilityTime: 3000,
+          visibilityTime: 3000,
         });
       });
     setIsLoading(false);
@@ -95,7 +95,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         type: "error",
         text1: "Fetching contracts failed",
         autoHide: true,
-       visibilityTime: 3000,
+        visibilityTime: 3000,
       });
     }
   }, 250);
@@ -113,7 +113,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
         type: "error",
         text1: "Fetching contracts failed",
         autoHide: true,
-       visibilityTime: 3000,
+        visibilityTime: 3000,
       });
     }
   }, 250);
@@ -263,9 +263,7 @@ const StartForm = ({ setIsLoading, location, tripType }) => {
                 isValid ? " bg-blue-500" : " bg-blue-200"
               } rounded-xl w-full`}
             >
-              <Text className="text-2xl font-semibold text-white">
-                START
-              </Text>
+              <Text className="text-2xl font-semibold text-white">START</Text>
             </TouchableOpacity>
           </View>
         </React.Fragment>

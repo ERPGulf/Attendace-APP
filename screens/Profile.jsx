@@ -16,6 +16,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { COLORS, SIZES } from "../constants";
 import user from "../assets/images/user.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { hapticsMessage } from "../utils/HapticsMessage";
+import { selectUserDetails } from "../redux/Slices/UserSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -30,8 +32,20 @@ const Profile = () => {
   }, []);
   const fullname = useSelector((state) => state.user.fullname);
   const handleLogout = async () => {
-    dispatch(revertAll());
-    await AsyncStorage.clear();
+    try {
+      hapticsMessage("success");
+      dispatch(revertAll());
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.error(error, "logout error");
+      hapticsMessage("error");
+      Toast.show({
+        type: "error",
+        text1: "Logout failed",
+        autoHide: true,
+        visibilityTime: 3000,
+      });
+    }
   };
   return (
     <View
@@ -42,9 +56,8 @@ const Profile = () => {
         backgroundColor: "white",
       }}
     >
-      {/* scrollview */}
-      <ScrollView
-        contentContainerStyle={{
+      <View
+        style={{
           width: SIZES.width,
           paddingHorizontal: 12,
           paddingVertical: 16,
@@ -71,10 +84,11 @@ const Profile = () => {
               {
                 text: "Cancel",
                 onPress: () => {
+                  hapticsMessage("warning");
                   Toast.show({
                     type: "info",
                     text1: "Logout cancelled",
-                   visibilityTime: 3000,
+                    visibilityTime: 3000,
                     autoHide: true,
                   });
                 },
@@ -100,7 +114,7 @@ const Profile = () => {
           </View>
           <Ionicons name="chevron-forward" size={30} color={"red"} />
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </View>
   );
 };

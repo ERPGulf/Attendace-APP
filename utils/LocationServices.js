@@ -1,5 +1,6 @@
 import * as Location from "expo-location";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import { hapticsMessage } from "./HapticsMessage";
 
 export const useLocationForegroundAccess = async () => {
   try {
@@ -20,6 +21,7 @@ export const useLocationForegroundAccess = async () => {
       });
     }
     if (status === "granted") {
+      hapticsMessage("success");
       Toast.show({
         type: "success",
         text1: "Location access granted",
@@ -28,6 +30,7 @@ export const useLocationForegroundAccess = async () => {
       });
     }
   } catch (error) {
+    hapticsMessage("error");
     Toast.show({
       type: "error",
       text1: "Location access not granted",
