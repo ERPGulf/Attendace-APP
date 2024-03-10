@@ -37,12 +37,11 @@ const AttendanceHistory = () => {
     });
   }, []);
   // const [data, setData] = useState(null);
-  const [limit_start, setLimitStart] = useState(0);
   const employeeCode = useSelector(selectEmployeeCode);
 
   const { isLoading, isError, data, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["attendance", employeeCode, limit_start],
+      queryKey: ["attendance", employeeCode],
       queryFn: ({ pageParam = 0 }) =>
         getUserAttendance(employeeCode, pageParam),
       getNextPageParam: (lastPage, allPages) => {
@@ -67,6 +66,7 @@ const AttendanceHistory = () => {
         contentContainerStyle={{
           paddingVertical: 15,
           paddingHorizontal: 15,
+          backgroundColor: COLORS.white,
         }}
         renderItem={({ item }) => (
           <LogCard type={item.log_type} time={item.time} />

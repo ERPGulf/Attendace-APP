@@ -218,8 +218,8 @@ const AttendanceCamera = () => {
           className="flex-1 border-black/30 px-3 bg-white"
         >
           <Image
-            cachePolicy={"memory-disk"}
-            contentFit="contain"
+            cachePolicy={"disk"}
+            contentFit="cover"
             style={{
               width: "100%",
               height: "100%",

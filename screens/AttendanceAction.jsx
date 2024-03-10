@@ -203,28 +203,7 @@ const AttendanceAction = () => {
                 } items-center h-16 mt-4 rounded-2xl bg-red-600`}
                 disabled={!inTarget && !isWFH}
                 onPress={() => {
-                  Alert.alert(
-                    "Check out",
-                    "Are you sure you want to check out",
-                    [
-                      {
-                        text: "Cancel",
-                        onPress: () => {
-                          Toast.show({
-                            type: "success",
-                            text1: "CHECK-OUT CANCELLED",
-                          });
-                        },
-                        style: "cancel",
-                      },
-                      {
-                        text: "OK",
-                        onPress: () => {
-                          navigation.navigate("Attendance camera");
-                        },
-                      },
-                    ]
-                  );
+                  navigation.navigate("Attendance camera");
                 }}
               >
                 <Text className="text-xl font-bold text-white">CHECK-OUT</Text>

@@ -2,7 +2,7 @@ import { ActivityIndicator, Text, View } from "react-native";
 import { COLORS } from "../../constants";
 const RenderLoader = ({ isLoading, hasNextPage }) => {
   return (
-    <View>
+    <View className='my-1'>
       {isLoading && (
         <View>
           <ActivityIndicator color={COLORS.primary} size="large" />
@@ -13,7 +13,7 @@ const RenderLoader = ({ isLoading, hasNextPage }) => {
           <ActivityIndicator color={COLORS.primary} size="large" />
         </View>
       )}
-      {!hasNextPage && (
+      {!hasNextPage && !isLoading && (
         <View>
           <Text>No more data</Text>
         </View>
