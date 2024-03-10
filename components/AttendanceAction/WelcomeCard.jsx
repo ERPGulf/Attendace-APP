@@ -1,4 +1,5 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
+import { Image } from "expo-image";
 import React, { useEffect, useState } from "react";
 import { COLORS } from "../../constants";
 import checkinimg from "../../assets/images/checkin.png";
@@ -84,9 +85,10 @@ const WelcomeCard = () => {
             </View>
           )}
           <Image
+            cachePolicy={"memory-disk"}
             source={checkin ? checkoutimg : checkinimg}
             className=" h-24 w-24"
-            resizeMode="contain"
+            contentFit="contain"
           />
         </View>
       </View>

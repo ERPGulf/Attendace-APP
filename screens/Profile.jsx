@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  Image,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity, Alert, Platform } from "react-native";
+import { Image } from "expo-image";
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -69,7 +62,11 @@ const Profile = () => {
           className="flex-row w-full h-24 rounded-2xl"
         >
           <View className="justify-center items-center p-3">
-            <Image source={user} style={{ width: 75, height: 75 }} />
+            <Image
+              cachePolicy={"memory-disk"}
+              source={user}
+              style={{ width: 75, height: 75 }}
+            />
           </View>
           <View className="justify-center">
             <Text className="text-xl font-semibold text-white">{fullname}</Text>

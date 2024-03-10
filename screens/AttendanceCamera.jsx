@@ -2,10 +2,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
+import { Image } from "expo-image";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import Constants from "expo-constants";
@@ -81,10 +81,10 @@ const AttendanceCamera = () => {
       employeeCode,
       type,
     };
-    console.log(dataField, "dataField")
+    console.log(dataField, "dataField");
     userCheckIn(dataField)
       .then(({ name }) => {
-        console.log(name, "name")
+        console.log(name, "name");
         dispatch(setFileid(name));
         userStatusPut(employeeCode, custom_in)
           .then(() => {
@@ -104,7 +104,7 @@ const AttendanceCamera = () => {
                   type: "success",
                   text1: `CHECKED ${type}`,
                   autoHide: true,
-                 visibilityTime: 3000,
+                  visibilityTime: 3000,
                 });
                 setIsLoading(false);
                 navigation.navigate("Attendance action");
@@ -114,7 +114,7 @@ const AttendanceCamera = () => {
                   type: "error",
                   text1: "Photo upload failed",
                   autoHide: true,
-                 visibilityTime: 3000,
+                  visibilityTime: 3000,
                 });
                 setIsLoading(false);
               });
@@ -124,7 +124,7 @@ const AttendanceCamera = () => {
               type: "error",
               text1: "Status update failed",
               autoHide: true,
-             visibilityTime: 3000,
+              visibilityTime: 3000,
             });
             setIsLoading(false);
           });
@@ -134,7 +134,7 @@ const AttendanceCamera = () => {
           type: "error",
           text1: "Check-in failed",
           autoHide: true,
-         visibilityTime: 3000,
+          visibilityTime: 3000,
         });
         setIsLoading(false);
       });
@@ -145,7 +145,7 @@ const AttendanceCamera = () => {
       type: "info",
       text1: "File being uploaded",
       autoHide: true,
-     visibilityTime: 3000,
+      visibilityTime: 3000,
     });
     const formData = new FormData();
     formData.append("file_name", name);
@@ -218,7 +218,8 @@ const AttendanceCamera = () => {
           className="flex-1 border-black/30 px-3 bg-white"
         >
           <Image
-            resizeMode="contain"
+            cachePolicy={"memory-disk"}
+            contentFit="contain"
             style={{
               width: "100%",
               height: "100%",
