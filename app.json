@@ -43,7 +43,7 @@
         "NSBarcodeScannerUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to enable essential functionality, such as scanning QR codes and capturing photos for employee activity tracking and verification.",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "buildNumber": "1"
+      "buildNumber": "2"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",
@@ -52,7 +52,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.bazim.attendance",
-      "versionCode": 21,
+      "versionCode": 22,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.ACCESS_COARSE_LOCATION",

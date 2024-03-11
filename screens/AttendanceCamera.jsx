@@ -27,6 +27,7 @@ import {
 } from "../api/userApi";
 import { selectIsWfh, setFileid } from "../redux/Slices/UserSlice";
 import { SIZES } from "../constants";
+import { hapticsMessage } from "../utils/HapticsMessage";
 
 const AttendanceCamera = () => {
   const navigation = useNavigation();
@@ -98,6 +99,7 @@ const AttendanceCamera = () => {
             }
             uploadPicture(name)
               .then(() => {
+                hapticsMessage("success");
                 Toast.show({
                   type: "success",
                   text1: `CHECKED ${type}`,
@@ -108,6 +110,7 @@ const AttendanceCamera = () => {
                 navigation.navigate("Attendance action");
               })
               .catch(() => {
+                hapticsMessage("error");
                 Toast.show({
                   type: "error",
                   text1: "Photo upload failed",
@@ -118,6 +121,7 @@ const AttendanceCamera = () => {
               });
           })
           .catch(() => {
+            hapticsMessage("error");
             Toast.show({
               type: "error",
               text1: "Status update failed",
@@ -128,6 +132,7 @@ const AttendanceCamera = () => {
           });
       })
       .catch(() => {
+        hapticsMessage("error");
         Toast.show({
           type: "error",
           text1: "Check-in failed",

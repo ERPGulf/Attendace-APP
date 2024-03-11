@@ -337,8 +337,8 @@ export const getUserAttendance = async (employee_code, limit_start) => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         params: {
-          employee_code: "HR-EMP-00032",
-          limit_start: 0,
+          employee_code: employee_code,
+          limit_start,
           limit_page_length: 15,
         },
       }
