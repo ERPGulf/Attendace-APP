@@ -7,7 +7,6 @@ import icon from "../assets/icon.png";
 import Ionicons from "@expo/vector-icons/Ionicons";
 const WelcomeScreen = () => {
   const navigation = useNavigation();
-
   return (
     <View
       style={{
@@ -43,7 +42,7 @@ const WelcomeScreen = () => {
           </Text>
           <View className="absolute right-5">
             <Ionicons
-              name="ios-arrow-forward"
+              name="arrow-forward-outline"
               size={38}
               color={COLORS.primary}
             />

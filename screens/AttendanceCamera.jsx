@@ -291,7 +291,7 @@ const AttendanceCamera = () => {
             style={{ width: 80, height: 80 }}
             className="bg-white justify-center items-center rounded-full"
           >
-            <Ionicons name={"ios-camera"} size={40} color={"black"} />
+            <Ionicons name={"camera"} size={40} color={"black"} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

@@ -199,7 +199,7 @@ const LavaMenu = () => {
           <TouchableOpacity
             className="w-16"
             onPress={() => {
-              navigation.navigate("Attendance camera");
+              navigation.navigate("comingsoon");
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">

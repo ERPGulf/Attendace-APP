@@ -103,7 +103,7 @@ const Login = () => {
                   }}
                 >
                   <Ionicons
-                    name={show ? "ios-eye" : "ios-eye-off"}
+                    name={show ? "eye" : "eye-off"}
                     size={SIZES.xLarge}
                     color={COLORS.gray2}
                   />
