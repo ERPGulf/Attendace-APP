@@ -113,16 +113,20 @@ export const getOfficeLocation = async (employeeCode) => {
   try {
     const filters = [["name", "=", employeeCode]];
     const fields = ["name", "first_name", "custom_reporting_location"];
-    const { data } = await userApi.get("resource/Employee", {
-      params: {
-        filters: JSON.stringify(filters),
-        fields: JSON.stringify(fields),
-      },
-    });
+    const params = {
+      filters: JSON.stringify(filters),
+      fields: JSON.stringify(fields),
+    };
+
+    const url = `resource/Employee?${new URLSearchParams(params).toString()}`;
+
+    const { data } = await userApi.get(url);
+
     // Parse custom_reporting_location assuming it's a JSON string
     const jsonData = JSON.parse(data.data[0].custom_reporting_location);
     const latitude = jsonData.features[0].geometry.coordinates[1];
     const longitude = jsonData.features[0].geometry.coordinates[0];
+
     return Promise.resolve({ latitude, longitude }); // Return the parsed data
   } catch (error) {
     console.error(error, "location");
@@ -210,13 +214,15 @@ export const getUserCustomIn = async (employeeCode) => {
       "custom_restrict_location",
       "custom_reporting_radius",
     ];
+
     const params = {
       filters: JSON.stringify(filters),
       fields: JSON.stringify(fields),
     };
-    const { data } = await userApi.get(`resource/Employee`, {
-      params,
-    });
+
+    const url = `resource/Employee?${new URLSearchParams(params).toString()}`;
+
+    const { data } = await userApi.get(url);
     return Promise.resolve(data.data[0]);
   } catch (error) {
     console.error(error, "status");
