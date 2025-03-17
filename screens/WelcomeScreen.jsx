@@ -1,17 +1,18 @@
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
-import { Image } from "expo-image";
-import React from "react";
-import { COLORS } from "../constants";
-import { useNavigation } from "@react-navigation/native";
-import icon from "../assets/icon.png";
-import Ionicons from "@expo/vector-icons/Ionicons";
-const WelcomeScreen = () => {
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { Image } from 'expo-image';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from '../constants';
+import icon from '../assets/icon.png';
+
+function WelcomeScreen() {
   const navigation = useNavigation();
   return (
     <View
       style={{
         flex: 1,
-        alignItems: "center",
+        alignItems: 'center',
         backgroundColor: COLORS.white,
         paddingTop: StatusBar.currentHeight,
       }}
@@ -19,18 +20,18 @@ const WelcomeScreen = () => {
     >
       <View className=" justify-center space-x-3 items-center">
         <Image
-          cachePolicy={"memory-disk"}
+          cachePolicy="memory-disk"
           source={icon}
           style={{ width: 250, height: 250 }}
         />
       </View>
       <TouchableOpacity
-        style={{ width: "100%", borderWidth: 2, borderColor: COLORS.primary }}
+        style={{ width: '100%', borderWidth: 2, borderColor: COLORS.primary }}
         className="h-16 rounded-2xl justify-center items-center absolute bottom-5"
-        onPress={() => navigation.navigate("Qrscan")}
+        onPress={() => navigation.navigate('Qrscan')}
       >
         <View
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           className="h-full rounded-2xl justify-center items-center relative
           flex-row"
         >
@@ -51,6 +52,6 @@ const WelcomeScreen = () => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default WelcomeScreen;

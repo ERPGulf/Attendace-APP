@@ -1,13 +1,13 @@
-import { View, Text, TouchableOpacity, Platform } from "react-native";
-import React from "react";
-import { COLORS, SIZES } from "../../constants";
-import { FontAwesome, AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
-import { activeButtonsSelector } from "../../redux/Slices/QuickAccessSlice";
-import ButtonItem from "../SelectQuickAccess/ButtonItem";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import React from 'react';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS, SIZES } from '../../constants';
+import { activeButtonsSelector } from '../../redux/Slices/QuickAccessSlice';
+import ButtonItem from '../SelectQuickAccess/ButtonItem';
 
-const QuickAccess = () => {
+function QuickAccess() {
   const navigation = useNavigation();
   const activeButtons = useSelector(activeButtonsSelector);
   return (
@@ -16,7 +16,7 @@ const QuickAccess = () => {
         <Text className="text-sm font-semibold">Quick Access</Text>
         <TouchableOpacity
           className="flex-row space-x-2 items-center"
-          onPress={() => navigation.navigate("Quick access")}
+          onPress={() => navigation.navigate('Quick access')}
         >
           <Text className="text-sm font-semibold" style={{ color: COLORS.red }}>
             Add New
@@ -26,31 +26,29 @@ const QuickAccess = () => {
       </View>
       <View
         style={{
-          borderRadius: Platform.OS === "android" ? 0 : "12px",
-          backgroundColor: "white",
+          borderRadius: Platform.OS === 'android' ? 0 : '12px',
+          backgroundColor: 'white',
         }}
         className="border-dashed flex-wrap flex-row justify-evenly border-red-900 border-2 mt-2 p-2 "
       >
         {activeButtons.length > 0 ? (
-          activeButtons?.map((item) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  item?.url && navigation.navigate(item.url);
-                }}
-                key={item?.iconName}
-              >
-                <ButtonItem
-                  iconName={item?.iconName}
-                  text1={item?.text1}
-                  text2={item?.text2 || null}
-                />
-              </TouchableOpacity>
-            );
-          })
+          activeButtons?.map(item => (
+            <TouchableOpacity
+              onPress={() => {
+                item?.url && navigation.navigate(item.url);
+              }}
+              key={item?.iconName}
+            >
+              <ButtonItem
+                iconName={item?.iconName}
+                text1={item?.text1}
+                text2={item?.text2 || null}
+              />
+            </TouchableOpacity>
+          ))
         ) : (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Quick access")}
+            onPress={() => navigation.navigate('Quick access')}
             className="items-center justify-center mx-auto my-10"
           >
             <AntDesign
@@ -69,6 +67,6 @@ const QuickAccess = () => {
       </View>
     </View>
   );
-};
+}
 
 export default QuickAccess;

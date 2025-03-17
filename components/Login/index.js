@@ -1,4 +1,3 @@
-import WelcomeCard from "./WelcomeCard";
-export {
-    WelcomeCard
-}
+import WelcomeCard from './WelcomeCard';
+
+export { WelcomeCard };

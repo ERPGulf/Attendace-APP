@@ -1,23 +1,24 @@
-import { View, TouchableOpacity } from "react-native";
-import React, { useLayoutEffect } from "react";
-import { COLORS, SIZES } from "../constants";
-import Entypo from "@expo/vector-icons/Entypo";
-import ButtonItem from "../components/SelectQuickAccess/ButtonItem";
-import { useDispatch, useSelector } from "react-redux";
+import { View, TouchableOpacity } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS, SIZES } from '../constants';
+import ButtonItem from '../components/SelectQuickAccess/ButtonItem';
 import {
   activeButtonsSelector,
   setAdd,
   setRemove,
-} from "../redux/Slices/QuickAccessSlice";
-import { useNavigation } from "@react-navigation/native";
-const SelectQuickAccess = () => {
+} from '../redux/Slices/QuickAccessSlice';
+
+function SelectQuickAccess() {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
       headerShown: true,
-      headerTitle: "Quick Access",
-      headerTitleAlign: "center",
+      headerTitle: 'Quick Access',
+      headerTitleAlign: 'center',
       headerLeft: () => (
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
           <Entypo
@@ -34,19 +35,19 @@ const SelectQuickAccess = () => {
   const quickAccessItems = [
     {
       id: 1,
-      iconName: "calendar-outline",
-      text1: "Attendance",
-      text2: "action",
-      url: "Attendance action",
+      iconName: 'calendar-outline',
+      text1: 'Attendance',
+      text2: 'action',
+      url: 'Attendance action',
     },
     {
       id: 2,
-      iconName: "receipt-outline",
-      text1: "Attendance",
-      text2: "history",
-      url: "Attendance history",
+      iconName: 'receipt-outline',
+      text1: 'Attendance',
+      text2: 'history',
+      url: 'Attendance history',
     },
-    //ADD URL WHEN REST IS COMPLETE
+    // ADD URL WHEN REST IS COMPLETE
     // {
     //   id: 3,
     //   iconName: "airplane-outline",
@@ -76,14 +77,14 @@ const SelectQuickAccess = () => {
     // },
     {
       id: 8,
-      iconName: "trail-sign-outline",
-      text1: "Trip",
-      text2: "details",
-      url: "Trip details",
+      iconName: 'trail-sign-outline',
+      text1: 'Trip',
+      text2: 'details',
+      url: 'Trip details',
     },
   ];
-  const handleClick = (item) => {
-    if (activeButtons?.some((button) => button?.id === item.id)) {
+  const handleClick = item => {
+    if (activeButtons?.some(button => button?.id === item.id)) {
       dispatch(setRemove(item));
     } else {
       dispatch(setAdd(item)); // You probably want to dispatch here
@@ -94,24 +95,24 @@ const SelectQuickAccess = () => {
     <View
       style={{
         flex: 1,
-        alignItems: "center",
-        backgroundColor: "white",
+        alignItems: 'center',
+        backgroundColor: 'white',
       }}
     >
       <View
         className="bg-white flex-row px-3 space-x-1 flex-wrap"
         style={{
-          width: "100%",
+          width: '100%',
         }}
       >
-        {quickAccessItems.map((item) => (
+        {quickAccessItems.map(item => (
           <TouchableOpacity
             key={item.iconName}
             onPress={() => handleClick(item)}
             className={`${
-              activeButtons?.some((button) => button?.id === item?.id)
-                ? "bg-gray-400"
-                : "bg-gray-200"
+              activeButtons?.some(button => button?.id === item?.id)
+                ? 'bg-gray-400'
+                : 'bg-gray-200'
             } items-center  rounded-lg  mx-1 my-2`}
             style={{
               width: SIZES.width / 4,
@@ -129,6 +130,6 @@ const SelectQuickAccess = () => {
       </View>
     </View>
   );
-};
+}
 
 export default SelectQuickAccess;

@@ -1,14 +1,14 @@
-import * as Haptics from "expo-haptics";
+import * as Haptics from 'expo-haptics';
 
-export const hapticsMessage = (type) => {
+export const hapticsMessage = type => {
   switch (type) {
-    case "success":
+    case 'success':
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       break;
-    case "error":
+    case 'error':
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       break;
-    case "warning":
+    case 'warning':
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       break;
   }

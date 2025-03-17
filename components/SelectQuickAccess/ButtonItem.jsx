@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { COLORS, SIZES } from "../../constants";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text } from 'react-native';
+import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { COLORS, SIZES } from '../../constants';
 
-const ButtonItem = ({ iconName, text1, text2 }) => {
+function ButtonItem({ iconName, text1, text2 }) {
   return (
     <View className="my-2.5 mx-2">
       <View className="bg-gray-100 p-2 flex-row justify-center items-center rounded-lg w-16">
@@ -25,6 +25,6 @@ const ButtonItem = ({ iconName, text1, text2 }) => {
       )}
     </View>
   );
-};
+}
 
 export default ButtonItem;

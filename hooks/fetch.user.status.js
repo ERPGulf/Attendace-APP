@@ -1,7 +1,7 @@
-import { getUserCustomIn } from "../api/userApi";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { getUserCustomIn } from '../api/userApi';
 
-export const useUserStatus = (employeeCode) => {
+export const useUserStatus = employeeCode => {
   const [data, setData] = useState({
     loading: true,
     custom_in: null,
@@ -13,26 +13,26 @@ export const useUserStatus = (employeeCode) => {
   const fetchStatus = async () => {
     try {
       await getUserCustomIn(employeeCode)
-        .then((jsonData) => {
+        .then(jsonData => {
           const {
             custom_in,
             custom_restrict_location,
             custom_reporting_radius,
           } = jsonData;
 
-          setData((prev) => ({
+          setData(prev => ({
             ...prev,
-            custom_in: custom_in,
+            custom_in,
             loading: false,
             custom_loction: custom_restrict_location,
             custom_radius: custom_reporting_radius,
           }));
         })
-        .catch((error) => {
-          setData((prev) => ({ ...prev, error: error, loading: false }));
+        .catch(error => {
+          setData(prev => ({ ...prev, error, loading: false }));
         });
     } catch (error) {
-      setData((prev) => ({ ...prev, error: error, loading: false }));
+      setData(prev => ({ ...prev, error, loading: false }));
     }
   };
 

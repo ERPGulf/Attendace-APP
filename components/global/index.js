@@ -1,4 +1,3 @@
-import TopNav from "./TopNav";
-export {
-    TopNav
-}
+import TopNav from './TopNav';
+
+export { TopNav };

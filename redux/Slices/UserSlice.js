@@ -1,4 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = {
   username: null,
@@ -10,9 +10,9 @@ const initialState = {
 };
 
 export const UserSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
-  extraReducers: (builder) => builder.addCase("REVERT_ALL", () => initialState),
+  extraReducers: builder => builder.addCase('REVERT_ALL', () => initialState),
   reducers: {
     setUsername: (state, action) => {
       state.username = action.payload;
@@ -45,11 +45,10 @@ export const {
 } = UserSlice.actions;
 
 // selector
-export const selectBaseUrl = (state) => state.user.baseUrl;
-export const selectFileid = (state) => state.user.fileId;
-export const selectIsWfh = (state) => state.user.isWfh;
-export const selectName = (state) => state.user.fullname;
-export const selectUserDetails = (state) => state.user.userDetails;
-export const selectEmployeeCode = (state) =>
-  state.user.userDetails.employeeCode;
+export const selectBaseUrl = state => state.user.baseUrl;
+export const selectFileid = state => state.user.fileId;
+export const selectIsWfh = state => state.user.isWfh;
+export const selectName = state => state.user.fullname;
+export const selectUserDetails = state => state.user.userDetails;
+export const selectEmployeeCode = state => state.user.userDetails.employeeCode;
 export default UserSlice.reducer;

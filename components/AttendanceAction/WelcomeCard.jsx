@@ -1,18 +1,18 @@
-import { View, Text } from "react-native";
-import { Image } from "expo-image";
-import React, { useEffect, useState } from "react";
-import { COLORS } from "../../constants";
-import checkinimg from "../../assets/images/checkin.png";
-import checkoutimg from "../../assets/images/checkout.png";
-import { useSelector } from "react-redux";
-import { differenceInMinutes, format } from "date-fns";
+import { View, Text } from 'react-native';
+import { Image } from 'expo-image';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { differenceInMinutes, format } from 'date-fns';
+import { COLORS } from '../../constants';
+import checkinimg from '../../assets/images/checkin.png';
+import checkoutimg from '../../assets/images/checkout.png';
 import {
   selectCheckin,
   selectCheckinTime,
   selectLocation,
-} from "../../redux/Slices/AttendanceSlice";
+} from '../../redux/Slices/AttendanceSlice';
 
-const WelcomeCard = () => {
+function WelcomeCard() {
   const location = useSelector(selectLocation);
   const checkin = useSelector(selectCheckin);
   const checkinTime = useSelector(selectCheckinTime);
@@ -21,16 +21,16 @@ const WelcomeCard = () => {
   function getMinutes() {
     const minutesDifference = differenceInMinutes(
       new Date(),
-      new Date(checkinTime)
+      new Date(checkinTime),
     );
     // Calculate the hours and remaining minutes
     const hours = Math.floor(minutesDifference / 60);
     const remainingMinutes = minutesDifference % 60;
 
     // Format the hours and minutes as "00:00" format
-    return `${String(hours).padStart(2, "0")}:${String(
-      remainingMinutes
-    ).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, '0')}:${String(
+      remainingMinutes,
+    ).padStart(2, '0')}`;
   }
 
   // Use a useEffect hook to refresh the minutes every 60 seconds
@@ -51,11 +51,11 @@ const WelcomeCard = () => {
   }, [checkin]);
   return (
     <View
-      style={{ width: "100%" }}
+      style={{ width: '100%' }}
       className="px-4 py-4 bg-slate-200 rounded-xl"
     >
       <View
-        style={{ backgroundColor: COLORS.primary, width: "100%" }}
+        style={{ backgroundColor: COLORS.primary, width: '100%' }}
         className="h-40 rounded-lg px-3 w-full justify-center items-center"
       >
         <View className="flex-row justify-between w-full h-40 items-center">
@@ -85,7 +85,7 @@ const WelcomeCard = () => {
             </View>
           )}
           <Image
-            cachePolicy={"memory-disk"}
+            cachePolicy="memory-disk"
             source={checkin ? checkoutimg : checkinimg}
             className=" h-24 w-24"
             contentFit="contain"
@@ -94,6 +94,6 @@ const WelcomeCard = () => {
       </View>
     </View>
   );
-};
+}
 
 export default WelcomeCard;

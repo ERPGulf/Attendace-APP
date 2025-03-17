@@ -1,8 +1,9 @@
-import { ActivityIndicator, Text, View } from "react-native";
-import { COLORS } from "../../constants";
-const RenderLoader = ({ isLoading, hasNextPage }) => {
+import { ActivityIndicator, Text, View } from 'react-native';
+import { COLORS } from '../../constants';
+
+function RenderLoader({ isLoading, hasNextPage }) {
   return (
-    <View className='my-1'>
+    <View className="my-1">
       {isLoading && (
         <View>
           <ActivityIndicator color={COLORS.primary} size="large" />
@@ -20,6 +21,6 @@ const RenderLoader = ({ isLoading, hasNextPage }) => {
       )}
     </View>
   );
-};
+}
 
 export default RenderLoader;

@@ -4,27 +4,27 @@ import {
   FlatList,
   Text,
   ActivityIndicator,
-} from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import Entypo from "@expo/vector-icons/Entypo";
-import { COLORS, SIZES } from "../constants";
-import { useNavigation } from "@react-navigation/native";
-import { LogCard, RenderLoader } from "../components/AttendanceHistory";
-import { useSelector } from "react-redux";
-import { selectEmployeeCode } from "../redux/Slices/UserSlice";
-import { getUserAttendance } from "../api/userApi";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { FlashList } from "@shopify/flash-list";
+} from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { FlashList } from '@shopify/flash-list';
+import { getUserAttendance } from '../api/userApi';
+import { selectEmployeeCode } from '../redux/Slices/UserSlice';
+import { LogCard, RenderLoader } from '../components/AttendanceHistory';
+import { COLORS, SIZES } from '../constants';
 
-const AttendanceHistory = () => {
+function AttendanceHistory() {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
       headerShown: true,
-      headerTitle: "Attendance history",
-      headerTitleAlign: "center",
+      headerTitle: 'Attendance history',
+      headerTitleAlign: 'center',
       headerLeft: () => (
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
           <Entypo
@@ -41,7 +41,7 @@ const AttendanceHistory = () => {
 
   const { isLoading, isError, data, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["attendance", employeeCode],
+      queryKey: ['attendance', employeeCode],
       queryFn: ({ pageParam = 0 }) =>
         getUserAttendance(employeeCode, pageParam),
       getNextPageParam: (lastPage, allPages) => {
@@ -62,7 +62,7 @@ const AttendanceHistory = () => {
   return (
     <View className="flex-1 bg-white">
       <FlashList
-        data={data?.pages?.flatMap((page) => page)}
+        data={data?.pages?.flatMap(page => page)}
         contentContainerStyle={{
           paddingVertical: 15,
           paddingHorizontal: 15,
@@ -80,6 +80,6 @@ const AttendanceHistory = () => {
       />
     </View>
   );
-};
+}
 
 export default AttendanceHistory;

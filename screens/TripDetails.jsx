@@ -5,35 +5,36 @@ import {
   RefreshControl,
   KeyboardAvoidingView,
   TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import * as Location from "expo-location";
+} from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import * as Location from 'expo-location';
+import { useDispatch, useSelector } from 'react-redux';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 import {
   EndForm,
   StartForm,
   TopCard,
   TripType,
-} from "../components/TripDetails";
-import { useDispatch, useSelector } from "react-redux";
+} from '../components/TripDetails';
 import {
   setEndTrip,
   setStarted,
   setTripId,
   startedSelect,
-} from "../redux/Slices/TripDetailsSlice";
-import { userTripStatus } from "../api/userApi";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import Entypo from "@expo/vector-icons/Entypo";
-import { COLORS, SIZES } from "../constants";
-import { useNavigation } from "@react-navigation/native";
-const TripDetails = () => {
+} from '../redux/Slices/TripDetailsSlice';
+import { userTripStatus } from '../api/userApi';
+import { COLORS, SIZES } from '../constants';
+
+function TripDetails() {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
       headerShown: true,
-      headerTitle: "Trip Details",
-      headerTitleAlign: "center",
+      headerTitle: 'Trip Details',
+      headerTitleAlign: 'center',
       headerLeft: () => (
         <TouchableOpacity className="" onPress={() => navigation.goBack()}>
           <Entypo
@@ -47,7 +48,7 @@ const TripDetails = () => {
   }, []);
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { employeeCode } = useSelector((state) => state.user.userDetails);
+  const { employeeCode } = useSelector(state => state.user.userDetails);
   const started = useSelector(startedSelect);
   const [tripType, setTripType] = useState(null);
   const [location, setLocation] = useState({ latitude: null, longitude: null });
@@ -65,10 +66,10 @@ const TripDetails = () => {
         }
       } catch (error) {
         Toast.show({
-          type: "error",
-          text1: "Getting trip status failed",
+          type: 'error',
+          text1: 'Getting trip status failed',
           autoHide: true,
-         visibilityTime: 3000,
+          visibilityTime: 3000,
         });
       }
       setIsLoading(false);
@@ -79,7 +80,7 @@ const TripDetails = () => {
     (async () => {
       setIsLoading(true);
       const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      if (status !== 'granted') {
         return;
       }
       const location = await Location.getCurrentPositionAsync({
@@ -94,7 +95,7 @@ const TripDetails = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}
       behavior="padding"
       enabled
     >
@@ -110,19 +111,19 @@ const TripDetails = () => {
           }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            justifyContent: "flex-start",
+            justifyContent: 'flex-start',
             flexGrow: 1,
-            alignItems: "center",
-            backgroundColor: "white",
+            alignItems: 'center',
+            backgroundColor: 'white',
             paddingBottom: 12,
           }}
         >
           {isLoading && (
             <View className="h-screen absolute pt-9 bottom-0 w-screen items-center bg-black/50 justify-center z-50">
-              <ActivityIndicator size={"large"} color={"white"} />
+              <ActivityIndicator size="large" color="white" />
             </View>
           )}
-          <View style={{ width: "100%" }} className="px-3 flex-grow">
+          <View style={{ width: '100%' }} className="px-3 flex-grow">
             <TopCard />
             {!started ? (
               <View className="px-3">
@@ -147,6 +148,6 @@ const TripDetails = () => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+}
 
 export default TripDetails;

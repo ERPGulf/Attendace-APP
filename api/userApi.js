@@ -1,34 +1,34 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import userApi from "./apiManger";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import userApi from './apiManger';
 
 // seting common headers
 const setCommonHeaders = (headers = {}) => {
-  headers["Content-Type"] = "multipart/form-data";
+  headers['Content-Type'] = 'multipart/form-data';
   return headers;
 };
 
 // refresh accessToken
 const refreshAccessToken = async () => {
   try {
-    const refresh_token = await AsyncStorage.getItem("refresh_token");
+    const refresh_token = await AsyncStorage.getItem('refresh_token');
     const formdata = new FormData();
-    formdata.append("grant_type", "refresh_token");
-    formdata.append("refresh_token", refresh_token);
+    formdata.append('grant_type', 'refresh_token');
+    formdata.append('refresh_token', refresh_token);
     const { data } = await userApi.post(
-      "method/frappe.integrations.oauth2.get_token",
+      'method/frappe.integrations.oauth2.get_token',
       formdata,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
     AsyncStorage.multiSet([
-      ["access_token", data.access_token],
-      ["refresh_token", data.refresh_token],
+      ['access_token', data.access_token],
+      ['refresh_token', data.refresh_token],
     ]);
     return Promise.resolve(data.access_token);
   } catch (error) {
-    console.error("Token refresh error:", error);
-    return Promise.reject(new Error("Token refresh failed"));
+    console.error('Token refresh error:', error);
+    return Promise.reject(new Error('Token refresh failed'));
   }
 };
 
@@ -38,8 +38,8 @@ let refreshPromise = null;
 const clearPromise = () => (refreshPromise = null);
 
 userApi.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     const originalRequest = error.config;
 
     if (
@@ -60,7 +60,7 @@ userApi.interceptors.response.use(
         // Retry the original request with the new token
         return userApi(originalRequest);
       } catch (refreshError) {
-        console.error("Error refreshing token:", refreshError);
+        console.error('Error refreshing token:', refreshError);
         // Handle refresh error appropriately, e.g., log out user or redirect to login
         return Promise.reject(refreshError);
       }
@@ -68,51 +68,51 @@ userApi.interceptors.response.use(
 
     // If the error is not related to token expiration, reject the promise
     return Promise.reject(error);
-  }
+  },
 );
 // baseUrl and accessToken preset middleware
 userApi.interceptors.request.use(
-  async (config) => {
-    if (config.url === "method/frappe.integrations.oauth2.get_token") {
-      config.baseURL = await AsyncStorage.getItem("baseUrl");
+  async config => {
+    if (config.url === 'method/frappe.integrations.oauth2.get_token') {
+      config.baseURL = await AsyncStorage.getItem('baseUrl');
       return config;
     }
-    const access_token = await AsyncStorage.getItem("access_token");
-    config.baseURL = await AsyncStorage.getItem("baseUrl");
+    const access_token = await AsyncStorage.getItem('access_token');
+    config.baseURL = await AsyncStorage.getItem('baseUrl');
     if (access_token) {
       config.headers.Authorization = `Bearer ${access_token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  error => Promise.reject(error),
 );
 
 // generate user tokens
-export const generateToken = async (password) => {
+export const generateToken = async password => {
   const formData = new FormData();
-  formData.append("password", password);
+  formData.append('password', password);
   try {
     const { data, status } = await userApi.post(
       `method/employee_app.gauth.generate_custom_token_for_employee`,
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
-    if (data.message.message === "Invalid login credentials") {
-      return Promise.reject(new Error("Invalid login credentials"));
+    if (data.message.message === 'Invalid login credentials') {
+      return Promise.reject(new Error('Invalid login credentials'));
     }
     if (status === 200) return Promise.resolve(data.message);
   } catch (error) {
     console.error(error);
-    return Promise.reject(new Error("Login went wrong"));
+    return Promise.reject(new Error('Login went wrong'));
   }
 };
 // get user location
-export const getOfficeLocation = async (employeeCode) => {
+export const getOfficeLocation = async employeeCode => {
   try {
-    const filters = [["name", "=", employeeCode]];
-    const fields = ["name", "first_name", "custom_reporting_location"];
+    const filters = [['name', '=', employeeCode]];
+    const fields = ['name', 'first_name', 'custom_reporting_location'];
     const params = {
       filters: JSON.stringify(filters),
       fields: JSON.stringify(fields),
@@ -129,44 +129,44 @@ export const getOfficeLocation = async (employeeCode) => {
 
     return Promise.resolve({ latitude, longitude }); // Return the parsed data
   } catch (error) {
-    console.error(error, "location");
-    return Promise.reject(new Error("location went wrong"));
+    console.error(error, 'location');
+    return Promise.reject(new Error('location went wrong'));
   }
 };
 
 // user checkin/checkout
-export const userCheckIn = async (fielddata) => {
+export const userCheckIn = async fielddata => {
   try {
     const formData = new FormData();
-    formData.append("employee_field_value", fielddata.employeeCode);
-    formData.append("timestamp", fielddata.timestamp);
-    formData.append("device_id", "MobileAPP");
-    formData.append("log_type", fielddata.type);
+    formData.append('employee_field_value', fielddata.employeeCode);
+    formData.append('timestamp', fielddata.timestamp);
+    formData.append('device_id', 'MobileAPP');
+    formData.append('log_type', fielddata.type);
     const { data } = await userApi.post(
-      "method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field",
+      'method/hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field',
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
-    if (!data) return Promise.reject(new Error("Employee not found"));
+    if (!data) return Promise.reject(new Error('Employee not found'));
     return Promise.resolve(data?.message);
   } catch (error) {
-    console.error(error, "checkin");
-    return Promise.reject(new Error("something went wrong"));
+    console.error(error, 'checkin');
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 
 // user file upload
-export const userFileUpload = async (formdata) => {
+export const userFileUpload = async formdata => {
   try {
-    const { data } = await userApi.post("method/upload_file", formdata, {
+    const { data } = await userApi.post('method/upload_file', formdata, {
       headers: setCommonHeaders(),
     });
     return Promise.resolve(data.message);
   } catch (error) {
     console.error(error);
-    return Promise.reject(new Error("something went wrong"));
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 // putting user file
@@ -177,11 +177,11 @@ export const putUserFile = async (formData, fileId) => {
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error, "image");
+    console.error(error, 'image');
     return Promise.reject(error);
   }
 };
@@ -189,30 +189,30 @@ export const putUserFile = async (formData, fileId) => {
 export const userStatusPut = async (employeeCode, custom_in) => {
   try {
     const formData = new FormData();
-    formData.append("custom_in", custom_in);
+    formData.append('custom_in', custom_in);
     const { data } = await userApi.put(
       `resource/Employee/${employeeCode}`,
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
     return Promise.resolve(data);
   } catch (error) {
-    console.error(error, "status put");
-    return Promise.reject(new Error("something went wrong"));
+    console.error(error, 'status put');
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 // geting user status
-export const getUserCustomIn = async (employeeCode) => {
+export const getUserCustomIn = async employeeCode => {
   try {
-    const filters = [["name", "=", employeeCode]];
+    const filters = [['name', '=', employeeCode]];
     const fields = [
-      "name",
-      "first_name",
-      "custom_in",
-      "custom_restrict_location",
-      "custom_reporting_radius",
+      'name',
+      'first_name',
+      'custom_in',
+      'custom_restrict_location',
+      'custom_reporting_radius',
     ];
 
     const params = {
@@ -225,106 +225,106 @@ export const getUserCustomIn = async (employeeCode) => {
     const { data } = await userApi.get(url);
     return Promise.resolve(data.data[0]);
   } catch (error) {
-    console.error(error, "status");
-    return Promise.reject(new Error("something went wrong"));
+    console.error(error, 'status');
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 
-export const tripTrack = async (formData) => {
+export const tripTrack = async formData => {
   try {
     const { data } = await userApi.post(
-      "method/employee_app.attendance_api.insert_new_trip",
+      'method/employee_app.attendance_api.insert_new_trip',
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
-    if (!data.message) return Promise.reject(new Error("Trip not started"));
+    if (!data.message) return Promise.reject(new Error('Trip not started'));
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error, "trip");
-    return Promise.reject(new Error("something went wrong"));
+    console.error(error, 'trip');
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 
-export const userTripStatus = async (employeeCode) => {
+export const userTripStatus = async employeeCode => {
   try {
     const { data } = await userApi.get(
-      "method/employee_app.attendance_api.get_latest_open_trip",
+      'method/employee_app.attendance_api.get_latest_open_trip',
       {
         params: {
           employee_id: employeeCode,
         },
-      }
+      },
     );
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error, "trip status");
-    return Promise.reject(new Error("Something went wrong)"));
+    console.error(error, 'trip status');
+    return Promise.reject(new Error('Something went wrong)'));
   }
 };
 
-export const endTripTrack = async (formData) => {
+export const endTripTrack = async formData => {
   try {
     const { data } = await userApi.post(
-      "method/employee_app.attendance_api.close_the_trip",
+      'method/employee_app.attendance_api.close_the_trip',
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
-    if (!data.message) return Promise.reject(new Error("Trip not ended"));
+    if (!data.message) return Promise.reject(new Error('Trip not ended'));
     return Promise.resolve();
   } catch (error) {
-    console.error(error, "trip end");
-    return Promise.reject(new Error("something went wrong"));
+    console.error(error, 'trip end');
+    return Promise.reject(new Error('something went wrong'));
   }
 };
 
-export const getContracts = async (searchTerms = "") => {
+export const getContracts = async (searchTerms = '') => {
   const formData = new FormData();
-  formData.append("enter_name", searchTerms);
+  formData.append('enter_name', searchTerms);
   try {
     const { data } = await userApi.post(
-      "method/employee_app.attendance_api.contract_list",
+      'method/employee_app.attendance_api.contract_list',
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
     const filteredData = data?.message?.flat(1);
     if (filteredData.length === 0) {
-      return Promise.resolve({ filteredData, error: "no contracts available" });
+      return Promise.resolve({ filteredData, error: 'no contracts available' });
     }
     return Promise.resolve({ filteredData, error: null });
   } catch (error) {
-    console.error(error, "contract");
-    return Promise.reject(new Error("Something went wrong)"));
+    console.error(error, 'contract');
+    return Promise.reject(new Error('Something went wrong)'));
   }
 };
 
-export const getVehicle = async (searchTerms = "") => {
+export const getVehicle = async (searchTerms = '') => {
   const formData = new FormData();
-  formData.append("vehicle_no", searchTerms);
-  formData.append("odometer", "");
-  formData.append("vehicle_model", "");
+  formData.append('vehicle_no', searchTerms);
+  formData.append('odometer', '');
+  formData.append('vehicle_model', '');
 
   try {
     const { data } = await userApi.post(
-      "method/employee_app.attendance_api.vehicle_list",
+      'method/employee_app.attendance_api.vehicle_list',
       formData,
       {
         headers: setCommonHeaders(),
-      }
+      },
     );
     const filteredData = data?.message?.flat(1);
     if (filteredData.length === 0) {
-      return Promise.resolve({ filteredData, error: "no vehicle available" });
+      return Promise.resolve({ filteredData, error: 'no vehicle available' });
     }
     return Promise.resolve({ filteredData, error: null });
   } catch (error) {
-    console.error(error, "contract");
-    return Promise.reject(new Error("Something went wrong)"));
+    console.error(error, 'contract');
+    return Promise.reject(new Error('Something went wrong)'));
   }
 };
 
@@ -334,18 +334,18 @@ export const getUserAttendance = async (employee_code, limit_start) => {
       `method/employee_app.attendance_api.employee_checkin`,
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         params: {
-          employee_code: employee_code,
+          employee_code,
           limit_start,
           limit_page_length: 15,
         },
-      }
+      },
     );
     return Promise.resolve(data.message);
   } catch (error) {
-    console.error(error, "attendance");
-    return Promise.reject(new Error("Something went wrong"));
+    console.error(error, 'attendance');
+    return Promise.reject(new Error('Something went wrong'));
   }
 };

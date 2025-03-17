@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   AttendanceAction,
   AttendanceCamera,
@@ -6,12 +6,13 @@ import {
   Notifications,
   SelectQuickAccess,
   TripDetails,
-} from "../screens";
-import HomeTabGroup from "./home.tabbar";
-import ComingSoon from "../screens/ComingSoon";
+} from '../screens';
+import HomeTabGroup from './home.tabbar';
+import ComingSoon from '../screens/ComingSoon';
+
 const Stack = createNativeStackNavigator();
 
-const AppNavigator = () => {
+function AppNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="homeTab"
@@ -25,9 +26,8 @@ const AppNavigator = () => {
       <Stack.Screen name="Attendance camera" component={AttendanceCamera} />
       <Stack.Screen name="Notifications" component={Notifications} />
       <Stack.Screen name="comingsoon" component={ComingSoon} />
-
     </Stack.Navigator>
   );
-};
+}
 
 export default AppNavigator;

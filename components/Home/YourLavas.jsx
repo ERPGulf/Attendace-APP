@@ -1,22 +1,22 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
-import { COLORS, SIZES } from "../../constants";
-import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { AntDesign, Ionicons, Octicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS, SIZES } from '../../constants';
 
-const LavaMenu = () => {
+function LavaMenu() {
   const navigation = useNavigation();
 
   return (
     // first row
-    <View className="my-2" style={{ width: "100%" }}>
+    <View className="my-2" style={{ width: '100%' }}>
       <View>
         <Text className="text-sm font-semibold">Menu</Text>
       </View>
       <View className="my-2">
         <View
           className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
-          style={{ width: "100%", backgroundColor: COLORS.primary }}
+          style={{ width: '100%', backgroundColor: COLORS.primary }}
         >
           <View>
             <Octicons name="people" size={SIZES.xxLarge + 4} color="white" />
@@ -42,7 +42,7 @@ const LavaMenu = () => {
           >
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Attendance action");
+                navigation.navigate('Attendance action');
               }}
               className="mr-4"
             >
@@ -64,7 +64,7 @@ const LavaMenu = () => {
             <TouchableOpacity
               className="mr-4"
               onPress={() => {
-                navigation.navigate("Attendance history");
+                navigation.navigate('Attendance history');
               }}
             >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -83,7 +83,7 @@ const LavaMenu = () => {
             </TouchableOpacity>
             <TouchableOpacity
               className="mr-4"
-              onPress={() => navigation.navigate("Trip details")}
+              onPress={() => navigation.navigate('Trip details')}
             >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
                 <Ionicons
@@ -102,7 +102,7 @@ const LavaMenu = () => {
             <TouchableOpacity
               className="mr-4"
               onPress={() => {
-                navigation.navigate("comingsoon");
+                navigation.navigate('comingsoon');
               }}
             >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -121,7 +121,7 @@ const LavaMenu = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("comingsoon");
+                navigation.navigate('comingsoon');
               }}
             >
               <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -145,7 +145,7 @@ const LavaMenu = () => {
       <View className="mb-4">
         <View
           className="flex-row justify-between items-center py-2.5 px-3 rounded-t-xl"
-          style={{ width: "100%", backgroundColor: COLORS.primary }}
+          style={{ width: '100%', backgroundColor: COLORS.primary }}
         >
           <View>
             <Octicons name="id-badge" size={SIZES.xxLarge + 4} color="white" />
@@ -165,7 +165,7 @@ const LavaMenu = () => {
           <TouchableOpacity
             className="w-16 mr-4"
             onPress={() => {
-              navigation.navigate("comingsoon");
+              navigation.navigate('comingsoon');
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -182,7 +182,7 @@ const LavaMenu = () => {
           <TouchableOpacity
             className="w-16 mr-4"
             onPress={() => {
-              navigation.navigate("comingsoon");
+              navigation.navigate('comingsoon');
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -199,7 +199,7 @@ const LavaMenu = () => {
           <TouchableOpacity
             className="w-16"
             onPress={() => {
-              navigation.navigate("comingsoon");
+              navigation.navigate('comingsoon');
             }}
           >
             <View className="bg-gray-100 p-2 justify-center items-center rounded-lg w-16">
@@ -217,6 +217,6 @@ const LavaMenu = () => {
       </View>
     </View>
   );
-};
+}
 
 export default LavaMenu;

@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   activeButtons: [], // Initialize as an empty array
 };
 
 const QuickAccessSlice = createSlice({
-  name: "quickAccess",
+  name: 'quickAccess',
   initialState,
-  extraReducers: (builder) => builder.addCase("REVERT_ALL", () => initialState),
+  extraReducers: builder => builder.addCase('REVERT_ALL', () => initialState),
   reducers: {
     setAdd: (state, action) => {
       if (state.activeButtons) {
@@ -18,7 +18,7 @@ const QuickAccessSlice = createSlice({
     },
     setRemove: (state, action) => {
       state.activeButtons = state.activeButtons.filter(
-        (item) => item.id !== action.payload.id
+        item => item.id !== action.payload.id,
       );
     },
   },
@@ -27,6 +27,6 @@ const QuickAccessSlice = createSlice({
 export const { setAdd, setRemove } = QuickAccessSlice.actions;
 
 // selectors
-export const activeButtonsSelector = (state) => state.quickAccess.activeButtons;
+export const activeButtonsSelector = state => state.quickAccess.activeButtons;
 
 export default QuickAccessSlice.reducer;

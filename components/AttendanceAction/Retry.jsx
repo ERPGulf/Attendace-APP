@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import { COLORS } from "../../constants";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../../constants';
 
-const Retry = ({ retry }) => {
+function Retry({ retry }) {
   const navigation = useNavigation();
   return (
     <View
@@ -36,6 +36,6 @@ const Retry = ({ retry }) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default Retry;
