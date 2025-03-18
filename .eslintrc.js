@@ -25,9 +25,12 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error'],
     'react/react-in-jsx-scope': 'off',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'import/no-extraneous-dependencies': ['error', { packageDir: ['./'] }],
-    'react/prop-types': 'off',
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'import/no-extraneous-dependencies': 'off', // No more warnings for missing package.json references
+    'react/prop-types': 'off', // No need to define prop types
+    'camelcase': 'off', // Allows non-camelCase names
+    'react/jsx-props-no-spreading': 'off', // Allows prop spreading
+    'react/function-component-definition': 'off', // Allows arrow functions or function declarations
   },
   settings: {
     react: {
