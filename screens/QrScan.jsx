@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import base64 from 'react-native-base64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
+import { Camera,useCameraPermissions} from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
 import {
   setBaseUrl,
@@ -19,18 +18,14 @@ import { COLORS, SIZES } from '../constants';
 
 function QrScan() {
   const navigation = useNavigation();
-  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch();
-  const getBarCodeScannerPermissions = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync();
-    setHasPermission(status === 'granted');
-  };
   useEffect(() => {
-    if (!hasPermission) {
-      getBarCodeScannerPermissions();
+    if (!cameraPermission?.granted) {
+      requestCameraPermission();
     }
-  }, [hasPermission]);
+  }, [cameraPermission, requestCameraPermission]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
@@ -120,7 +115,7 @@ function QrScan() {
     await handleQRCodeData(data);
   };
 
-  if (hasPermission === null) {
+  if (cameraPermission === null) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
         <View>
@@ -129,7 +124,7 @@ function QrScan() {
       </SafeAreaView>
     );
   }
-  if (hasPermission === false) {
+  if (!cameraPermission.granted) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
         <Text>No access to camera</Text>
@@ -139,7 +134,7 @@ function QrScan() {
 
   return (
     <Camera
-      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+      barCodeTypes={['qr']}
       style={{ flex: 1, width: '100%', height: '100%' }}
       type="back"
       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
