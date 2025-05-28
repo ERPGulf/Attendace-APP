@@ -32,5 +32,6 @@ function WelcomeCard() {
     </View>
   );
 }
-
 export default WelcomeCard;
+
+

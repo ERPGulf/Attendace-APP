@@ -78,39 +78,39 @@ function QrScan() {
     }
   };
 
-  const handleImagePicked = async result => {
-    if (result?.canceled) return;
-    if (result?.assets[0]?.uri) {
-      try {
-        const scannedResults = await BarCodeScanner.scanFromURLAsync(
-          result.assets[0].uri,
-        );
-        const { data } = scannedResults[0];
-        await handleQRCodeData(data);
-      } catch (error) {
-        alert('No QR-CODE Found');
-      }
-    }
-  };
+  // const handleImagePicked = async result => {
+  //   if (result?.canceled) return;
+  //   if (result?.assets[0]?.uri) {
+  //     try {
+  //       const scannedResults = await BarCodeScanner.scanFromURLAsync(
+  //         result.assets[0].uri,
+  //       );
+  //       const { data } = scannedResults[0];
+  //       await handleQRCodeData(data);
+  //     } catch (error) {
+  //       alert('No QR-CODE Found');
+  //     }
+  //   }
+  // };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      await handleImagePicked(result);
-    } catch (error) {
-      // Handle errors from ImagePicker
-      alert('Error picking image.');
-    }
-  };
+  // const pickImage = async () => {
+  //   // No permissions request is necessary for launching the image library
+  //   try {
+  //     const result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //     });
+  //     await handleImagePicked(result);
+  //   } catch (error) {
+  //     // Handle errors from ImagePicker
+  //     alert('Error picking image.');
+  //   }
+  // };
 
   // Handle the QR code scan event
-  const handleBarCodeScanned = async ({ type, data }) => {
+  const handleQrCodeScanned = async ({ type, data }) => {
     setScanned(true);
     await handleQRCodeData(data);
   };
@@ -137,7 +137,7 @@ function QrScan() {
       barCodeTypes={['qr']}
       style={{ flex: 1, width: '100%', height: '100%' }}
       type="back"
-      onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+      onBarCodeScanned={scanned ? undefined : handleQrCodeScanned}
       className="flex-1 items-center px-3 py-1 bg-white justify-end relative"
     >
       <View
@@ -199,7 +199,7 @@ function QrScan() {
           </View>
         )}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             backgroundColor: COLORS.primary,
             width: '100%',
@@ -213,7 +213,7 @@ function QrScan() {
           <Text className="text-base text-center font-semibold text-white ">
             SELECT FROM PHOTOS
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </Camera>
   );
