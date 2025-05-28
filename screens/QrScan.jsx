@@ -1,13 +1,12 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import base64 from 'react-native-base64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
+import { CameraView, Camera, useCameraPermissions } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
 import {
   setBaseUrl,
@@ -19,18 +18,14 @@ import { COLORS, SIZES } from '../constants';
 
 function QrScan() {
   const navigation = useNavigation();
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const dispatch = useDispatch();
-  const getBarCodeScannerPermissions = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync();
-    setHasPermission(status === 'granted');
-  };
   useEffect(() => {
-    if (!hasPermission) {
-      getBarCodeScannerPermissions();
+    if (!permission?.granted) {
+      requestPermission();
     }
-  }, [hasPermission]);
+  }, [permission]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShadowVisible: false,
@@ -87,7 +82,7 @@ function QrScan() {
     if (result?.canceled) return;
     if (result?.assets[0]?.uri) {
       try {
-        const scannedResults = await BarCodeScanner.scanFromURLAsync(
+        const scannedResults = await Camera.scanFromURLAsync(
           result.assets[0].uri,
         );
         const { data } = scannedResults[0];
@@ -102,7 +97,7 @@ function QrScan() {
     // No permissions request is necessary for launching the image library
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
@@ -119,8 +114,7 @@ function QrScan() {
     setScanned(true);
     await handleQRCodeData(data);
   };
-
-  if (hasPermission === null) {
+  if (!permission || permission.status === 'undetermined') {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
         <View>
@@ -129,20 +123,22 @@ function QrScan() {
       </SafeAreaView>
     );
   }
-  if (hasPermission === false) {
+
+  if (!permission.granted) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
         <Text>No access to camera</Text>
       </SafeAreaView>
     );
   }
-
   return (
-    <Camera
-      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+    <CameraView
+      barcodeScannerSettings={{
+        barcodeTypes: ['qr'],
+      }}
+      onBarcodeScanned={handleBarCodeScanned}
       style={{ flex: 1, width: '100%', height: '100%' }}
       type="back"
-      onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
       className="flex-1 items-center px-3 py-1 bg-white justify-end relative"
     >
       <View
@@ -220,7 +216,7 @@ function QrScan() {
           </Text>
         </TouchableOpacity>
       </View>
-    </Camera>
+    </CameraView>
   );
 }
 
