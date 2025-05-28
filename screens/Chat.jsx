@@ -1,14 +1,14 @@
-import { View, Text } from "react-native";
-import React, { useLayoutEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const Chat = () => {
+function Chat() {
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Chat",
-      headerTitleAlign: "center",
+      headerTitle: 'Chat',
+      headerTitleAlign: 'center',
     });
   }, []);
   return (
@@ -16,6 +16,6 @@ const Chat = () => {
       <Text>Coming soon!</Text>
     </View>
   );
-};
+}
 
 export default Chat;

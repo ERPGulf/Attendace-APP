@@ -1,4 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = {
   checkin: false,
@@ -8,9 +8,9 @@ const initialState = {
 };
 
 export const AttendanceSlice = createSlice({
-  name: "attendance",
+  name: 'attendance',
   initialState,
-  extraReducers: (builder) => builder.addCase("REVERT_ALL", () => initialState),
+  extraReducers: builder => builder.addCase('REVERT_ALL', () => initialState),
   reducers: {
     setCheckin: (state, action) => {
       state.checkin = true;
@@ -31,9 +31,9 @@ export const { setCheckin, setCheckout, setOnlyCheckIn } =
   AttendanceSlice.actions;
 
 // selector
-export const selectCheckin = (state) => state.attendance.checkin;
-export const selectCheckinTime = (state) => state.attendance.checkinTime;
-export const selectCheckoutTime = (state) => state.attendance.checkoutTime;
-export const selectLocation = (state) => state.attendance.location;
+export const selectCheckin = state => state.attendance.checkin;
+export const selectCheckinTime = state => state.attendance.checkinTime;
+export const selectCheckoutTime = state => state.attendance.checkoutTime;
+export const selectLocation = state => state.attendance.location;
 
 export default AttendanceSlice.reducer;

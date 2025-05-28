@@ -2,64 +2,65 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ActivityIndicator,
-} from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { Camera } from "expo-camera";
-import Constants from "expo-constants";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import { Image } from 'expo-image';
+import React, { useEffect, useRef, useState } from 'react';
+import { Camera } from 'expo-camera';
+import Constants from 'expo-constants';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useNavigation } from '@react-navigation/native';
+import { format, set } from 'date-fns';
 import {
   selectCheckin,
   setCheckin,
   setCheckout,
-} from "../redux/Slices/AttendanceSlice";
-import { format, set } from "date-fns";
+} from '../redux/Slices/AttendanceSlice';
 import {
   putUserFile,
   userCheckIn,
   userFileUpload,
   userStatusPut,
-} from "../api/userApi";
-import { selectIsWfh, setFileid } from "../redux/Slices/UserSlice";
-import { SIZES } from "../constants";
+} from '../api/userApi';
+import { selectIsWfh, setFileid } from '../redux/Slices/UserSlice';
+import { SIZES } from '../constants';
+import { hapticsMessage } from '../utils/HapticsMessage';
 
-const AttendanceCamera = () => {
+function AttendanceCamera() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [mode, setMode] = useState("camera");
+  const [type, setType] = useState(Camera.Constants.Type.front);
+  const [mode, setMode] = useState('camera');
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const checkin = useSelector(selectCheckin);
-  const { employeeCode } = useSelector((state) => state.user.userDetails);
+  const { employeeCode } = useSelector(state => state.user.userDetails);
   const isWFH = useSelector(selectIsWfh);
   const currentDate = new Date().toISOString();
-  let cameraRef = useRef();
+  const cameraRef = useRef();
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermission(cameraPermission.status === "granted");
+      setHasCameraPermission(cameraPermission.status === 'granted');
     })();
   }, []);
   const changeCamera = () => {
     setType(
       type === Camera.Constants.Type.back
         ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
+        : Camera.Constants.Type.back,
     );
   };
   const changeMode = () => {
-    setMode(mode === "camera" ? "video" : "camera");
+    setMode(mode === 'camera' ? 'video' : 'camera');
   };
   const takePicture = async () => {
     try {
-      let options = {
+      const options = {
         quality: 0.7,
         exif: false,
         base64: true,
@@ -68,14 +69,14 @@ const AttendanceCamera = () => {
       setPhoto(newPhoto);
     } catch (error) {
       Toast.show({
-        type: "error",
-        text1: "Photo capture failed",
+        type: 'error',
+        text1: 'Photo capture failed',
       });
     }
   };
   const handleChecking = (type, custom_in) => {
     setIsLoading(true);
-    const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss.SSSSSS");
+    const timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSSSSS');
     const dataField = {
       timestamp,
       employeeCode,
@@ -86,93 +87,97 @@ const AttendanceCamera = () => {
         dispatch(setFileid(name));
         userStatusPut(employeeCode, custom_in)
           .then(() => {
-            custom_in === 1
-              ? dispatch(
-                  setCheckin({
-                    checkinTime: currentDate,
-                    location: isWFH ? "On-site" : "Head Office",
-                  })
-                )
-              : dispatch(setCheckout({ checkoutTime: currentDate }));
+            if (custom_in === 1) {
+              dispatch(
+                setCheckin({
+                  checkinTime: currentDate,
+                  location: isWFH ? 'On-site' : 'Head Office',
+                }),
+              );
+            } else {
+              dispatch(setCheckout({ checkoutTime: currentDate }));
+            }
             uploadPicture(name)
               .then(() => {
+                hapticsMessage('success');
                 Toast.show({
-                  type: "success",
+                  type: 'success',
                   text1: `CHECKED ${type}`,
                   autoHide: true,
-                  visibilityTime: 2000,
+                  visibilityTime: 3000,
                 });
                 setIsLoading(false);
-                navigation.navigate("Attendance action");
+                navigation.navigate('Attendance action');
               })
               .catch(() => {
+                hapticsMessage('error');
                 Toast.show({
-                  type: "error",
-                  text1: "Photo upload failed",
+                  type: 'error',
+                  text1: 'Photo upload failed',
                   autoHide: true,
-                  visibilityTime: 2000,
+                  visibilityTime: 3000,
                 });
                 setIsLoading(false);
               });
           })
           .catch(() => {
+            hapticsMessage('error');
             Toast.show({
-              type: "error",
-              text1: "Status update failed",
+              type: 'error',
+              text1: 'Status update failed',
               autoHide: true,
-              visibilityTime: 2000,
+              visibilityTime: 3000,
             });
             setIsLoading(false);
           });
       })
       .catch(() => {
+        hapticsMessage('error');
         Toast.show({
-          type: "error",
-          text1: "Check-in failed",
+          type: 'error',
+          text1: 'Check-in failed',
           autoHide: true,
-          visibilityTime: 2000,
+          visibilityTime: 3000,
         });
         setIsLoading(false);
       });
   };
   // upload image
-  const uploadPicture = async (name) => {
+  const uploadPicture = async name => {
     Toast.show({
-      type: "info",
-      text1: "File being uploaded",
+      type: 'info',
+      text1: 'File being uploaded',
       autoHide: true,
-      visibilityTime: 2000,
+      visibilityTime: 3000,
     });
     const formData = new FormData();
-    formData.append("file_name", name);
-    formData.append("fieldname", "custom_photo");
-    formData.append("file", {
+    formData.append('file_name', name);
+    formData.append('fieldname', 'custom_photo');
+    formData.append('file', {
       uri: photo.uri,
-      type: "image/jpeg", // Adjust the type based on your image format
+      type: 'image/jpeg', // Adjust the type based on your image format
       name: `${name + new Date().toISOString()}.jpg`, // Adjust the filename as needed
     });
-    formData.append("is_private", "1");
-    formData.append("doctype", "Employee Checkin");
-    formData.append("docname", name);
+    formData.append('is_private', '1');
+    formData.append('doctype', 'Employee Checkin');
+    formData.append('docname', name);
     userFileUpload(formData)
       .then(({ file_url }) => {
         const formData = new FormData();
-        formData.append("custom_image", file_url);
+        formData.append('custom_image', file_url);
         putUserFile(formData, name)
-          .then(() => {
-            return Promise.resolve();
-          })
+          .then(() => Promise.resolve())
           .catch(() => {
             Toast.show({
-              type: "error",
-              text1: "Photo Upload Failed",
+              type: 'error',
+              text1: 'Photo Upload Failed',
             });
           });
       })
       .catch(() => {
         Toast.show({
-          type: "error",
-          text1: "Photo Upload Failed",
+          type: 'error',
+          text1: 'Photo Upload Failed',
         });
       });
   };
@@ -188,11 +193,11 @@ const AttendanceCamera = () => {
   if (photo) {
     return (
       <View
-        style={{ paddingTop: Constants.statusBarHeight }}
+        style={{ paddingTop: Constants.statusBarHeight, paddingBottom: 20 }}
         className="flex-1 items-center justify-center bg-white relative"
       >
         <View
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           className="relative px-3 border-b border-black/30"
         >
           <View className="flex-row pb-4 pt-2 items-center justify-center relative">
@@ -209,21 +214,31 @@ const AttendanceCamera = () => {
             </View>
           </View>
         </View>
-        <View className="w-full flex-1 border-b border-black/30 px-3 bg-black">
+        <View
+          style={{ width: SIZES.width }}
+          className="flex-1 border-black/30 px-3 bg-white"
+        >
           <Image
-            resizeMode="cover"
-            className="w-full flex-1"
-            source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+            cachePolicy="disk"
+            contentFit="cover"
+            style={{
+              width: '100%',
+              height: '100%',
+              flex: 1,
+              borderRadius: 12,
+              marginVertical: 12,
+            }}
+            source={{ uri: `data:image/jpg;base64,${photo.base64}` }}
           />
           <View className="w-full items-center justify-center">
             {checkin ? (
               <TouchableOpacity
                 className="justify-center items-center mb-3 bg-blue-500 w-full h-16 rounded-2xl"
-                onPress={() => handleChecking("OUT", 0)}
+                onPress={() => handleChecking('OUT', 0)}
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <ActivityIndicator size={"large"} color={"white"} />
+                  <ActivityIndicator size="large" color="white" />
                 ) : (
                   <Text className="text-lg font-semibold text-white">
                     CHECK OUT
@@ -233,11 +248,11 @@ const AttendanceCamera = () => {
             ) : (
               <TouchableOpacity
                 className="justify-center items-center mb-3 bg-blue-500 w-full h-16 rounded-2xl"
-                onPress={() => handleChecking("IN", 1)}
+                onPress={() => handleChecking('IN', 1)}
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <ActivityIndicator size={"large"} color={"white"} />
+                  <ActivityIndicator size="large" color="white" />
                 ) : (
                   <Text className="text-lg font-semibold text-white">
                     CHECK IN
@@ -256,9 +271,9 @@ const AttendanceCamera = () => {
       ref={cameraRef}
       style={{
         flex: 1,
-        alignItems: "center",
+        alignItems: 'center',
         paddingVertical: Constants.statusBarHeight,
-        flexDirection: "column-reverse",
+        flexDirection: 'column-reverse',
       }}
     >
       <View
@@ -267,26 +282,26 @@ const AttendanceCamera = () => {
       >
         <Ionicons
           name="chevron-back"
-          color={"white"}
+          color="white"
           size={SIZES.xxxLarge - SIZES.xSmall}
           onPress={() => navigation.goBack()}
         />
       </View>
       <View className="flex-row items-center justify-center w-full px-3 relative">
-        {mode === "camera" ? (
+        {mode === 'camera' ? (
           <TouchableOpacity
             onPress={takePicture}
             style={{ width: 80, height: 80 }}
             className="bg-white justify-center items-center rounded-full"
           >
-            <Ionicons name={"ios-camera"} size={40} color={"black"} />
+            <Ionicons name="camera" size={40} color="black" />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={{ width: 80, height: 80 }}
             className="bg-white justify-center items-center rounded-full"
           >
-            <Ionicons size={40} color={"black"} />
+            <Ionicons size={40} color="black" />
           </TouchableOpacity>
         )}
         <TouchableOpacity
@@ -297,10 +312,10 @@ const AttendanceCamera = () => {
           }}
           className="justify-center  items-center rounded-full left-4 absolute"
         >
-          <Ionicons name="refresh" size={44} color={"white"} />
+          <Ionicons name="refresh" size={44} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          disabled={mode === "camera"}
+          disabled={mode === 'camera'}
           onPress={changeMode}
           style={{
             width: 80,
@@ -309,14 +324,14 @@ const AttendanceCamera = () => {
           className="justify-center items-center rounded-full right-4 absolute"
         >
           <Ionicons
-            name={mode === "camera" ? "videocam" : "camera"}
+            name={mode === 'camera' ? 'videocam' : 'camera'}
             size={44}
-            color={mode === "camera" ? "grey" : "white"}
+            color={mode === 'camera' ? 'grey' : 'white'}
           />
         </TouchableOpacity>
       </View>
     </Camera>
   );
-};
+}
 
 export default AttendanceCamera;

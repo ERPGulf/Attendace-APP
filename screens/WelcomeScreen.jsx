@@ -1,33 +1,37 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import { COLORS } from "../constants";
-import { useNavigation } from "@react-navigation/native";
-import icon from "../assets/icon.png";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { Image } from 'expo-image';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { COLORS } from '../constants';
+import icon from '../assets/icon.png';
 
-const WelcomeScreen = () => {
+function WelcomeScreen() {
   const navigation = useNavigation();
-
   return (
     <View
       style={{
         flex: 1,
-        alignItems: "center",
+        alignItems: 'center',
         backgroundColor: COLORS.white,
+        paddingTop: StatusBar.currentHeight,
       }}
-      className="px-3 relative items-center justify-center pb-4"
+      className="px-3 relative items-center justify-center"
     >
       <View className=" justify-center space-x-3 items-center">
-        <Image source={icon} style={{ width: 250, height: 250 }} />
-       
+        <Image
+          cachePolicy="memory-disk"
+          source={icon}
+          style={{ width: 250, height: 250 }}
+        />
       </View>
       <TouchableOpacity
-        style={{ width: "100%", borderWidth: 2, borderColor: COLORS.primary }}
+        style={{ width: '100%', borderWidth: 2, borderColor: COLORS.primary }}
         className="h-16 rounded-2xl justify-center items-center absolute bottom-5"
-        onPress={() => navigation.navigate("Qrscan")}
+        onPress={() => navigation.navigate('Qrscan')}
       >
         <View
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           className="h-full rounded-2xl justify-center items-center relative
           flex-row"
         >
@@ -39,7 +43,7 @@ const WelcomeScreen = () => {
           </Text>
           <View className="absolute right-5">
             <Ionicons
-              name="ios-arrow-forward"
+              name="arrow-forward-outline"
               size={38}
               color={COLORS.primary}
             />
@@ -48,6 +52,6 @@ const WelcomeScreen = () => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default WelcomeScreen;

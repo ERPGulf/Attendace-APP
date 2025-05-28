@@ -1,12 +1,12 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Chat, Home, Profile } from "../screens";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS } from "../constants";
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Chat, Home, Profile } from '../screens';
+import { COLORS } from '../constants';
 
 const TabStack = createBottomTabNavigator();
 
-const HomeTabGroup = () => {
+function HomeTabGroup() {
   return (
     <TabStack.Navigator
       screenOptions={() => ({
@@ -14,10 +14,10 @@ const HomeTabGroup = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          position: "absolute",
+          position: 'absolute',
           height: 70,
           paddingBottom: 0,
-          backgroundColor: "white",
+          backgroundColor: 'white',
         },
       })}
     >
@@ -27,7 +27,7 @@ const HomeTabGroup = () => {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "home" : "home-outline"}
+              name={focused ? 'home' : 'home-outline'}
               size={30}
               color={color}
             />
@@ -41,7 +41,7 @@ const HomeTabGroup = () => {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={
-                focused ? "chatbubble-ellipses" : "chatbubble-ellipses-outline"
+                focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'
               }
               size={30}
               color={color}
@@ -55,7 +55,7 @@ const HomeTabGroup = () => {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "person" : "person-outline"}
+              name={focused ? 'person' : 'person-outline'}
               size={30}
               color={color}
             />
@@ -64,6 +64,6 @@ const HomeTabGroup = () => {
       />
     </TabStack.Navigator>
   );
-};
+}
 
 export default HomeTabGroup;

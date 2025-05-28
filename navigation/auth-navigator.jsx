@@ -1,11 +1,11 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Login, QrScan, WelcomeScreen } from "../screens";
-import React from "react";
+import React from 'react';
+import { Login, QrScan, WelcomeScreen } from '../screens';
 
 const Stack = createNativeStackNavigator();
 
-const AuthNavigator = () => {
+function AuthNavigator() {
   return (
     <Stack.Navigator
       initialRouteName="welcome"
@@ -16,6 +16,6 @@ const AuthNavigator = () => {
       <Stack.Screen name="welcome" component={WelcomeScreen} />
     </Stack.Navigator>
   );
-};
+}
 
 export default AuthNavigator;

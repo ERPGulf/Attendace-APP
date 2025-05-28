@@ -1,24 +1,25 @@
-import { ScrollView, View } from "react-native";
-import React from "react";
-import { LavaMenu, QuickAccess, WelcomeCard } from "../components/Home";
-import { useNavigation } from "@react-navigation/native";
-import Constants from "expo-constants";
-const Home = () => {
+import { ScrollView, View } from 'react-native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
+import { LavaMenu, QuickAccess, WelcomeCard } from '../components/Home';
+
+function Home() {
   const navigation = useNavigation();
   return (
     <View
       style={{
         flex: 1,
         flexGrow: 1,
-        alignItems: "center",
+        alignItems: 'center',
         paddingTop: Constants.statusBarHeight,
         paddingBottom: 68,
       }}
       className="bg-gray-200"
     >
       <ScrollView
-        style={{ width: "95%" }}
-        contentContainerStyle={{ justifyContent: "center" }}
+        style={{ width: '95%' }}
+        contentContainerStyle={{ justifyContent: 'center' }}
         showsVerticalScrollIndicator={false}
         StickyHeaderComponent={WelcomeCard}
         alwaysBounceVertical
@@ -29,6 +30,6 @@ const Home = () => {
       </ScrollView>
     </View>
   );
-};
+}
 
 export default Home;

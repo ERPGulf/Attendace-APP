@@ -1,30 +1,30 @@
-import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
-import { COLORS } from "../../constants";
-import { useSelector } from "react-redux";
+import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { differenceInMinutes } from 'date-fns';
+import { COLORS } from '../../constants';
 import {
   startTimeSelect,
   startedSelect,
-} from "../../redux/Slices/TripDetailsSlice";
-import { differenceInMinutes } from "date-fns";
+} from '../../redux/Slices/TripDetailsSlice';
 
-const TopCard = () => {
+function TopCard() {
   const isStarted = useSelector(startedSelect);
   const startTime = useSelector(startTimeSelect);
   const [minutes, setMinutes] = useState(null);
   function getMinutes() {
     const minutesDifference = differenceInMinutes(
       new Date(),
-      new Date(startTime)
+      new Date(startTime),
     );
     // Calculate the hours and remaining minutes
     const hours = Math.floor(minutesDifference / 60);
     const remainingMinutes = minutesDifference % 60;
 
     // Format the hours and minutes as "00:00" format
-    return `${String(hours).padStart(2, "0")}:${String(
-      remainingMinutes
-    ).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, '0')}:${String(
+      remainingMinutes,
+    ).padStart(2, '0')}`;
   }
 
   // Use a useEffect hook to refresh the minutes every 60 seconds
@@ -42,10 +42,10 @@ const TopCard = () => {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, [isStarted,startTime]);
+  }, [isStarted, startTime]);
   return (
     <View
-      style={{ width: "100%" }}
+      style={{ width: '100%' }}
       className="px-4 py-4 bg-slate-200 rounded-xl"
     >
       <View
@@ -62,13 +62,13 @@ const TopCard = () => {
         ) : (
           <View className="w-full py-3 justify-end h-56">
             <Text className="text-6xl mt-2 font-semibold text-white">
-             Start Trip
+              Start Trip
             </Text>
           </View>
         )}
       </View>
     </View>
   );
-};
+}
 
 export default TopCard;

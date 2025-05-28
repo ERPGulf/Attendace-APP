@@ -1,32 +1,30 @@
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = {
-    isLoggedIn: false,
-    token: null
-}
-
+  isLoggedIn: false,
+  token: null,
+};
 
 export const AuthSlice = createSlice({
-    name: 'userAuth',
-    initialState,
-    extraReducers:(builder) => builder.addCase('REVERT_ALL', ()=> initialState),
-    reducers: {
-        setSignIn: (state, action) => {
-            state.isLoggedIn = action.payload.isLoggedIn
-            state.token = action.payload.token
-        },
-        setSignOut: (state) => {
-            state.token = null;
-            state.isLoggedIn = false;
-        }
-    }
-})
+  name: 'userAuth',
+  initialState,
+  extraReducers: builder => builder.addCase('REVERT_ALL', () => initialState),
+  reducers: {
+    setSignIn: (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+      state.token = action.payload.token;
+    },
+    setSignOut: state => {
+      state.token = null;
+      state.isLoggedIn = false;
+    },
+  },
+});
 
-export const { setSignIn, setSignOut } = AuthSlice.actions
+export const { setSignIn, setSignOut } = AuthSlice.actions;
 
 // selector
-export const selectIsLoggedIn = (state) => state.userAuth.isLoggedIn;
-export const selectEmail = (state) => state.userAuth.token;
+export const selectIsLoggedIn = state => state.userAuth.isLoggedIn;
+export const selectEmail = state => state.userAuth.token;
 
-export default AuthSlice.reducer
-
+export default AuthSlice.reducer;

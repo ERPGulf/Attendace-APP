@@ -1,13 +1,13 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import { COLORS, SIZES } from "../../constants";
-import { Entypo } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Entypo } from '@expo/vector-icons';
+import { COLORS, SIZES } from '../../constants';
 
-const TopNav = ({ navigation, title }) => {
+function TopNav({ navigation, title }) {
   return (
     <View
       style={{
-        width: "100%",
+        width: '100%',
       }}
     >
       <View className="flex-row pb-4 pt-2 items-center justify-center relative">
@@ -17,7 +17,7 @@ const TopNav = ({ navigation, title }) => {
         >
           <Entypo
             name="chevron-left"
-            size={SIZES.xxxLarge - SIZES.xSmall}
+            size={SIZES.xxxLarge - 5}
             color={COLORS.primary}
           />
         </TouchableOpacity>
@@ -27,6 +27,6 @@ const TopNav = ({ navigation, title }) => {
       </View>
     </View>
   );
-};
+}
 
 export default TopNav;

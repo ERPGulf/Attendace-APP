@@ -4,44 +4,45 @@ import {
   TouchableOpacity,
   Platform,
   TextInput,
-} from "react-native";
-import React from "react";
-import { Formik } from "formik";
-import { COLORS, SIZES } from "../../constants";
-import { Ionicons } from "@expo/vector-icons";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { format } from "date-fns";
+} from 'react-native';
+import React from 'react';
+import { Formik } from 'formik';
+import { Ionicons } from '@expo/vector-icons';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import {
   setEndTrip,
   tripIdSelect,
   vehicleIdSelect,
-} from "../../redux/Slices/TripDetailsSlice";
-import { endTripTrack } from "../../api/userApi";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
-const EndForm = ({ location, setIsLoading, setTripType }) => {
+} from '../../redux/Slices/TripDetailsSlice';
+import { endTripTrack } from '../../api/userApi';
+import { COLORS, SIZES } from '../../constants';
+
+function EndForm({ location, setIsLoading, setTripType }) {
   const dispatch = useDispatch();
   const tripId = useSelector(tripIdSelect);
   const vehicle_no = useSelector(vehicleIdSelect);
-  const handleEnd = (values) => {
+  const handleEnd = values => {
     setIsLoading(true);
     const currentDateTime = new Date();
-    const formattedDateTime = format(currentDateTime, "yyyy-MM-dd HH:mm:ss");
+    const formattedDateTime = format(currentDateTime, 'yyyy-MM-dd HH:mm:ss');
     const { latitude, longitude } = location;
     const formData = new FormData();
-    formData.append("trip_id", tripId);
-    formData.append("trip_end_km", values.ending_km);
-    formData.append("trip_end_location", `${latitude},${longitude}`);
-    formData.append("trip_status", 0);
-    formData.append("vehicle_id", vehicle_no);
-    formData.append("trip_end_time", formattedDateTime);
+    formData.append('trip_id', tripId);
+    formData.append('trip_end_km', values.ending_km);
+    formData.append('trip_end_location', `${latitude},${longitude}`);
+    formData.append('trip_status', 0);
+    formData.append('vehicle_id', vehicle_no);
+    formData.append('trip_end_time', formattedDateTime);
     endTripTrack(formData)
       .then(() => {
         Toast.show({
-          type: "success",
-          text1: "Trip ended successfully",
+          type: 'success',
+          text1: 'Trip ended successfully',
           autoHide: true,
-          visibilityTime: 2000,
+          visibilityTime: 3000,
         });
         setTripType(null);
         dispatch(setEndTrip(new Date().toISOString()));
@@ -49,26 +50,26 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
       })
       .catch(() => {
         Toast.show({
-          type: "error",
-          text1: "Trip end failed",
+          type: 'error',
+          text1: 'Trip end failed',
           autoHide: true,
-          visibilityTime: 2000,
+          visibilityTime: 3000,
         });
         setIsLoading(false);
       });
   };
   const tripEndSchema = Yup.object().shape({
     ending_km: Yup.number()
-      .required("Please enter end km")
-      .typeError("please enter numbers"),
+      .required('Please enter end km')
+      .typeError('please enter numbers'),
   });
   return (
     <Formik
       initialValues={{
-        ending_km: "",
+        ending_km: '',
       }}
       validationSchema={tripEndSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
         handleEnd(values);
       }}
     >
@@ -81,17 +82,17 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
         isValid,
         setFieldTouched,
       }) => (
-        <React.Fragment>
-          <View style={{ width: "100%", marginTop: 30 }}>
+        <>
+          <View style={{ width: '100%', marginTop: 30 }}>
             <View className="bg-white h-14 px-3 rounded-xl items-center justify-between border-gray-200 border flex-row">
               <TextInput
                 value={values.ending_km}
-                onChangeText={handleChange("ending_km")}
+                onChangeText={handleChange('ending_km')}
                 placeholder="enter end km"
                 textContentType="none"
-                onBlur={() => setFieldTouched("ending_km")}
+                onBlur={() => setFieldTouched('ending_km')}
                 style={{
-                  marginTop: Platform.OS === "ios" ? -10 : 0,
+                  marginTop: Platform.OS === 'ios' ? -10 : 0,
                   flex: 1,
                 }}
                 className=" h-12 text-lg"
@@ -104,7 +105,7 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
             </View>
           </View>
           {touched.ending_km && errors.ending_km && (
-            <View style={{ width: "100%" }} className="left-1 mt-1">
+            <View style={{ width: '100%' }} className="left-1 mt-1">
               <Text className="text-red-600 text-base">{errors.ending_km}</Text>
             </View>
           )}
@@ -113,16 +114,16 @@ const EndForm = ({ location, setIsLoading, setTripType }) => {
               disabled={!isValid}
               onPress={handleSubmit}
               className={`justify-center h-16 flex-row items-center space-x-2 p-3 ${
-                isValid ? "bg-red-500" : "bg-red-200"
+                isValid ? 'bg-red-500' : 'bg-red-200'
               } rounded-xl w-full`}
             >
               <Text className="text-2xl font-semibold text-white">END</Text>
             </TouchableOpacity>
           </View>
-        </React.Fragment>
+        </>
       )}
     </Formik>
   );
-};
+}
 
 export default EndForm;

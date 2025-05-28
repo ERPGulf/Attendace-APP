@@ -2,31 +2,33 @@ import {
   SuccessToast,
   ErrorToast,
   InfoToast,
-} from "react-native-toast-message";
+} from 'react-native-toast-message';
+
 export const toastConfig = {
   /*
       Overwrite 'success' type,
       by modifying the existing `BaseToast` component
     */
-  success: (props) => (
+  success: props => (
     <SuccessToast
       {...props}
       style={{
-        backgroundColor: "#22c55e",
-        borderLeftColor: "#22c55e",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        backgroundColor: '#22c55e',
+        borderLeftColor: '#22c55e',
+        borderRadius: 15,
+        width: '94%',
+        height: 60,
       }}
       text1Style={{
-        fontSize: 12,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 500,
+        textAlign: 'center',
       }}
       text2Style={{
-        fontSize: 6,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 12,
+        color: '#fff',
+        textAlign: 'center',
       }}
     />
   ),
@@ -34,47 +36,49 @@ export const toastConfig = {
       Overwrite 'error' type,
       by modifying the existing `ErrorToast` component
     */
-  error: (props) => (
+  error: props => (
     <ErrorToast
       {...props}
       style={{
-        backgroundColor: "rgb(239 68 68)",
-        borderLeftColor: "rgb(239 68 68)",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        backgroundColor: 'rgb(239 68 68)',
+        borderLeftColor: 'rgb(239 68 68)',
+        borderRadius: 15,
+        width: '94%',
+        height: 60,
       }}
       text1Style={{
-        fontSize: 12,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 500,
+        textAlign: 'center',
       }}
       text2Style={{
-        fontSize: 5,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 12,
+        color: '#fff',
+        textAlign: 'center',
       }}
     />
   ),
-  info: (props) => (
+  info: props => (
     <InfoToast
       {...props}
       style={{
-        backgroundColor: "#0096FF",
-        borderLeftColor: "#0096FF",
-        borderRadius: 30,
-        width: 150,
-        height: 40,
+        backgroundColor: '#0096FF',
+        borderLeftColor: '#0096FF',
+        borderRadius: 15,
+        width: '94%',
+        height: 60,
       }}
       text1Style={{
-        fontSize: 12,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 20,
+        color: '#fff',
+        fontWeight: 500,
+        textAlign: 'center',
       }}
       text2Style={{
-        fontSize: 6,
-        color: "#fff",
-        textAlign: "center",
+        fontSize: 12,
+        color: '#fff',
+        textAlign: 'center',
       }}
     />
   ),
@@ -86,7 +90,7 @@ export const toastConfig = {
       They will be passed when calling the `show` method (see below)
     */
   tomatoToast: ({ text1, props }) => (
-    <View style={{ height: 60, width: "100%", backgroundColor: "tomato" }}>
+    <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
       <Text>{text1}</Text>
       <Text>{props.uuid}</Text>
     </View>

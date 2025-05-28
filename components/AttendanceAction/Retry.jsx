@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import { COLORS } from "../../constants";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../../constants';
 
-const Retry = ({retry}) => {
+function Retry({ retry }) {
   const navigation = useNavigation();
   return (
     <View
@@ -21,14 +21,13 @@ const Retry = ({retry}) => {
       </View>
       <TouchableOpacity
         style={{ backgroundColor: COLORS.primary }}
-        className="h-12 m-2 flex-row w-3/6 rounded-xl justify-center  space-x-2 items-center"
+        className="h-12 m-2 flex-row w-3/6 rounded-xl justify-center space-x-2 items-center"
         onPress={retry}
       >
         <Text className="text-base text-white font-bold">Retry</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ borderColor: COLORS.primary }}
-        className="h-12 flex-row w-3/6 rounded-xl justify-center border-2 bg-white space-x-2 items-center"
+        className="h-12 flex-row w-3/6 rounded-xl justify-center bg-white space-x-2 items-center"
         onPress={() => navigation.goBack()}
       >
         <Text style={{ color: COLORS.primary }} className="text-base font-bold">
@@ -37,6 +36,6 @@ const Retry = ({retry}) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default Retry;
