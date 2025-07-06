@@ -32,19 +32,16 @@ import { hapticsMessage } from '../utils/HapticsMessage';
 function AttendanceCamera() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState('front');
   const [mode, setMode] = useState('camera');
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
   const checkin = useSelector(selectCheckin);
   const { employeeCode } = useSelector(state => state.user.userDetails);
   const isWFH = useSelector(selectIsWfh);
   const currentDate = new Date().toISOString();
   const cameraRef = useRef();
-
   const toggleCameraFacing = () => {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   };
@@ -143,8 +140,6 @@ function AttendanceCamera() {
         setIsLoading(false);
       });
   };
-
-  // Fixed upload image function for JavaScript
   const uploadPicture = async name => {
     try {
       Toast.show({
@@ -157,8 +152,6 @@ function AttendanceCamera() {
       const formData = new FormData();
       formData.append('file_name', name);
       formData.append('fieldname', 'custom_photo');
-      
-      // Fixed file object structure for JavaScript
       formData.append('file', {
         uri: photo.uri,
         type: 'image/jpeg',
@@ -292,7 +285,6 @@ function AttendanceCamera() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Camera View - No children */}
       <CameraView
         facing={facing}
         ref={cameraRef}
@@ -301,7 +293,6 @@ function AttendanceCamera() {
         }}
       />
       
-      {/* Overlay UI - Positioned absolutely */}
       <View
         style={{
           position: 'absolute',
