@@ -42,6 +42,13 @@ function AttendanceCamera() {
   const isWFH = useSelector(selectIsWfh);
   const currentDate = new Date().toISOString();
   const cameraRef = useRef();
+  useEffect(() => {
+    if (photo) {
+      console.log('Captured Photo URI:', photo.uri);
+      console.log('Captured Photo Size:', photo?.width, 'x', photo?.height);
+    }
+  }, [photo]);
+
   const toggleCameraFacing = () => {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   };
@@ -54,10 +61,13 @@ function AttendanceCamera() {
     try {
       const options = {
         quality: 0.7,
-        exif: false,
         base64: true,
       };
       const newPhoto = await cameraRef.current.takePictureAsync(options);
+
+      if (!newPhoto.uri) {
+        throw new Error('Photo capture failed: URI is missing');
+      }
       setPhoto(newPhoto);
     } catch (error) {
       console.error('Photo capture error:', error);
@@ -104,7 +114,7 @@ function AttendanceCamera() {
                 setIsLoading(false);
                 navigation.navigate('Attendance action');
               })
-              .catch((error) => {
+              .catch(error => {
                 console.error('Upload error:', error);
                 hapticsMessage('error');
                 Toast.show({
@@ -116,7 +126,7 @@ function AttendanceCamera() {
                 setIsLoading(false);
               });
           })
-          .catch((error) => {
+          .catch(error => {
             console.error('Status update error:', error);
             hapticsMessage('error');
             Toast.show({
@@ -128,7 +138,7 @@ function AttendanceCamera() {
             setIsLoading(false);
           });
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Check-in error:', error);
         hapticsMessage('error');
         Toast.show({
@@ -142,37 +152,45 @@ function AttendanceCamera() {
   };
   const uploadPicture = async name => {
     try {
+      if (!photo?.uri) {
+        throw new Error('No photo URI available');
+      }
+
       Toast.show({
         type: 'info',
-        text1: 'File being uploaded',
+        text1: 'Uploading photo...',
         autoHide: true,
         visibilityTime: 3000,
       });
 
       const formData = new FormData();
-      formData.append('file_name', name);
-      formData.append('fieldname', 'custom_photo');
+      const filename = `${name}_${Date.now()}.jpg`;
+
       formData.append('file', {
         uri: photo.uri,
         type: 'image/jpeg',
-        name: `${name}_${Date.now()}.jpg`,
+        name: filename,
       });
-      
+
+      formData.append('file_name', filename);
+      formData.append('fieldname', 'custom_photo');
       formData.append('is_private', '1');
       formData.append('doctype', 'Employee Checkin');
       formData.append('docname', name);
 
       const uploadResponse = await userFileUpload(formData);
-      
-      if (uploadResponse && uploadResponse.file_url) {
+      console.log('Upload success:', uploadResponse);
+
+      if (uploadResponse?.file_url) {
         const updateFormData = new FormData();
         updateFormData.append('custom_image', uploadResponse.file_url);
-        
+
         await putUserFile(updateFormData, name);
-        return Promise.resolve();
       } else {
-        throw new Error('Upload failed - no file URL returned');
+        throw new Error('No file URL returned from upload');
       }
+
+      return Promise.resolve();
     } catch (error) {
       console.error('Upload picture error:', error);
       Toast.show({
@@ -196,8 +214,10 @@ function AttendanceCamera() {
   if (!permission.granted) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center px-3 bg-white relative">
-        <Text className="text-center mb-4">We need your permission to show the camera</Text>
-        <TouchableOpacity 
+        <Text className="text-center mb-4">
+          We need your permission to show the camera
+        </Text>
+        <TouchableOpacity
           onPress={requestPermission}
           className="bg-blue-500 px-4 py-2 rounded"
         >
@@ -292,7 +312,7 @@ function AttendanceCamera() {
           flex: 1,
         }}
       />
-      
+
       <View
         style={{
           position: 'absolute',
@@ -308,7 +328,7 @@ function AttendanceCamera() {
           onPress={() => navigation.goBack()}
         />
       </View>
-      
+
       <View
         style={{
           position: 'absolute',
@@ -335,7 +355,7 @@ function AttendanceCamera() {
             <Ionicons name="videocam" size={40} color="black" />
           </TouchableOpacity>
         )}
-        
+
         <TouchableOpacity
           onPress={toggleCameraFacing}
           style={{
@@ -348,7 +368,7 @@ function AttendanceCamera() {
         >
           <Ionicons name="refresh" size={44} color="white" />
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           disabled={mode === 'camera'}
           onPress={changeMode}

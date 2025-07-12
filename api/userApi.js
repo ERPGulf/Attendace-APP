@@ -156,19 +156,27 @@ export const userCheckIn = async fielddata => {
     return Promise.reject(new Error('something went wrong'));
   }
 };
-
 // user file upload
 export const userFileUpload = async formdata => {
   try {
     const { data } = await userApi.post('method/upload_file', formdata, {
-      headers: setCommonHeaders(),
+      headers: {
+        ...setCommonHeaders(), 
+      },
     });
-    return Promise.resolve(data.message);
+
+    if (!data || !data.message?.file_url) {
+      throw new Error('Upload failed - file URL not returned');
+    }
+
+    return data.message; // contains { file_url, is_private, ... }
   } catch (error) {
-    console.error(error);
-    return Promise.reject(new Error('something went wrong'));
+    console.error('Upload API Error:', error.response?.data || error.message);
+    return Promise.reject(new Error('Photo upload failed'));
   }
 };
+
+
 // putting user file
 export const putUserFile = async (formData, fileId) => {
   try {
